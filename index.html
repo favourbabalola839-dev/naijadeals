@@ -3284,96 +3284,16 @@ function uniqueProducts(products){
 
 function viewProduct(id){
 
-    const product =
-        findProduct(id);
+    const product = findProduct(id);
 
     if(!product){
         showToast("Product could not be found");
         return;
     }
 
-    const image =
-        product.image ||
-        product.images?.[0] ||
-        getCategoryImage(product.category);
-
-    document.getElementById("productDetail").innerHTML = `
-
-        <div class="detail-grid">
-
-            <div class="detail-image">
-
-                <img
-                    src="${escapeAttr(image)}"
-                    alt="${escapeAttr(product.name || "Product")}"
-                    onerror="this.onerror=null;this.src='${escapeAttr(getCategoryImage(product.category))}'"
-                >
-
-            </div>
-
-            <div>
-
-                <div class="product-category">
-                    ${escapeHtml(product.category || "")}
-                </div>
-
-                <h2>
-                    ${escapeHtml(product.name || "Product")}
-                </h2>
-
-                <div class="detail-price">
-                    ${formatMoney(product.price)}
-                </div>
-
-                <div class="detail-location">
-                    📍 ${escapeHtml(product.location || "Nigeria")}
-                </div>
-
-                ${
-                    product.sellerName
-                    ?
-                    `<p style="margin-top:12px;color:#687181">
-                        Seller: <strong>${escapeHtml(product.sellerName)}</strong>
-                    </p>`
-                    :
-                    ""
-                }
-
-                ${
-                    product.listingType === "property"
-                    ?
-                    `<p style="margin-top:15px;line-height:1.6">
-                        🏡 Property listing. Contact the seller for
-                        viewing and further details.
-                    </p>`
-                    :
-                    product.listingType === "car"
-                    ?
-                    `<p style="margin-top:15px;line-height:1.6">
-                        🚗 Vehicle listing. Contact the seller for
-                        inspection and vehicle details.
-                    </p>`
-                    :
-                    `<p style="margin-top:15px;line-height:1.6">
-                        Quality product available on NaijaDeals.
-                    </p>`
-                }
-
-                <button
-                    class="form-submit"
-                    style="margin-top:20px"
-                    onclick="addToCart('${escapeAttr(product.id)}');closeModal('productModal')"
-                >
-                    🛒 Add to Cart
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-
-    openModal("productModal");
+    window.location.href =
+        "product.html?product=" +
+        encodeURIComponent(product.id);
 
 }
 
