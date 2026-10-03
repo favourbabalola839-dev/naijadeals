@@ -1,0 +1,407 @@
+<!-- INSPECTION BUTTON -->
+<div id="inspectionArea" style="margin-top:20px;display:none;">
+    <button
+        type="button"
+        onclick="openInspectionForm()"
+        style="
+            width:100%;
+            padding:15px;
+            border:0;
+            border-radius:12px;
+            background:#111827;
+            color:white;
+            font-size:16px;
+            font-weight:700;
+            cursor:pointer;
+        "
+    >
+        📅 Come for Inspection
+    </button>
+</div>
+
+<!-- INSPECTION MODAL -->
+<div
+    id="inspectionModal"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,.65);
+        z-index:99999;
+        padding:20px;
+        overflow-y:auto;
+    "
+>
+    <div
+        style="
+            max-width:550px;
+            margin:30px auto;
+            background:white;
+            border-radius:18px;
+            padding:25px;
+            position:relative;
+        "
+    >
+
+        <button
+            onclick="closeInspectionForm()"
+            type="button"
+            style="
+                position:absolute;
+                right:15px;
+                top:12px;
+                border:0;
+                background:none;
+                font-size:25px;
+                cursor:pointer;
+            "
+        >
+            ×
+        </button>
+
+        <h2 style="margin-top:0;">
+            📅 Come for Inspection
+        </h2>
+
+        <p style="color:#666;">
+            Fill in your details and we will contact you to arrange
+            an inspection.
+        </p>
+
+        <form id="inspectionForm">
+
+            <input
+                type="text"
+                id="inspectionName"
+                placeholder="Full Name"
+                required
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:14px;
+                    margin:8px 0;
+                    border:1px solid #ddd;
+                    border-radius:10px;
+                "
+            >
+
+            <input
+                type="tel"
+                id="inspectionPhone"
+                placeholder="Phone Number"
+                required
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:14px;
+                    margin:8px 0;
+                    border:1px solid #ddd;
+                    border-radius:10px;
+                "
+            >
+
+            <input
+                type="email"
+                id="inspectionEmail"
+                placeholder="Email Address"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:14px;
+                    margin:8px 0;
+                    border:1px solid #ddd;
+                    border-radius:10px;
+                "
+            >
+
+            <label style="display:block;margin-top:12px;font-weight:600;">
+                Preferred Inspection Date
+            </label>
+
+            <input
+                type="date"
+                id="inspectionDate"
+                required
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:14px;
+                    margin:8px 0;
+                    border:1px solid #ddd;
+                    border-radius:10px;
+                "
+            >
+
+            <label style="display:block;margin-top:12px;font-weight:600;">
+                Preferred Time
+            </label>
+
+            <input
+                type="time"
+                id="inspectionTime"
+                required
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:14px;
+                    margin:8px 0;
+                    border:1px solid #ddd;
+                    border-radius:10px;
+                "
+            >
+
+            <textarea
+                id="inspectionMessage"
+                placeholder="Message / additional information"
+                rows="4"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    padding:14px;
+                    margin:8px 0;
+                    border:1px solid #ddd;
+                    border-radius:10px;
+                    resize:vertical;
+                "
+            ></textarea>
+
+            <button
+                type="submit"
+                style="
+                    width:100%;
+                    padding:15px;
+                    margin-top:10px;
+                    border:0;
+                    border-radius:10px;
+                    background:#16a34a;
+                    color:white;
+                    font-size:16px;
+                    font-weight:700;
+                    cursor:pointer;
+                "
+            >
+                📅 Request Inspection
+            </button>
+
+        </form>
+
+        <div
+            id="inspectionResult"
+            style="
+                display:none;
+                margin-top:15px;
+                padding:14px;
+                border-radius:10px;
+            "
+        ></div>
+
+    </div>
+</div>
+<script>
+let inspectionProduct = null;
+
+/* Open inspection form */
+function openInspectionForm() {
+    const modal = document.getElementById("inspectionModal");
+
+    if (!modal) return;
+
+    modal.style.display = "block";
+
+    document.body.style.overflow = "hidden";
+}
+
+/* Close inspection form */
+function closeInspectionForm() {
+    const modal = document.getElementById("inspectionModal");
+
+    if (!modal) return;
+
+    modal.style.display = "none";
+
+    document.body.style.overflow = "";
+}
+
+/* Detect whether this is a car or property */
+function setupInspectionButton(product) {
+
+    inspectionProduct = product;
+
+    const category = String(
+        product.category || ""
+    ).toLowerCase();
+
+    const listingType = String(
+        product.listingType || ""
+    ).toLowerCase();
+
+    const isCar =
+        category.includes("car") ||
+        category.includes("auto") ||
+        listingType === "car";
+
+    const isHouse =
+        category.includes("house") ||
+        category.includes("property") ||
+        category.includes("real estate") ||
+        listingType === "property";
+
+    const inspectionArea =
+        document.getElementById("inspectionArea");
+
+    if (!inspectionArea) return;
+
+    if (isCar || isHouse) {
+        inspectionArea.style.display = "block";
+    } else {
+        inspectionArea.style.display = "none";
+    }
+}
+
+
+/* Submit inspection request */
+document.addEventListener("DOMContentLoaded", () => {
+
+    const form =
+        document.getElementById("inspectionForm");
+
+    if (!form) return;
+
+    form.addEventListener("submit", async function(event) {
+
+        event.preventDefault();
+
+        const button =
+            form.querySelector("button[type='submit']");
+
+        const result =
+            document.getElementById("inspectionResult");
+
+        const name =
+            document.getElementById("inspectionName").value.trim();
+
+        const phone =
+            document.getElementById("inspectionPhone").value.trim();
+
+        const email =
+            document.getElementById("inspectionEmail").value.trim();
+
+        const date =
+            document.getElementById("inspectionDate").value;
+
+        const time =
+            document.getElementById("inspectionTime").value;
+
+        const message =
+            document.getElementById("inspectionMessage").value.trim();
+
+        if (!name || !phone || !date || !time) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
+        button.disabled = true;
+        button.textContent = "Sending...";
+
+        try {
+
+            const response = await fetch(
+                "/api/inspection-requests",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        name,
+
+                        phone,
+
+                        email,
+
+                        date,
+
+                        time,
+
+                        message,
+
+                        productId:
+                            inspectionProduct?.id || "",
+
+                        productName:
+                            inspectionProduct?.name || "",
+
+                        category:
+                            inspectionProduct?.category || "",
+
+                        location:
+                            inspectionProduct?.location || "",
+
+                        createdAt:
+                            new Date().toISOString()
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.message ||
+                    "Could not send inspection request."
+                );
+            }
+
+            result.style.display = "block";
+
+            result.style.background = "#dcfce7";
+
+            result.style.color = "#166534";
+
+            result.innerHTML = `
+                <strong>Inspection request sent!</strong><br>
+                We will contact you on ${phone} to confirm the inspection.
+            `;
+
+            form.reset();
+
+            setTimeout(() => {
+                closeInspectionForm();
+            }, 3000);
+
+        } catch (error) {
+
+            console.error(error);
+
+            result.style.display = "block";
+
+            result.style.background = "#fee2e2";
+
+            result.style.color = "#991b1b";
+
+            result.textContent =
+                error.message ||
+                "Something went wrong. Please try again.";
+
+        } finally {
+
+            button.disabled = false;
+
+            button.textContent =
+                "📅 Request Inspection";
+        }
+
+    });
+
+});
+</script>
+<button
+    type="button"
+    class="inspection-btn"
+    onclick="openInspectionForProduct('${escapeAttr(product.id)}')"
+>
+    📅 Come for Inspection
+</button>
