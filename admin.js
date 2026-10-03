@@ -1,991 +1,1763 @@
 /* =========================================================
-   NAIJADEALS ADMIN PANEL
-   ========================================================= */
+   NAIJADEALS ADMIN.JS
+========================================================= */
+
+"use strict";
+
 
 const API = "/api";
 
-let currentSection = "dashboard";
 
-/* ---------------------------------------------------------
-   Helpers
---------------------------------------------------------- */
-
-function $(id) {
-    return document.getElementById(id);
-}
-
-async function api(url, options = {}) {
-    const response = await fetch(API + url, {
-        credentials: "include",
-        headers: {
-            "Content-Type": "application/json",
-            ...(options.headers || {})
-        },
-        ...options
-    });
-
-    let data;
-
-    try {
-        data = await response.json();
-    } catch {
-        data = {};
-    }
-
-    if (!response.ok) {
-        throw new Error(data.message || data.error || "API request failed");
-    }
-
-    return data;
-}
-
-function showMessage(message, type = "error") {
-    let box = $("adminMessage");
-
-    if (!box) {
-        box = document.createElement("div");
-        box.id = "adminMessage";
-        box.style.position = "fixed";
-        box.style.top = "20px";
-        box.style.right = "20px";
-        box.style.zIndex = "99999";
-        box.style.padding = "14px 18px";
-        box.style.borderRadius = "10px";
-        box.style.fontWeight = "600";
-        box.style.boxShadow = "0 8px 25px rgba(0,0,0,.15)";
-        document.body.appendChild(box);
-    }
-
-    box.textContent = message;
-    box.style.background =
-        type === "success" ? "#16a34a" : "#dc2626";
-    box.style.color = "#fff";
-
-    setTimeout(() => {
-        box.remove();
-    }, 3500);
-}
-
-/* ---------------------------------------------------------
-   Login
---------------------------------------------------------- */
-
-async function loginAdmin(event) {
-    if (event) event.preventDefault();
-
-    const emailInput =
-        $("adminEmail") ||
-        $("email") ||
-        document.querySelector(
-            'input[type="email"], input[placeholder*="email" i], input[placeholder*="username" i]'
-        );
-
-    const passwordInput =
-        $("adminPassword") ||
-        $("password") ||
-        document.querySelector('input[type="password"]');
-
-    if (!emailInput || !passwordInput) {
-        showMessage("Login form fields were not found.");
-        return;
-    }
-
-    const email = emailInput.value.trim();
-    const password = passwordInput.value;
-
-    if (!email || !password) {
-        showMessage("Please enter your email/username and password.");
-        return;
-    }
-
-    try {
-        const result = await api("/admin/login", {
-            method: "POST",
-            body: JSON.stringify({
-                email,
-                password
-            })
-        });
-
-        showMessage(
-            result.message || "Admin login successful!",
-            "success"
-        );
-
-        setTimeout(() => {
-            showAdminPanel();
-        }, 500);
-
-    } catch (error) {
-        console.error("Admin login error:", error);
-        showMessage(error.message || "Admin login failed.");
-    }
-}
-
-/* ---------------------------------------------------------
-   Check existing session
---------------------------------------------------------- */
-
-async function checkAdminSession() {
-    try {
-        const result = await api("/admin/session");
-
-        if (
-            result &&
-            (
-                result.authenticated === true ||
-                result.loggedIn === true ||
-                result.user ||
-                result.admin
-            )
-        ) {
-            showAdminPanel();
-            return true;
-        }
-    } catch (error) {
-        console.log("No active admin session.");
-    }
-
-    showLoginPanel();
-    return false;
-}
-
-/* ---------------------------------------------------------
-   Show / hide login and admin panel
---------------------------------------------------------- */
-
-function findLoginContainer() {
-    return (
-        $("loginPage") ||
-        $("loginScreen") ||
-        $("adminLogin") ||
-        document.querySelector(".login-page") ||
-        document.querySelector(".login-screen") ||
-        document.querySelector(".login-container")
+let adminToken =
+    localStorage.getItem(
+        "naijaDealsAdminToken"
     );
-}
 
-function findAdminContainer() {
-    return (
-        $("adminPanel") ||
-        $("dashboardPage") ||
-        $("adminDashboard") ||
-        document.querySelector(".admin-panel") ||
-        document.querySelector(".dashboard")
-    );
-}
 
-function showLoginPanel() {
-    const login = findLoginContainer();
-    const admin = findAdminContainer();
+let currentAdmin = null;
 
-    if (login) login.style.display = "";
-    if (admin) admin.style.display = "none";
-}
+let currentProducts = [];
 
-function showAdminPanel() {
-    const login = findLoginContainer();
-    const admin = findAdminContainer();
+let currentUsers = [];
 
-    if (login) login.style.display = "none";
-    if (admin) admin.style.display = "";
+let currentOrders = [];
 
-    loadDashboard();
-}
+let currentInspections = [];
 
-/* ---------------------------------------------------------
-   Dashboard
---------------------------------------------------------- */
 
-async function loadDashboard() {
-    currentSection = "dashboard";
-
-    try {
-        const result = await api("/admin/dashboard");
-
-        const data = result.dashboard || result.data || result;
-
-        updateNumber(
-            ["productCount", "productsCount", "totalProducts"],
-            data.products ?? data.productCount ?? data.totalProducts ?? 0
-        );
-
-        updateNumber(
-            ["orderCount", "ordersCount", "totalOrders"],
-            data.orders ?? data.orderCount ?? data.totalOrders ?? 0
-        );
-
-        updateNumber(
-            ["customerCount", "customersCount", "totalCustomers"],
-            data.customers ?? data.customerCount ?? data.totalCustomers ?? 0
-        );
-
-        updateNumber(
-            ["sellerCount", "sellersCount", "totalSellers"],
-            data.sellers ?? data.sellerCount ?? data.totalSellers ?? 0
-        );
-
-        renderRecentProducts(
-            data.recentProducts ||
-            data.products ||
-            []
-        );
-
-    } catch (error) {
-        console.error(error);
-        showMessage("Could not load dashboard data.");
-    }
-}
-
-function updateNumber(ids, value) {
-    for (const id of ids) {
-        const el = $(id);
-        if (el) {
-            el.textContent = value;
-            return;
-        }
-    }
-}
-
-/* ---------------------------------------------------------
-   Products
---------------------------------------------------------- */
-
-async function loadProducts() {
-    currentSection = "products";
-
-    try {
-        const result = await api("/admin/products");
-
-        const products =
-            Array.isArray(result)
-                ? result
-                : result.products || result.data || [];
-
-        renderProducts(products);
-
-    } catch (error) {
-        console.error(error);
-        showMessage("Could not load products.");
-    }
-}
-
-function renderProducts(products) {
-    const tableBody =
-        $("productsTableBody") ||
-        $("productTableBody") ||
-        document.querySelector("#productsTable tbody");
-
-    if (!tableBody) return;
-
-    tableBody.innerHTML = "";
-
-    if (!products.length) {
-        tableBody.innerHTML = `
-            <tr>
-                <td colspan="10" style="text-align:center;padding:25px;">
-                    No products found.
-                </td>
-            </tr>
-        `;
-        return;
-    }
-
-    products.forEach(product => {
-        const tr = document.createElement("tr");
-
-        const image = product.image || product.images?.[0] || "";
-
-        tr.innerHTML = `
-            <td>
-                ${
-                    image
-                        ? `<img src="${escapeHtml(image)}"
-                               style="width:55px;height:55px;object-fit:cover;border-radius:8px;">`
-                        : "📦"
-                }
-            </td>
-
-            <td>${escapeHtml(product.name || "Unnamed product")}</td>
-
-            <td>${escapeHtml(product.category || "-")}</td>
-
-            <td>₦${formatMoney(product.price || 0)}</td>
-
-            <td>${product.stock ?? 0}</td>
-
-            <td>
-                ${
-                    product.status === "inactive"
-                        ? "Inactive"
-                        : "Active"
-                }
-            </td>
-
-            <td>
-                <button onclick="editProduct('${product.id}')">
-                    Edit
-                </button>
-
-                <button
-                    onclick="deleteProduct('${product.id}')"
-                    style="color:#dc2626;"
-                >
-                    Delete
-                </button>
-            </td>
-        `;
-
-        tableBody.appendChild(tr);
-    });
-}
-
-async function deleteProduct(id) {
-    if (!confirm("Delete this product?")) return;
-
-    try {
-        await api(`/admin/products/${encodeURIComponent(id)}`, {
-            method: "DELETE"
-        });
-
-        showMessage("Product deleted.", "success");
-        loadProducts();
-
-    } catch (error) {
-        showMessage(error.message || "Could not delete product.");
-    }
-}
-
-async function editProduct(id) {
-    try {
-        const result = await api(`/products/${encodeURIComponent(id)}`);
-
-        const product = result.product || result;
-
-        const name = prompt(
-            "Product name:",
-            product.name || ""
-        );
-
-        if (name === null) return;
-
-        const price = prompt(
-            "Price:",
-            product.price || 0
-        );
-
-        if (price === null) return;
-
-        const stock = prompt(
-            "Stock:",
-            product.stock || 0
-        );
-
-        if (stock === null) return;
-
-        await api(`/admin/products/${encodeURIComponent(id)}`, {
-            method: "PUT",
-            body: JSON.stringify({
-                ...product,
-                name,
-                price: Number(price),
-                stock: Number(stock)
-            })
-        });
-
-        showMessage("Product updated successfully.", "success");
-        loadProducts();
-
-    } catch (error) {
-        showMessage(error.message || "Could not update product.");
-    }
-}
-
-/* ---------------------------------------------------------
-   Add Product
---------------------------------------------------------- */
-
-function openAddProduct() {
-    const modal =
-        $("addProductModal") ||
-        $("productModal") ||
-        $("addProduct");
-
-    if (modal) {
-        modal.style.display = "flex";
-        return;
-    }
-
-    showMessage("Add Product form is already on the page.");
-}
-
-function closeAddProduct() {
-    const modal =
-        $("addProductModal") ||
-        $("productModal") ||
-        $("addProduct");
-
-    if (modal) {
-        modal.style.display = "none";
-    }
-}
-
-async function saveProduct(event) {
-    if (event) event.preventDefault();
-
-    const name =
-        getValue(["productName", "name"]);
-
-    const category =
-        getValue(["productCategory", "category"]);
-
-    const price =
-        getValue(["productPrice", "price"]);
-
-    const stock =
-        getValue(["productStock", "stock"]);
-
-    const image =
-        getValue(["productImage", "image"]);
-
-    const description =
-        getValue(["productDescription", "description"]);
-
-    if (!name) {
-        showMessage("Enter a product name.");
-        return;
-    }
-
-    if (!price) {
-        showMessage("Enter a product price.");
-        return;
-    }
-
-    try {
-        await api("/admin/products", {
-            method: "POST",
-            body: JSON.stringify({
-                name,
-                category,
-                price: Number(price),
-                stock: Number(stock || 0),
-                image,
-                description
-            })
-        });
-
-        showMessage("Product added successfully!", "success");
-
-        closeAddProduct();
-        clearProductForm();
-        loadProducts();
-
-    } catch (error) {
-        showMessage(error.message || "Could not add product.");
-    }
-}
-
-function clearProductForm() {
-    [
-        "productName",
-        "productCategory",
-        "productPrice",
-        "productStock",
-        "productImage",
-        "productDescription"
-    ].forEach(id => {
-        const el = $(id);
-        if (el) el.value = "";
-    });
-}
-
-/* ---------------------------------------------------------
-   Orders
---------------------------------------------------------- */
-
-async function loadOrders() {
-    currentSection = "orders";
-
-    try {
-        const result = await api("/admin/orders");
-
-        const orders =
-            Array.isArray(result)
-                ? result
-                : result.orders || result.data || [];
-
-        renderOrders(orders);
-
-    } catch (error) {
-        console.error(error);
-        showMessage("Could not load orders.");
-    }
-}
-
-function renderOrders(orders) {
-    const container =
-        $("ordersList") ||
-        $("ordersTableBody") ||
-        document.querySelector("#ordersTable tbody");
-
-    if (!container) return;
-
-    container.innerHTML = "";
-
-    if (!orders.length) {
-        container.innerHTML = `
-            <tr>
-                <td colspan="10" style="text-align:center;padding:25px;">
-                    No orders found.
-                </td>
-            </tr>
-        `;
-        return;
-    }
-
-    orders.forEach(order => {
-        const customer =
-            order.customerName ||
-            order.userName ||
-            order.customer?.name ||
-            "Customer";
-
-        const status =
-            order.status || "pending";
-
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-            <td>${escapeHtml(order.id || "-")}</td>
-            <td>${escapeHtml(customer)}</td>
-            <td>₦${formatMoney(order.total || order.amount || 0)}</td>
-            <td>${escapeHtml(status)}</td>
-            <td>
-                <select
-                    onchange="updateOrderStatus('${order.id}', this.value)"
-                >
-                    <option value="pending" ${status === "pending" ? "selected" : ""}>
-                        Pending
-                    </option>
-                    <option value="processing" ${status === "processing" ? "selected" : ""}>
-                        Processing
-                    </option>
-                    <option value="shipped" ${status === "shipped" ? "selected" : ""}>
-                        Shipped
-                    </option>
-                    <option value="delivered" ${status === "delivered" ? "selected" : ""}>
-                        Delivered
-                    </option>
-                    <option value="cancelled" ${status === "cancelled" ? "selected" : ""}>
-                        Cancelled
-                    </option>
-                </select>
-            </td>
-        `;
-
-        container.appendChild(tr);
-    });
-}
-
-async function updateOrderStatus(id, status) {
-    try {
-        await api(`/admin/orders/${encodeURIComponent(id)}`, {
-            method: "PUT",
-            body: JSON.stringify({ status })
-        });
-
-        showMessage("Order status updated.", "success");
-
-    } catch (error) {
-        showMessage(error.message || "Could not update order.");
-    }
-}
-
-/* ---------------------------------------------------------
-   Customers
---------------------------------------------------------- */
-
-async function loadCustomers() {
-    currentSection = "customers";
-
-    try {
-        const result = await api("/admin/users");
-
-        const users =
-            Array.isArray(result)
-                ? result
-                : result.users || result.data || [];
-
-        const customers = users.filter(
-            user => user.role !== "admin" && user.role !== "seller"
-        );
-
-        renderUsers(
-            customers,
-            "customersTableBody",
-            "customerTableBody",
-            "customersTable"
-        );
-
-    } catch (error) {
-        console.error(error);
-        showMessage("Could not load customers.");
-    }
-}
-
-/* ---------------------------------------------------------
-   Sellers
---------------------------------------------------------- */
-
-async function loadSellers() {
-    currentSection = "sellers";
-
-    try {
-        const result = await api("/admin/users");
-
-        const users =
-            Array.isArray(result)
-                ? result
-                : result.users || result.data || [];
-
-        const sellers = users.filter(
-            user => user.role === "seller"
-        );
-
-        renderUsers(
-            sellers,
-            "sellersTableBody",
-            "sellerTableBody",
-            "sellersTable"
-        );
-
-    } catch (error) {
-        console.error(error);
-        showMessage("Could not load sellers.");
-    }
-}
-
-function renderUsers(users, id1, id2, tableId) {
-    const container =
-        $(id1) ||
-        $(id2) ||
-        document.querySelector(`#${tableId} tbody`);
-
-    if (!container) return;
-
-    container.innerHTML = "";
-
-    if (!users.length) {
-        container.innerHTML = `
-            <tr>
-                <td colspan="8" style="text-align:center;padding:25px;">
-                    No users found.
-                </td>
-            </tr>
-        `;
-        return;
-    }
-
-    users.forEach(user => {
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-            <td>${escapeHtml(user.name || "-")}</td>
-            <td>${escapeHtml(user.email || "-")}</td>
-            <td>${escapeHtml(user.phone || "-")}</td>
-            <td>${escapeHtml(user.role || "customer")}</td>
-            <td>
-                ${
-                    user.createdAt
-                        ? new Date(user.createdAt).toLocaleDateString()
-                        : "-"
-                }
-            </td>
-        `;
-
-        container.appendChild(tr);
-    });
-}
-
-/* ---------------------------------------------------------
-   Navigation
---------------------------------------------------------- */
-
-function showSection(section) {
-    document.querySelectorAll("[data-section]").forEach(el => {
-        el.style.display =
-            el.dataset.section === section
-                ? ""
-                : "none";
-    });
-
-    const sections = [
-        "dashboard",
-        "products",
-        "orders",
-        "customers",
-        "sellers"
-    ];
-
-    sections.forEach(name => {
-        const el =
-            $(name + "Section") ||
-            $(name + "Page");
-
-        if (el) {
-            el.style.display =
-                name === section ? "" : "none";
-        }
-    });
-
-    if (section === "dashboard") loadDashboard();
-    if (section === "products") loadProducts();
-    if (section === "orders") loadOrders();
-    if (section === "customers") loadCustomers();
-    if (section === "sellers") loadSellers();
-
-    currentSection = section;
-}
-
-/* ---------------------------------------------------------
-   Logout
---------------------------------------------------------- */
-
-async function logoutAdmin() {
-    try {
-        await api("/admin/logout", {
-            method: "POST"
-        });
-    } catch (error) {
-        console.log(error);
-    }
-
-    showLoginPanel();
-    showMessage("Logged out.", "success");
-}
-
-/* ---------------------------------------------------------
-   Search
---------------------------------------------------------- */
-
-function setupSearch() {
-    const productSearch =
-        $("productSearch") ||
-        document.querySelector('input[placeholder*="Search products" i]');
-
-    if (productSearch) {
-        productSearch.addEventListener("input", () => {
-            const term =
-                productSearch.value.toLowerCase().trim();
-
-            document
-                .querySelectorAll(
-                    "#productsTable tbody tr, #productsTableBody tr"
-                )
-                .forEach(row => {
-                    row.style.display =
-                        row.textContent
-                            .toLowerCase()
-                            .includes(term)
-                            ? ""
-                            : "none";
-                });
-        });
-    }
-
-    const customerSearch =
-        $("customerSearch") ||
-        document.querySelector('input[placeholder*="Search customers" i]');
-
-    if (customerSearch) {
-        customerSearch.addEventListener("input", () => {
-            const term =
-                customerSearch.value.toLowerCase().trim();
-
-            document
-                .querySelectorAll(
-                    "#customersTable tbody tr, #customersTableBody tr"
-                )
-                .forEach(row => {
-                    row.style.display =
-                        row.textContent
-                            .toLowerCase()
-                            .includes(term)
-                            ? ""
-                            : "none";
-                });
-        });
-    }
-
-    const orderSearch =
-        $("orderSearch") ||
-        document.querySelector('input[placeholder*="Search order" i]');
-
-    if (orderSearch) {
-        orderSearch.addEventListener("input", () => {
-            const term =
-                orderSearch.value.toLowerCase().trim();
-
-            document
-                .querySelectorAll(
-                    "#ordersTable tbody tr, #ordersTableBody tr"
-                )
-                .forEach(row => {
-                    row.style.display =
-                        row.textContent
-                            .toLowerCase()
-                            .includes(term)
-                            ? ""
-                            : "none";
-                });
-        });
-    }
-
-    const sellerSearch =
-        $("sellerSearch") ||
-        document.querySelector('input[placeholder*="Search sellers" i]');
-
-    if (sellerSearch) {
-        sellerSearch.addEventListener("input", () => {
-            const term =
-                sellerSearch.value.toLowerCase().trim();
-
-            document
-                .querySelectorAll(
-                    "#sellersTable tbody tr, #sellersTableBody tr"
-                )
-                .forEach(row => {
-                    row.style.display =
-                        row.textContent
-                            .toLowerCase()
-                            .includes(term)
-                            ? ""
-                            : "none";
-                });
-        });
-    }
-}
-
-/* ---------------------------------------------------------
-   Recent Products
---------------------------------------------------------- */
-
-function renderRecentProducts(products) {
-    const container =
-        $("recentProductsBody") ||
-        $("recentProducts") ||
-        document.querySelector("#recentProductsTable tbody");
-
-    if (!container || !Array.isArray(products)) return;
-
-    container.innerHTML = "";
-
-    products.slice(0, 10).forEach(product => {
-        const tr = document.createElement("tr");
-
-        tr.innerHTML = `
-            <td>${escapeHtml(product.name || "-")}</td>
-            <td>${escapeHtml(product.category || "-")}</td>
-            <td>₦${formatMoney(product.price || 0)}</td>
-            <td>${product.stock ?? 0}</td>
-        `;
-
-        container.appendChild(tr);
-    });
-}
-
-/* ---------------------------------------------------------
-   Utility
---------------------------------------------------------- */
-
-function getValue(ids) {
-    for (const id of ids) {
-        const el = $(id);
-        if (el) return el.value.trim();
-    }
-
-    return "";
-}
-
-function formatMoney(value) {
-    return Number(value || 0).toLocaleString("en-NG");
-}
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
 
 function escapeHtml(value) {
+
     return String(value ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
 }
 
-/* ---------------------------------------------------------
-   Global functions
---------------------------------------------------------- */
 
-window.loginAdmin = loginAdmin;
-window.checkAdminSession = checkAdminSession;
-window.showAdminPanel = showAdminPanel;
-window.showLoginPanel = showLoginPanel;
+function money(value) {
 
-window.loadDashboard = loadDashboard;
-window.loadProducts = loadProducts;
-window.loadOrders = loadOrders;
-window.loadCustomers = loadCustomers;
-window.loadSellers = loadSellers;
+    return "₦" +
+        Number(value || 0)
+            .toLocaleString(
+                "en-NG",
+                {
+                    maximumFractionDigits: 0
+                }
+            );
 
-window.showSection = showSection;
+}
 
-window.deleteProduct = deleteProduct;
-window.editProduct = editProduct;
 
-window.openAddProduct = openAddProduct;
-window.closeAddProduct = closeAddProduct;
-window.saveProduct = saveProduct;
+function formatDate(value) {
 
-window.updateOrderStatus = updateOrderStatus;
-
-window.logoutAdmin = logoutAdmin;
-
-/* ---------------------------------------------------------
-   Start
---------------------------------------------------------- */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    setupSearch();
-
-    const loginForm =
-        $("loginForm") ||
-        document.querySelector("form");
-
-    if (loginForm) {
-        loginForm.addEventListener("submit", loginAdmin);
+    if (!value) {
+        return "-";
     }
 
-    const loginButton =
-        $("loginButton") ||
+    const date =
+        new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return value;
+    }
+
+    return date.toLocaleString(
+        "en-NG",
+        {
+            dateStyle: "medium",
+            timeStyle: "short"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function api(
+    endpoint,
+    options = {}
+) {
+
+    const headers = {
+
+        ...(options.body
+            ? {
+                "Content-Type":
+                    "application/json"
+            }
+            : {}),
+
+        ...(options.headers || {})
+
+    };
+
+
+    if (adminToken) {
+
+        headers.Authorization =
+            "Bearer " +
+            adminToken;
+
+    }
+
+
+    const response =
+        await fetch(
+            API + endpoint,
+            {
+                ...options,
+                headers
+            }
+        );
+
+
+    let data = {};
+
+    try {
+
+        data =
+            await response.json();
+
+    }
+
+    catch {
+
+        data = {};
+
+    }
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.message ||
+            "Request failed."
+        );
+
+    }
+
+
+    return data;
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function loginAdmin() {
+
+    const email =
+        document
+            .getElementById("adminEmail")
+            ?.value
+            .trim();
+
+    const password =
+        document
+            .getElementById("adminPassword")
+            ?.value;
+
+
+    if (!email || !password) {
+
+        showMessage(
+            "Enter your admin email and password.",
+            true
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const data =
+            await api(
+                "/login",
+                {
+                    method: "POST",
+
+                    body:
+                        JSON.stringify({
+                            email,
+                            password
+                        })
+                }
+            );
+
+
+        if (
+            !data.user ||
+            data.user.role !== "admin"
+        ) {
+
+            throw new Error(
+                "This account is not an administrator."
+            );
+
+        }
+
+
+        adminToken =
+            data.token;
+
+
+        currentAdmin =
+            data.user;
+
+
+        localStorage.setItem(
+            "naijaDealsAdminToken",
+            adminToken
+        );
+
+
+        showDashboard();
+
+
+        await loadAll();
+
+    }
+
+    catch (error) {
+
+        showMessage(
+            error.message ||
+            "Admin login failed.",
+            true
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   CHECK EXISTING ADMIN SESSION
+========================================================= */
+
+async function checkAdminSession() {
+
+    if (!adminToken) {
+
+        showLogin();
+
+        return;
+
+    }
+
+
+    try {
+
+        const data =
+            await api(
+                "/me"
+            );
+
+
+        if (
+            !data.user ||
+            data.user.role !== "admin"
+        ) {
+
+            throw new Error(
+                "Not an administrator."
+            );
+
+        }
+
+
+        currentAdmin =
+            data.user;
+
+
+        showDashboard();
+
+
+        await loadAll();
+
+    }
+
+    catch {
+
+        localStorage.removeItem(
+            "naijaDealsAdminToken"
+        );
+
+        adminToken = null;
+
+        showLogin();
+
+    }
+
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logoutAdmin() {
+
+    try {
+
+        if (adminToken) {
+
+            await api(
+                "/logout",
+                {
+                    method: "POST"
+                }
+            );
+
+        }
+
+    }
+
+    catch {
+
+        // Ignore logout API errors.
+
+    }
+
+
+    localStorage.removeItem(
+        "naijaDealsAdminToken"
+    );
+
+
+    adminToken = null;
+
+    currentAdmin = null;
+
+
+    showLogin();
+
+}
+
+
+/* =========================================================
+   LOGIN / DASHBOARD
+========================================================= */
+
+function showLogin() {
+
+    const login =
+        document.getElementById(
+            "adminLogin"
+        );
+
+    const dashboard =
+        document.getElementById(
+            "adminDashboard"
+        );
+
+
+    if (login) {
+
+        login.style.display =
+            "flex";
+
+    }
+
+
+    if (dashboard) {
+
+        dashboard.style.display =
+            "none";
+
+    }
+
+}
+
+
+function showDashboard() {
+
+    const login =
+        document.getElementById(
+            "adminLogin"
+        );
+
+    const dashboard =
+        document.getElementById(
+            "adminDashboard"
+        );
+
+
+    if (login) {
+
+        login.style.display =
+            "none";
+
+    }
+
+
+    if (dashboard) {
+
+        dashboard.style.display =
+            "block";
+
+    }
+
+
+    const adminName =
+        document.getElementById(
+            "adminName"
+        );
+
+
+    if (
+        adminName &&
+        currentAdmin
+    ) {
+
+        adminName.textContent =
+            currentAdmin.name ||
+            "Admin";
+
+    }
+
+}
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+function showMessage(
+    message,
+    error = false
+) {
+
+    const element =
+        document.getElementById(
+            "adminMessage"
+        );
+
+
+    if (!element) {
+
+        alert(message);
+
+        return;
+
+    }
+
+
+    element.textContent =
+        message;
+
+
+    element.style.display =
+        "block";
+
+
+    element.style.background =
+        error
+            ? "#fee2e2"
+            : "#dcfce7";
+
+
+    element.style.color =
+        error
+            ? "#991b1b"
+            : "#166534";
+
+
+    setTimeout(() => {
+
+        element.style.display =
+            "none";
+
+    }, 4000);
+
+}
+
+
+/* =========================================================
+   LOAD EVERYTHING
+========================================================= */
+
+async function loadAll() {
+
+    try {
+
+        await Promise.all([
+
+            loadDashboard(),
+
+            loadUsers(),
+
+            loadProducts(),
+
+            loadOrders(),
+
+            loadInspections()
+
+        ]);
+
+    }
+
+    catch (error) {
+
+        showMessage(
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+async function loadDashboard() {
+
+    const data =
+        await api(
+            "/admin/dashboard"
+        );
+
+
+    const stats =
+        data.stats || {};
+
+
+    setText(
+        "statUsers",
+        stats.users || 0
+    );
+
+
+    setText(
+        "statSellers",
+        stats.sellers || 0
+    );
+
+
+    setText(
+        "statCustomers",
+        stats.customers || 0
+    );
+
+
+    setText(
+        "statProducts",
+        stats.products || 0
+    );
+
+
+    setText(
+        "statOrders",
+        stats.orders || 0
+    );
+
+
+    setText(
+        "statRevenue",
+        money(stats.revenue)
+    );
+
+
+    setText(
+        "inspectionCount",
+        currentInspections.length
+    );
+
+}
+
+
+/* =========================================================
+   USERS
+========================================================= */
+
+async function loadUsers() {
+
+    const data =
+        await api(
+            "/admin/users"
+        );
+
+
+    currentUsers =
+        data.users || [];
+
+
+    renderUsers(
+        currentUsers
+    );
+
+}
+
+
+function renderUsers(users) {
+
+    const tbody =
+        document.getElementById(
+            "usersTableBody"
+        );
+
+
+    if (!tbody) return;
+
+
+    if (!users.length) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="6">
+                    No users found.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        users
+            .map(user => `
+
+                <tr>
+
+                    <td>
+                        ${escapeHtml(user.name)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(user.email)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(user.phone || "-")}
+                    </td>
+
+                    <td>
+                        <strong>
+                            ${escapeHtml(user.role)}
+                        </strong>
+                    </td>
+
+                    <td>
+                        ${formatDate(user.createdAt)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(user.id)}
+                    </td>
+
+                </tr>
+
+            `)
+            .join("");
+
+}
+
+
+/* =========================================================
+   PRODUCTS
+========================================================= */
+
+async function loadProducts() {
+
+    const data =
+        await api(
+            "/admin/products"
+        );
+
+
+    currentProducts =
+        data.products || [];
+
+
+    renderProducts(
+        currentProducts
+    );
+
+}
+
+
+function renderProducts(products) {
+
+    const tbody =
+        document.getElementById(
+            "productsTableBody"
+        );
+
+
+    if (!tbody) return;
+
+
+    if (!products.length) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="8">
+                    No products found.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        products
+            .map(product => `
+
+                <tr>
+
+                    <td>
+
+                        <img
+                            src="${escapeHtml(
+                                product.image || ""
+                            )}"
+                            alt=""
+                            style="
+                                width:55px;
+                                height:55px;
+                                object-fit:cover;
+                                border-radius:10px;
+                                background:#eee;
+                            "
+                            onerror="
+                                this.style.display='none'
+                            "
+                        >
+
+                    </td>
+
+                    <td>
+                        ${escapeHtml(product.name)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(product.category)}
+                    </td>
+
+                    <td>
+                        ${money(product.price)}
+                    </td>
+
+                    <td>
+                        ${product.stock}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            product.location || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            product.sellerName || "Admin"
+                        )}
+                    </td>
+
+                    <td>
+
+                        <button
+                            onclick="
+                                editProduct(
+                                    '${escapeHtml(product.id)}'
+                                )
+                            "
+                        >
+                            Edit
+                        </button>
+
+                        <button
+                            onclick="
+                                deleteProduct(
+                                    '${escapeHtml(product.id)}'
+                                )
+                            "
+                            style="
+                                background:#dc2626;
+                                color:white;
+                            "
+                        >
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `)
+            .join("");
+
+}
+
+
+/* =========================================================
+   DELETE PRODUCT
+========================================================= */
+
+async function deleteProduct(id) {
+
+    if (
+        !confirm(
+            "Delete this product?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    try {
+
+        await api(
+            "/admin/products/" +
+            encodeURIComponent(id),
+            {
+                method: "DELETE"
+            }
+        );
+
+
+        showMessage(
+            "Product deleted."
+        );
+
+
+        await loadProducts();
+
+        await loadDashboard();
+
+    }
+
+    catch (error) {
+
+        showMessage(
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   EDIT PRODUCT
+========================================================= */
+
+async function editProduct(id) {
+
+    const product =
+        currentProducts.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if (!product) {
+
+        return;
+
+    }
+
+
+    const name =
+        prompt(
+            "Product name:",
+            product.name
+        );
+
+
+    if (name === null) return;
+
+
+    const price =
+        prompt(
+            "Price:",
+            product.price
+        );
+
+
+    if (price === null) return;
+
+
+    const stock =
+        prompt(
+            "Stock:",
+            product.stock
+        );
+
+
+    if (stock === null) return;
+
+
+    try {
+
+        await api(
+            "/admin/products/" +
+            encodeURIComponent(id),
+            {
+                method: "PUT",
+
+                body:
+                    JSON.stringify({
+
+                        name,
+
+                        price:
+                            Number(price),
+
+                        stock:
+                            Number(stock)
+
+                    })
+            }
+        );
+
+
+        showMessage(
+            "Product updated."
+        );
+
+
+        await loadProducts();
+
+    }
+
+    catch (error) {
+
+        showMessage(
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ORDERS
+========================================================= */
+
+async function loadOrders() {
+
+    const data =
+        await api(
+            "/admin/orders"
+        );
+
+
+    currentOrders =
+        data.orders || [];
+
+
+    renderOrders(
+        currentOrders
+    );
+
+}
+
+
+function renderOrders(orders) {
+
+    const tbody =
+        document.getElementById(
+            "ordersTableBody"
+        );
+
+
+    if (!tbody) return;
+
+
+    if (!orders.length) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="8">
+                    No orders found.
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        orders
+            .map(order => `
+
+                <tr>
+
+                    <td>
+                        ${escapeHtml(
+                            order.orderNumber ||
+                            order.id
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            order.customerName || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            order.customerPhone || "-"
+                        )}
+                    </td>
+
+                    <td>
+                        ${money(order.total)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            order.paymentStatus ||
+                            "-"
+                        )}
+                    </td>
+
+                    <td>
+
+                        <select
+                            onchange="
+                                updateOrderStatus(
+                                    '${escapeHtml(order.id)}',
+                                    this.value
+                                )
+                            "
+                        >
+
+                            ${[
+                                "Pending",
+                                "Confirmed",
+                                "Processing",
+                                "Shipped",
+                                "Delivered",
+                                "Cancelled"
+                            ]
+                                .map(status => `
+
+                                    <option
+                                        value="${status}"
+                                        ${
+                                            order.status === status
+                                                ? "selected"
+                                                : ""
+                                        }
+                                    >
+                                        ${status}
+                                    </option>
+
+                                `)
+                                .join("")}
+
+                        </select>
+
+                    </td>
+
+                    <td>
+                        ${formatDate(order.createdAt)}
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            order.deliveryAddress ||
+                            "-"
+                        )}
+                    </td>
+
+                </tr>
+
+            `)
+            .join("");
+
+}
+
+
+/* =========================================================
+   UPDATE ORDER
+========================================================= */
+
+async function updateOrderStatus(
+    id,
+    status
+) {
+
+    try {
+
+        await api(
+            "/admin/orders/" +
+            encodeURIComponent(id),
+            {
+                method: "PUT",
+
+                body:
+                    JSON.stringify({
+                        status
+                    })
+            }
+        );
+
+
+        showMessage(
+            "Order status updated."
+        );
+
+
+        await loadOrders();
+
+    }
+
+    catch (error) {
+
+        showMessage(
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   INSPECTION REQUESTS
+========================================================= */
+
+async function loadInspections() {
+
+    const data =
+        await api(
+            "/admin/inspection-requests"
+        );
+
+
+    currentInspections =
+        data.requests || [];
+
+
+    renderInspections(
+        currentInspections
+    );
+
+
+    setText(
+        "inspectionCount",
+        currentInspections.length
+    );
+
+}
+
+
+function renderInspections(
+    requests
+) {
+
+    const tbody =
+        document.getElementById(
+            "inspectionTableBody"
+        );
+
+
+    if (!tbody) return;
+
+
+    if (!requests.length) {
+
+        tbody.innerHTML = `
+
+            <tr>
+
+                <td colspan="10">
+
+                    No inspection requests yet.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    tbody.innerHTML =
+        requests
+            .map(request => `
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            ${escapeHtml(
+                                request.name
+                            )}
+                        </strong>
+
+                        <br>
+
+                        <small>
+                            ${escapeHtml(
+                                request.email || "-"
+                            )}
+                        </small>
+
+                    </td>
+
+                    <td>
+                        ${escapeHtml(
+                            request.phone
+                        )}
+                    </td>
+
+                    <td>
+
+                        <strong>
+                            ${escapeHtml(
+                                request.productName ||
+                                "-"
+                            )}
+                        </strong>
+
+                        <br>
+
+                        <small>
+                            ${escapeHtml(
+                                request.category ||
+                                "-"
+                            )}
+                        </small>
+
+                    </td>
+
+                    <td>
+
+                        ${escapeHtml(
+                            request.location ||
+                            "-"
+                        )}
+
+                    </td>
+
+                    <td>
+
+                        ${escapeHtml(
+                            request.date
+                        )}
+
+                    </td>
+
+                    <td>
+
+                        ${escapeHtml(
+                            request.time
+                        )}
+
+                    </td>
+
+                    <td>
+
+                        <span
+                            class="
+                                status-badge
+                                status-${escapeHtml(
+                                    request.status
+                                )}
+                            "
+                        >
+
+                            ${escapeHtml(
+                                request.status
+                            )}
+
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <select
+                            onchange="
+                                updateInspectionStatus(
+                                    '${escapeHtml(
+                                        request.id
+                                    )}',
+                                    this.value
+                                )
+                            "
+                        >
+
+                            <option
+                                value="pending"
+                                ${
+                                    request.status === "pending"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Pending
+                            </option>
+
+                            <option
+                                value="confirmed"
+                                ${
+                                    request.status === "confirmed"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Confirmed
+                            </option>
+
+                            <option
+                                value="completed"
+                                ${
+                                    request.status === "completed"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Completed
+                            </option>
+
+                            <option
+                                value="cancelled"
+                                ${
+                                    request.status === "cancelled"
+                                        ? "selected"
+                                        : ""
+                                }
+                            >
+                                Cancelled
+                            </option>
+
+                        </select>
+
+                    </td>
+
+                    <td>
+
+                        <button
+                            onclick="
+                                viewInspection(
+                                    '${escapeHtml(
+                                        request.id
+                                    )}'
+                                )
+                            "
+                        >
+                            View
+                        </button>
+
+                    </td>
+
+                    <td>
+
+                        ${formatDate(
+                            request.createdAt
+                        )}
+
+                    </td>
+
+                </tr>
+
+            `)
+            .join("");
+
+}
+
+
+/* =========================================================
+   VIEW INSPECTION
+========================================================= */
+
+function viewInspection(id) {
+
+    const request =
+        currentInspections.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if (!request) {
+
+        return;
+
+    }
+
+
+    const message = `
+
+Customer:
+${request.name}
+
+Phone:
+${request.phone}
+
+Email:
+${request.email || "-"}
+
+Listing:
+${request.productName || "-"}
+
+Category:
+${request.category || "-"}
+
+Location:
+${request.location || "-"}
+
+Date:
+${request.date}
+
+Time:
+${request.time}
+
+Message:
+${request.message || "-"}
+
+Status:
+${request.status}
+
+Created:
+${formatDate(request.createdAt)}
+
+    `.trim();
+
+
+    alert(message);
+
+}
+
+
+/* =========================================================
+   UPDATE INSPECTION STATUS
+========================================================= */
+
+async function updateInspectionStatus(
+    id,
+    status
+) {
+
+    try {
+
+        await api(
+            "/admin/inspection-requests/" +
+            encodeURIComponent(id),
+            {
+                method: "PUT",
+
+                body:
+                    JSON.stringify({
+                        status
+                    })
+            }
+        );
+
+
+        showMessage(
+            "Inspection status updated."
+        );
+
+
+        await loadInspections();
+
+    }
+
+    catch (error) {
+
+        showMessage(
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SEARCH TABLES
+========================================================= */
+
+function searchUsers(value) {
+
+    const query =
+        String(value || "")
+            .toLowerCase()
+            .trim();
+
+
+    renderUsers(
+        currentUsers.filter(
+            user =>
+                String(
+                    user.name
+                )
+                    .toLowerCase()
+                    .includes(query) ||
+
+                String(
+                    user.email
+                )
+                    .toLowerCase()
+                    .includes(query) ||
+
+                String(
+                    user.phone
+                )
+                    .toLowerCase()
+                    .includes(query) ||
+
+                String(
+                    user.role
+                )
+                    .toLowerCase()
+                    .includes(query)
+        )
+    );
+
+}
+
+
+function searchProducts(value) {
+
+    const query =
+        String(value || "")
+            .toLowerCase()
+            .trim();
+
+
+    renderProducts(
+        currentProducts.filter(
+            product =>
+                String(
+                    product.name
+                )
+                    .toLowerCase()
+                    .includes(query) ||
+
+                String(
+                    product.category
+                )
+                    .toLowerCase()
+                    .includes(query) ||
+
+                String(
+                    product.location
+                )
+                    .toLowerCase()
+                    .includes(query)
+        )
+    );
+
+}
+
+
+function searchInspections(value) {
+
+    const query =
+        String(value || "")
+            .toLowerCase()
+            .trim();
+
+
+    renderInspections(
+        currentInspections.filter(
+            request =>
+                String(
+                    request.name
+                )
+                    .toLowerCase()
+                    .includes(query) ||
+
+                String(
+                    request.phone
+                )
+                    .toLowerCase()
+                    .includes(query) ||
+
+                String(
+                    request.productName
+                )
+                    .toLowerCase()
+                    .includes(query) ||
+
+                String(
+                    request.location
+                )
+                    .toLowerCase()
+                    .includes(query)
+        )
+    );
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showSection(id) {
+
+    document
+        .querySelectorAll(
+            ".admin-section"
+        )
+        .forEach(section => {
+
+            section.style.display =
+                "none";
+
+        });
+
+
+    const section =
+        document.getElementById(id);
+
+
+    if (section) {
+
+        section.style.display =
+            "block";
+
+    }
+
+
+    document
+        .querySelectorAll(
+            ".admin-nav button"
+        )
+        .forEach(button => {
+
+            button.classList.remove(
+                "active"
+            );
+
+        });
+
+
+    const navButton =
         document.querySelector(
-            'button[type="submit"]'
+            `[data-section="${id}"]`
         );
 
-    if (loginButton) {
-        loginButton.addEventListener("click", loginAdmin);
+
+    if (navButton) {
+
+        navButton.classList.add(
+            "active"
+        );
+
     }
 
-    const addProductForm =
-        $("addProductForm") ||
-        document.querySelector(
-            "#addProductModal form, #productModal form"
+}
+
+
+/* =========================================================
+   REFRESH
+========================================================= */
+
+async function refreshAdmin() {
+
+    try {
+
+        await loadAll();
+
+        showMessage(
+            "Admin data refreshed."
         );
 
-    if (addProductForm) {
-        addProductForm.addEventListener(
-            "submit",
-            saveProduct
-        );
     }
 
-    checkAdminSession();
-});
+    catch (error) {
+
+        showMessage(
+            error.message,
+            true
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   SET TEXT
+========================================================= */
+
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        checkAdminSession();
+
+    }
+);

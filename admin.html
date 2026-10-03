@@ -1,1066 +1,974 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NaijaDeals Admin</title>
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1.0"
+>
+
+<title>
+    NaijaDeals Admin Dashboard
+</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    body {
-        font-family: Arial, Helvetica, sans-serif;
-        background: #f4f6f8;
-        color: #17202a;
-    }
-
-    button,
-    input,
-    select,
-    textarea {
-        font: inherit;
-    }
-
-    button {
-        cursor: pointer;
-    }
-
-    /* =========================
-       LOGIN
-    ========================= */
-
-    .login-page {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        background:
-            linear-gradient(135deg, #0b7a45, #064d2c);
-    }
-
-    .login-box {
-        width: 100%;
-        max-width: 430px;
-        background: #fff;
-        border-radius: 22px;
-        padding: 35px;
-        box-shadow: 0 20px 60px rgba(0,0,0,.22);
-    }
-
-    .login-logo {
-        width: 65px;
-        height: 65px;
-        margin: 0 auto 15px;
-        border-radius: 18px;
-        background: #0b7a45;
-        color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 30px;
-        font-weight: 900;
-    }
-
-    .login-box h1 {
-        text-align: center;
-        font-size: 28px;
-        margin-bottom: 7px;
-    }
-
-    .login-box p {
-        text-align: center;
-        color: #777;
-        margin-bottom: 25px;
-    }
-
-    .form-group {
-        margin-bottom: 16px;
-    }
-
-    .form-group label {
-        display: block;
-        font-weight: 700;
-        margin-bottom: 7px;
-        font-size: 14px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        width: 100%;
-        border: 1px solid #d9dee3;
-        border-radius: 10px;
-        padding: 12px 14px;
-        outline: none;
-        background: #fff;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        border-color: #0b7a45;
-    }
-
-    .primary-btn {
-        width: 100%;
-        border: none;
-        border-radius: 10px;
-        padding: 13px 18px;
-        background: #0b7a45;
-        color: #fff;
-        font-weight: 800;
-        transition: .2s;
-    }
-
-    .primary-btn:hover {
-        background: #075d34;
-    }
-
-    .login-message {
-        margin-top: 15px;
-        padding: 10px;
-        border-radius: 8px;
-        display: none;
-        font-size: 14px;
-    }
-
-    .login-message.error {
-        display: block;
-        background: #ffe7e7;
-        color: #b42318;
-    }
-
-    .login-message.success {
-        display: block;
-        background: #e5f8ed;
-        color: #08763e;
-    }
-
-    /* =========================
-       ADMIN APP
-    ========================= */
-
-    .admin-app {
-        display: none;
-        min-height: 100vh;
-    }
-
-    .admin-app.active {
-        display: block;
-    }
-
-    .top-header {
-        height: 70px;
-        background: #fff;
-        border-bottom: 1px solid #e4e7ea;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 25px;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
-
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 11px;
-        font-size: 22px;
-        font-weight: 900;
-        color: #0b7a45;
-    }
-
-    .brand-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 11px;
-        background: #0b7a45;
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .header-actions {
-        display: flex;
-        gap: 8px;
-    }
-
-    .header-btn {
-        border: 1px solid #dfe3e7;
-        background: #fff;
-        padding: 9px 13px;
-        border-radius: 8px;
-        font-weight: 700;
-    }
-
-    .header-btn:hover {
-        background: #f4f6f8;
-    }
-
-    .logout-btn {
-        background: #fff0f0;
-        color: #c62828;
-        border-color: #ffd0d0;
-    }
-
-    /* =========================
-       LAYOUT
-    ========================= */
-
-    .admin-layout {
-        display: flex;
-        min-height: calc(100vh - 70px);
-    }
-
-    .sidebar {
-        width: 245px;
-        background: #10251b;
-        color: #fff;
-        padding: 20px 13px;
-        flex-shrink: 0;
-    }
-
-    .sidebar-title {
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: #9fb0a6;
-        padding: 0 12px;
-        margin: 8px 0 10px;
-    }
-
-    .side-btn {
-        width: 100%;
-        border: none;
-        background: transparent;
-        color: #dce7e0;
-        text-align: left;
-        padding: 12px;
-        border-radius: 9px;
-        margin-bottom: 4px;
-        font-weight: 700;
-    }
-
-    .side-btn:hover,
-    .side-btn.active {
-        background: #0b7a45;
-        color: #fff;
-    }
-
-    .main-content {
-        flex: 1;
-        padding: 25px;
-        min-width: 0;
-    }
-
-    .section {
-        display: none;
-    }
-
-    .section.active {
-        display: block;
-    }
-
-    .page-title {
-        margin-bottom: 5px;
-        font-size: 28px;
-    }
-
-    .page-description {
-        color: #70777d;
-        margin-bottom: 22px;
-    }
-
-    /* =========================
-       DASHBOARD CARDS
-    ========================= */
-
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-        margin-bottom: 25px;
-    }
-
-    .stat-card {
-        background: #fff;
-        border: 1px solid #e5e8eb;
-        border-radius: 15px;
-        padding: 20px;
-    }
-
-    .stat-icon {
-        font-size: 25px;
-        margin-bottom: 13px;
-    }
-
-    .stat-label {
-        color: #747b80;
-        font-size: 13px;
-        font-weight: 700;
-    }
-
-    .stat-number {
-        font-size: 27px;
-        font-weight: 900;
-        margin-top: 5px;
-    }
-
-    /* =========================
-       TOOLBAR
-    ========================= */
-
-    .toolbar {
-        background: #fff;
-        border: 1px solid #e4e7ea;
-        border-radius: 14px;
-        padding: 15px;
-        margin-bottom: 17px;
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        align-items: center;
-    }
-
-    .search-input {
-        flex: 1;
-        min-width: 220px;
-        border: 1px solid #dce1e5;
-        padding: 11px 13px;
-        border-radius: 9px;
-        outline: none;
-    }
-
-    .filter-select {
-        border: 1px solid #dce1e5;
-        padding: 11px 13px;
-        border-radius: 9px;
-        background: #fff;
-    }
-
-    .small-btn {
-        border: none;
-        border-radius: 8px;
-        padding: 10px 14px;
-        font-weight: 800;
-    }
-
-    .green-btn {
-        background: #0b7a45;
-        color: #fff;
-    }
-
-    .green-btn:hover {
-        background: #075d34;
-    }
-
-    .gray-btn {
-        background: #eef1f3;
-        color: #263238;
-    }
-
-    .red-btn {
-        background: #fff0f0;
-        color: #c62828;
-    }
 
-    /* =========================
-       TABLE
-    ========================= */
-
-    .table-card {
-        background: #fff;
-        border: 1px solid #e4e7ea;
-        border-radius: 14px;
-        overflow: hidden;
-    }
-
-    .table-wrap {
-        overflow-x: auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        min-width: 850px;
-    }
-
-    th,
-    td {
-        padding: 14px;
-        text-align: left;
-        border-bottom: 1px solid #edf0f2;
-        vertical-align: middle;
-    }
-
-    th {
-        background: #f8faf9;
-        font-size: 12px;
-        text-transform: uppercase;
-        color: #65706a;
-    }
-
-    td {
-        font-size: 14px;
-    }
-
-    .product-cell {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .product-image {
-        width: 55px;
-        height: 55px;
-        border-radius: 9px;
-        object-fit: cover;
-        background: #f0f2f3;
-    }
-
-    .product-placeholder {
-        width: 55px;
-        height: 55px;
-        border-radius: 9px;
-        background: #edf4ef;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 25px;
-    }
-
-    .product-name {
-        font-weight: 800;
-    }
-
-    .product-id {
-        font-size: 11px;
-        color: #8a9298;
-        margin-top: 3px;
-    }
-
-    .price {
-        font-weight: 900;
-        color: #0b7a45;
-    }
-
-    .badge {
-        display: inline-block;
-        padding: 5px 9px;
-        border-radius: 20px;
-        font-size: 11px;
-        font-weight: 800;
-    }
-
-    .badge-green {
-        background: #e6f8ed;
-        color: #08763e;
-    }
-
-    .badge-orange {
-        background: #fff4df;
-        color: #9a5b00;
-    }
-
-    .badge-red {
-        background: #ffe8e8;
-        color: #b42318;
-    }
-
-    .action-buttons {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-    }
-
-    .action-btn {
-        border: none;
-        padding: 7px 9px;
-        border-radius: 7px;
-        font-size: 12px;
-        font-weight: 800;
-    }
-
-    .edit-btn {
-        background: #e9f2ff;
-        color: #1558a6;
-    }
-
-    .delete-btn {
-        background: #ffecec;
-        color: #bd2020;
-    }
-
-    /* =========================
-       EMPTY
-    ========================= */
-
-    .empty-state {
-        text-align: center;
-        padding: 55px 20px;
-        color: #777;
-    }
-
-    .empty-state .emoji {
-        font-size: 45px;
-        margin-bottom: 10px;
-    }
-
-    /* =========================
-       MODAL
-    ========================= */
-
-    .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,.55);
-        z-index: 1000;
-        padding: 20px;
-        overflow-y: auto;
-    }
-
-    .modal.active {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .modal-box {
-        width: 100%;
-        max-width: 620px;
-        background: #fff;
-        border-radius: 18px;
-        padding: 25px;
-        box-shadow: 0 20px 60px rgba(0,0,0,.25);
-    }
-
-    .modal-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .modal-header h2 {
-        font-size: 22px;
-    }
-
-    .close-btn {
-        border: none;
-        background: #f1f3f4;
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        font-size: 20px;
-    }
-
-    .form-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-    }
-
-    .full {
-        grid-column: 1 / -1;
-    }
-
-    .modal-footer {
-        margin-top: 20px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 9px;
-    }
-
-    /* =========================
-       ORDER CARDS
-    ========================= */
-
-    .orders-list {
-        display: grid;
-        gap: 15px;
-    }
-
-    .order-card {
-        background: #fff;
-        border: 1px solid #e4e7ea;
-        border-radius: 14px;
-        padding: 18px;
-    }
-
-    .order-header {
-        display: flex;
-        justify-content: space-between;
-        gap: 15px;
-        align-items: flex-start;
-        margin-bottom: 13px;
-    }
-
-    .order-id {
-        font-weight: 900;
-    }
-
-    .order-meta {
-        color: #747b80;
-        font-size: 13px;
-        margin-top: 4px;
-    }
-
-    .order-items {
-        border-top: 1px solid #edf0f2;
-        border-bottom: 1px solid #edf0f2;
-        padding: 12px 0;
-        margin-bottom: 12px;
-    }
-
-    .order-item {
-        display: flex;
-        justify-content: space-between;
-        gap: 15px;
-        padding: 5px 0;
-        font-size: 14px;
-    }
-
-    .order-total {
-        font-weight: 900;
-        color: #0b7a45;
-    }
-
-    /* =========================
-       CUSTOMERS
-    ========================= */
-
-    .customer-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 15px;
-    }
-
-    .customer-card {
-        background: #fff;
-        border: 1px solid #e4e7ea;
-        border-radius: 14px;
-        padding: 18px;
-    }
-
-    .avatar {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        background: #e7f4ec;
-        color: #0b7a45;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 900;
-        margin-bottom: 10px;
-    }
-
-    .customer-name {
-        font-weight: 900;
-    }
-
-    .customer-info {
-        font-size: 13px;
-        color: #70777d;
-        margin-top: 5px;
-        word-break: break-word;
-    }
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f7f5;
+    color:#17201b;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.admin-login{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:
+        linear-gradient(
+            135deg,
+            #071c12,
+            #0d3b25
+        );
+}
+
+.login-card{
+    width:100%;
+    max-width:430px;
+    background:white;
+    border-radius:24px;
+    padding:32px;
+    box-shadow:
+        0 25px 70px
+        rgba(0,0,0,.25);
+}
+
+.logo{
+    width:60px;
+    height:60px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#0b7a42;
+    color:white;
+    font-size:23px;
+    font-weight:900;
+    margin-bottom:18px;
+}
+
+.login-card h1{
+    margin:0;
+    font-size:30px;
+}
+
+.login-card p{
+    color:#6b756f;
+    line-height:1.6;
+}
+
+.form-group{
+    margin-top:18px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:700;
+}
+
+.form-group input{
+    width:100%;
+    padding:14px;
+    border:1px solid #d9e0dc;
+    border-radius:12px;
+    outline:none;
+}
+
+.form-group input:focus{
+    border-color:#0b7a42;
+}
+
+.login-btn{
+    width:100%;
+    margin-top:22px;
+    padding:15px;
+    border:0;
+    border-radius:12px;
+    background:#0b7a42;
+    color:white;
+    font-weight:800;
+}
+
+#adminMessage{
+    display:none;
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+}
+
+#adminDashboard{
+    display:none;
+}
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:#071c12;
+    color:white;
+    padding:14px 20px;
+}
+
+.topbar-inner{
+    max-width:1400px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+}
+
+.brand{
+    font-size:23px;
+    font-weight:900;
+}
+
+.brand small{
+    display:block;
+    font-size:11px;
+    opacity:.7;
+    margin-top:2px;
+}
+
+.top-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.top-actions button{
+    border:0;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:700;
+}
+
+.home-btn{
+    background:white;
+    color:#07391f;
+}
+
+.logout-btn{
+    background:#dc2626;
+    color:white;
+}
+
+.admin-layout{
+    max-width:1400px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:240px 1fr;
+    min-height:calc(100vh - 72px);
+}
+
+.sidebar{
+    background:white;
+    border-right:1px solid #e4e9e6;
+    padding:20px 14px;
+}
+
+.admin-nav{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.admin-nav button{
+    text-align:left;
+    border:0;
+    background:white;
+    padding:13px;
+    border-radius:11px;
+    color:#53615a;
+    font-weight:700;
+}
+
+.admin-nav button:hover,
+.admin-nav button.active{
+    background:#e7f6ee;
+    color:#08783f;
+}
+
+.content{
+    padding:25px;
+    min-width:0;
+}
+
+.admin-section{
+    display:none;
+}
+
+.admin-section:first-child{
+    display:block;
+}
+
+.page-heading{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.page-heading h1{
+    margin:0;
+    font-size:28px;
+}
+
+.page-heading p{
+    margin:6px 0 0;
+    color:#6c7771;
+}
+
+.refresh-btn{
+    border:0;
+    background:#0b7a42;
+    color:white;
+    padding:11px 15px;
+    border-radius:10px;
+    font-weight:700;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:
+        repeat(6,minmax(0,1fr));
+    gap:14px;
+}
+
+.stat{
+    background:white;
+    border-radius:16px;
+    padding:18px;
+    border:1px solid #e6ece8;
+}
+
+.stat-icon{
+    font-size:24px;
+}
+
+.stat-label{
+    margin-top:10px;
+    color:#68746d;
+    font-size:13px;
+}
+
+.stat-value{
+    margin-top:5px;
+    font-size:25px;
+    font-weight:900;
+}
+
+.panel{
+    background:white;
+    border-radius:17px;
+    border:1px solid #e3e9e5;
+    overflow:hidden;
+}
+
+.panel-heading{
+    padding:18px;
+    border-bottom:1px solid #e8edea;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+}
+
+.panel-heading h2{
+    margin:0;
+    font-size:19px;
+}
+
+.search{
+    padding:11px 13px;
+    border:1px solid #dbe2de;
+    border-radius:10px;
+    min-width:230px;
+}
+
+.table-wrap{
+    width:100%;
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:850px;
+}
+
+th,
+td{
+    padding:13px;
+    border-bottom:1px solid #edf1ee;
+    text-align:left;
+    vertical-align:middle;
+    font-size:13px;
+}
+
+th{
+    background:#f8faf9;
+    color:#53615a;
+}
+
+td button{
+    border:0;
+    padding:8px 10px;
+    border-radius:8px;
+    background:#e8f5ee;
+    color:#08783f;
+    font-weight:700;
+    margin:2px;
+}
+
+td select{
+    padding:8px;
+    border:1px solid #dce3df;
+    border-radius:8px;
+}
+
+.status-badge{
+    display:inline-block;
+    padding:6px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:800;
+    text-transform:capitalize;
+}
+
+.status-pending{
+    background:#fff7d6;
+    color:#8a6700;
+}
+
+.status-confirmed{
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.status-completed{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.status-cancelled{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.empty{
+    padding:40px;
+    text-align:center;
+    color:#6b756f;
+}
+
+.notice{
+    background:#eaf7ef;
+    color:#166534;
+    padding:15px;
+    border-radius:13px;
+    margin-bottom:18px;
+}
+
+@media(max-width:1100px){
+
+    .stats{
+        grid-template-columns:
+            repeat(3,minmax(0,1fr));
+    }
+
+}
+
+@media(max-width:800px){
+
+    .admin-layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        border-right:0;
+        border-bottom:1px solid #e4e9e6;
+        padding:10px;
+        position:sticky;
+        top:72px;
+        z-index:50;
+        overflow:auto;
+    }
+
+    .admin-nav{
+        flex-direction:row;
+        overflow:auto;
+    }
+
+    .admin-nav button{
+        white-space:nowrap;
+    }
+
+    .content{
+        padding:15px;
+    }
+
+    .stats{
+        grid-template-columns:
+            repeat(2,minmax(0,1fr));
+    }
+
+    .topbar-inner{
+        align-items:flex-start;
+    }
+
+    .brand{
+        font-size:18px;
+    }
+
+    .top-actions button{
+        padding:8px 10px;
+        font-size:12px;
+    }
+
+    .page-heading{
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .search{
+        min-width:0;
+        width:100%;
+    }
+
+}
+
+@media(max-width:450px){
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:9px;
+    }
+
+    .stat{
+        padding:13px;
+    }
+
+    .stat-value{
+        font-size:20px;
+    }
+
+}
 
-    /* =========================
-       NOTICE
-    ========================= */
-
-    .notice {
-        padding: 13px 15px;
-        border-radius: 10px;
-        margin-bottom: 18px;
-        font-size: 14px;
-    }
-
-    .notice-info {
-        background: #eaf4ff;
-        color: #1558a6;
-    }
-
-    .notice-warning {
-        background: #fff6df;
-        color: #8b5b00;
-    }
-
-    .notice-success {
-        background: #e8f8ee;
-        color: #08763e;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================= */
-
-    @media (max-width: 1000px) {
-        .stats-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .customer-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        .sidebar {
-            width: 210px;
-        }
-    }
-
-    @media (max-width: 760px) {
-        .top-header {
-            padding: 0 13px;
-        }
-
-        .brand {
-            font-size: 18px;
-        }
-
-        .header-btn.home-text {
-            display: none;
-        }
-
-        .admin-layout {
-            display: block;
-        }
-
-        .sidebar {
-            width: 100%;
-            padding: 8px;
-            display: flex;
-            overflow-x: auto;
-            gap: 5px;
-        }
-
-        .sidebar-title {
-            display: none;
-        }
-
-        .side-btn {
-            width: auto;
-            white-space: nowrap;
-            margin: 0;
-            padding: 10px 12px;
-        }
-
-        .main-content {
-            padding: 16px;
-        }
-
-        .stats-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .stat-card {
-            padding: 15px;
-        }
-
-        .stat-number {
-            font-size: 22px;
-        }
-
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .full {
-            grid-column: auto;
-        }
-
-        .customer-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .page-title {
-            font-size: 23px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .stats-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .header-actions {
-            gap: 4px;
-        }
-
-        .header-btn {
-            padding: 8px 9px;
-            font-size: 12px;
-        }
-
-        .login-box {
-            padding: 25px 20px;
-        }
-    }
 </style>
+
 </head>
+
 
 <body>
 
+
 <!-- =====================================================
-     LOGIN PAGE
+     LOGIN
 ===================================================== -->
 
-<div class="login-page" id="loginPage">
+<div
+    class="admin-login"
+    id="adminLogin"
+>
 
-    <div class="login-box">
+    <div class="login-card">
 
-        <div class="login-logo">ND</div>
+        <div class="logo">
+            ND
+        </div>
 
-        <h1>NaijaDeals Admin</h1>
+        <h1>
+            NaijaDeals Admin
+        </h1>
 
-        <p>Sign in to manage your marketplace</p>
+        <p>
+            Sign in to manage products,
+            users, sellers, orders and
+            inspection appointments.
+        </p>
 
-        <form id="loginForm">
 
-            <div class="form-group">
-                <label>Admin Email / Username</label>
-                <input
-                    type="text"
-                    id="loginIdentifier"
-                    placeholder="Enter admin email or username"
-                    required
-                >
-            </div>
+        <div class="form-group">
 
-            <div class="form-group">
-                <label>Password</label>
-                <input
-                    type="password"
-                    id="loginPassword"
-                    placeholder="Enter password"
-                    required
-                >
-            </div>
+            <label>
+                Admin Email
+            </label>
 
-            <button class="primary-btn" type="submit">
-                Login to Admin
-            </button>
+            <input
+                id="adminEmail"
+                type="email"
+                value="favourbabalola839@gmail.com"
+                placeholder="Admin email"
+            >
 
-        </form>
+        </div>
 
-        <div class="login-message" id="loginMessage"></div>
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="adminPassword"
+                type="password"
+                placeholder="Admin password"
+                onkeydown="
+                    if(event.key === 'Enter'){
+                        loginAdmin();
+                    }
+                "
+            >
+
+        </div>
+
+
+        <button
+            class="login-btn"
+            onclick="loginAdmin()"
+        >
+            🔐 Login to Admin
+        </button>
+
+
+        <div id="adminMessage"></div>
 
     </div>
 
 </div>
 
 
+
 <!-- =====================================================
-     ADMIN APP
+     DASHBOARD
 ===================================================== -->
 
-<div class="admin-app" id="adminApp">
+<div
+    id="adminDashboard"
+>
 
-    <!-- HEADER -->
 
-    <header class="top-header">
+    <header class="topbar">
 
-        <div class="brand">
-            <div class="brand-icon">ND</div>
-            NaijaDeals Admin
-        </div>
+        <div class="topbar-inner">
 
-        <div class="header-actions">
+            <div class="brand">
 
-            <button
-                class="header-btn home-text"
-                onclick="goHome()"
-            >
-                🏠 Home
-            </button>
+                NaijaDeals
 
-            <button
-                class="header-btn"
-                onclick="refreshEverything()"
-            >
-                🔄 Refresh
-            </button>
+                <small>
+                    Administration Panel
+                </small>
 
-            <button
-                class="header-btn logout-btn"
-                onclick="logout()"
-            >
-                🚪 Logout
-            </button>
+            </div>
+
+
+            <div class="top-actions">
+
+                <span
+                    id="adminName"
+                >
+                    Admin
+                </span>
+
+                <button
+                    class="home-btn"
+                    onclick="
+                        window.location.href='/'
+                    "
+                >
+                    🏠 Home
+                </button>
+
+                <button
+                    class="logout-btn"
+                    onclick="logoutAdmin()"
+                >
+                    Logout
+                </button>
+
+            </div>
 
         </div>
 
     </header>
 
 
+
     <div class="admin-layout">
+
 
         <!-- SIDEBAR -->
 
         <aside class="sidebar">
 
-            <div class="sidebar-title">
-                Management
-            </div>
+            <nav class="admin-nav">
 
-            <button
-                class="side-btn active"
-                data-section="dashboard"
-                onclick="showSection('dashboard', this)"
-            >
-                📊 Dashboard
-            </button>
+                <button
+                    class="active"
+                    data-section="dashboardSection"
+                    onclick="
+                        showSection(
+                            'dashboardSection'
+                        )
+                    "
+                >
+                    📊 Dashboard
+                </button>
 
-            <button
-                class="side-btn"
-                data-section="products"
-                onclick="showSection('products', this)"
-            >
-                📦 Products
-            </button>
 
-            <button
-                class="side-btn"
-                data-section="orders"
-                onclick="showSection('orders', this)"
-            >
-                🛒 Orders
-            </button>
+                <button
+                    data-section="usersSection"
+                    onclick="
+                        showSection(
+                            'usersSection'
+                        )
+                    "
+                >
+                    👥 Customers / Users
+                </button>
 
-            <button
-                class="side-btn"
-                data-section="customers"
-                onclick="showSection('customers', this)"
-            >
-                👥 Customers
-            </button>
 
-            <button
-                class="side-btn"
-                data-section="sellers"
-                onclick="showSection('sellers', this)"
-            >
-                🏪 Sellers
-            </button>
+                <button
+                    data-section="productsSection"
+                    onclick="
+                        showSection(
+                            'productsSection'
+                        )
+                    "
+                >
+                    📦 Products
+                </button>
+
+
+                <button
+                    data-section="ordersSection"
+                    onclick="
+                        showSection(
+                            'ordersSection'
+                        )
+                    "
+                >
+                    🛒 Orders
+                </button>
+
+
+                <button
+                    data-section="inspectionSection"
+                    onclick="
+                        showSection(
+                            'inspectionSection'
+                        )
+                    "
+                >
+                    📅 Inspections
+                    <span
+                        id="inspectionCount"
+                    >
+                        0
+                    </span>
+                </button>
+
+
+                <button
+                    onclick="
+                        window.location.href='/seller.html'
+                    "
+                >
+                    🏪 Seller Dashboard
+                </button>
+
+            </nav>
 
         </aside>
 
 
-        <!-- MAIN -->
 
-        <main class="main-content">
+        <!-- CONTENT -->
 
-            <!-- ==========================================
-                 DASHBOARD
-            =========================================== -->
+        <main class="content">
+
+
+            <!-- DASHBOARD -->
 
             <section
-                class="section active"
+                class="admin-section"
                 id="dashboardSection"
             >
 
-                <h1 class="page-title">
-                    Dashboard
-                </h1>
+                <div class="page-heading">
 
-                <p class="page-description">
-                    Manage your NaijaDeals marketplace.
-                </p>
+                    <div>
 
-                <div
-                    class="notice notice-info"
-                    id="dashboardNotice"
-                >
-                    Loading marketplace data...
+                        <h1>
+                            Dashboard
+                        </h1>
+
+                        <p>
+                            Welcome to NaijaDeals
+                            administration.
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="refresh-btn"
+                        onclick="refreshAdmin()"
+                    >
+                        🔄 Refresh
+                    </button>
+
                 </div>
 
-                <div class="stats-grid">
 
-                    <div class="stat-card">
-                        <div class="stat-icon">📦</div>
-                        <div class="stat-label">
-                            PRODUCTS
+                <div class="stats">
+
+
+                    <div class="stat">
+
+                        <div class="stat-icon">
+                            👥
                         </div>
+
+                        <div class="stat-label">
+                            Total Users
+                        </div>
+
                         <div
-                            class="stat-number"
-                            id="statProducts"
+                            class="stat-value"
+                            id="statUsers"
                         >
                             0
                         </div>
+
                     </div>
 
-                    <div class="stat-card">
-                        <div class="stat-icon">🛒</div>
-                        <div class="stat-label">
-                            ORDERS
-                        </div>
-                        <div
-                            class="stat-number"
-                            id="statOrders"
-                        >
-                            0
-                        </div>
-                    </div>
 
-                    <div class="stat-card">
-                        <div class="stat-icon">👥</div>
-                        <div class="stat-label">
-                            CUSTOMERS
-                        </div>
-                        <div
-                            class="stat-number"
-                            id="statCustomers"
-                        >
-                            0
-                        </div>
-                    </div>
+                    <div class="stat">
 
-                    <div class="stat-card">
-                        <div class="stat-icon">🏪</div>
-                        <div class="stat-label">
-                            SELLERS
+                        <div class="stat-icon">
+                            🏪
                         </div>
+
+                        <div class="stat-label">
+                            Sellers
+                        </div>
+
                         <div
-                            class="stat-number"
+                            class="stat-value"
                             id="statSellers"
                         >
                             0
                         </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-icon">
+                            👤
+                        </div>
+
+                        <div class="stat-label">
+                            Customers
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="statCustomers"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-icon">
+                            📦
+                        </div>
+
+                        <div class="stat-label">
+                            Products
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="statProducts"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-icon">
+                            🛒
+                        </div>
+
+                        <div class="stat-label">
+                            Orders
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="statOrders"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat">
+
+                        <div class="stat-icon">
+                            📅
+                        </div>
+
+                        <div class="stat-label">
+                            Inspections
+                        </div>
+
+                        <div
+                            class="stat-value"
+                            id="inspectionCount"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- USERS -->
+
+            <section
+                class="admin-section"
+                id="usersSection"
+            >
+
+                <div class="page-heading">
+
+                    <div>
+
+                        <h1>
+                            Customers & Users
+                        </h1>
+
+                        <p>
+                            View registered
+                            NaijaDeals accounts.
+                        </p>
+
                     </div>
 
                 </div>
 
 
-                <div class="table-card">
+                <div class="panel">
 
-                    <div style="padding:18px;border-bottom:1px solid #edf0f2;">
-                        <h3>Recent Products</h3>
+                    <div class="panel-heading">
+
+                        <h2>
+                            Users
+                        </h2>
+
+                        <input
+                            class="search"
+                            placeholder="Search users..."
+                            oninput="
+                                searchUsers(this.value)
+                            "
+                        >
+
                     </div>
+
 
                     <div class="table-wrap">
 
                         <table>
 
                             <thead>
+
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
+
+                                    <th>
+                                        Name
+                                    </th>
+
+                                    <th>
+                                        Email
+                                    </th>
+
+                                    <th>
+                                        Phone
+                                    </th>
+
+                                    <th>
+                                        Role
+                                    </th>
+
+                                    <th>
+                                        Joined
+                                    </th>
+
+                                    <th>
+                                        ID
+                                    </th>
+
                                 </tr>
+
                             </thead>
 
-                            <tbody id="recentProductsBody"></tbody>
+
+                            <tbody
+                                id="usersTableBody"
+                            >
+
+                            </tbody>
 
                         </table>
 
@@ -1071,95 +979,103 @@
             </section>
 
 
-            <!-- ==========================================
-                 PRODUCTS
-            =========================================== -->
+
+            <!-- PRODUCTS -->
 
             <section
-                class="section"
+                class="admin-section"
                 id="productsSection"
             >
 
-                <h1 class="page-title">
-                    Products
-                </h1>
+                <div class="page-heading">
 
-                <p class="page-description">
-                    Add, edit, remove and manage products.
-                </p>
+                    <div>
 
-                <div
-                    class="notice notice-warning"
-                    id="productNotice"
-                >
-                    Products are loaded from your server when the API is available.
-                </div>
+                        <h1>
+                            Products
+                        </h1>
 
-                <div class="toolbar">
+                        <p>
+                            Manage marketplace
+                            listings.
+                        </p>
 
-                    <input
-                        type="text"
-                        class="search-input"
-                        id="productSearch"
-                        placeholder="Search products..."
-                        oninput="renderProducts()"
-                    >
-
-                    <select
-                        class="filter-select"
-                        id="categoryFilter"
-                        onchange="renderProducts()"
-                    >
-                        <option value="">All Categories</option>
-                        <option>Phones</option>
-                        <option>Electronics</option>
-                        <option>Power</option>
-                        <option>Fashion</option>
-                        <option>Beauty</option>
-                        <option>Home</option>
-                        <option>Baby</option>
-                        <option>Sports</option>
-                        <option>Tools</option>
-                        <option>Gifts</option>
-                        <option>Property</option>
-                        <option>Cars</option>
-                    </select>
-
-                    <button
-                        class="small-btn green-btn"
-                        onclick="openProductModal()"
-                    >
-                        + Add Product
-                    </button>
-
-                    <button
-                        class="small-btn gray-btn"
-                        onclick="loadProducts()"
-                    >
-                        🔄 Refresh
-                    </button>
+                    </div>
 
                 </div>
 
 
-                <div class="table-card">
+                <div class="panel">
+
+                    <div class="panel-heading">
+
+                        <h2>
+                            Marketplace Products
+                        </h2>
+
+                        <input
+                            class="search"
+                            placeholder="Search products..."
+                            oninput="
+                                searchProducts(
+                                    this.value
+                                )
+                            "
+                        >
+
+                    </div>
+
 
                     <div class="table-wrap">
 
                         <table>
 
                             <thead>
+
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+
+                                    <th>
+                                        Image
+                                    </th>
+
+                                    <th>
+                                        Product
+                                    </th>
+
+                                    <th>
+                                        Category
+                                    </th>
+
+                                    <th>
+                                        Price
+                                    </th>
+
+                                    <th>
+                                        Stock
+                                    </th>
+
+                                    <th>
+                                        Location
+                                    </th>
+
+                                    <th>
+                                        Seller
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
                                 </tr>
+
                             </thead>
 
-                            <tbody id="productsBody"></tbody>
+
+                            <tbody
+                                id="productsTableBody"
+                            >
+
+                            </tbody>
 
                         </table>
 
@@ -1170,136 +1086,233 @@
             </section>
 
 
-            <!-- ==========================================
-                 ORDERS
-            =========================================== -->
+
+            <!-- ORDERS -->
 
             <section
-                class="section"
+                class="admin-section"
                 id="ordersSection"
             >
 
-                <h1 class="page-title">
-                    Orders
-                </h1>
+                <div class="page-heading">
 
-                <p class="page-description">
-                    View customer orders and cart submissions.
-                </p>
+                    <div>
 
-                <div class="toolbar">
+                        <h1>
+                            Orders
+                        </h1>
 
-                    <input
-                        type="text"
-                        class="search-input"
-                        id="orderSearch"
-                        placeholder="Search order, customer or phone..."
-                        oninput="renderOrders()"
-                    >
+                        <p>
+                            Manage customer orders
+                            and payment status.
+                        </p>
 
-                    <button
-                        class="small-btn gray-btn"
-                        onclick="loadOrders()"
-                    >
-                        🔄 Refresh
-                    </button>
+                    </div>
 
                 </div>
 
-                <div
-                    class="orders-list"
-                    id="ordersList"
-                ></div>
+
+                <div class="panel">
+
+                    <div class="panel-heading">
+
+                        <h2>
+                            Customer Orders
+                        </h2>
+
+                    </div>
+
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Order
+                                    </th>
+
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Phone
+                                    </th>
+
+                                    <th>
+                                        Total
+                                    </th>
+
+                                    <th>
+                                        Payment
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Address
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="ordersTableBody"
+                            >
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
 
             </section>
 
 
-            <!-- ==========================================
-                 CUSTOMERS
-            =========================================== -->
+
+            <!-- INSPECTIONS -->
 
             <section
-                class="section"
-                id="customersSection"
+                class="admin-section"
+                id="inspectionSection"
             >
 
-                <h1 class="page-title">
-                    Customers
-                </h1>
+                <div class="page-heading">
 
-                <p class="page-description">
-                    View registered NaijaDeals customers.
-                </p>
+                    <div>
 
-                <div class="toolbar">
+                        <h1>
+                            📅 Inspection Requests
+                        </h1>
 
-                    <input
-                        type="text"
-                        class="search-input"
-                        id="customerSearch"
-                        placeholder="Search customers..."
-                        oninput="renderCustomers()"
-                    >
+                        <p>
+                            Manage car and property
+                            inspection appointments.
+                        </p>
+
+                    </div>
 
                     <button
-                        class="small-btn gray-btn"
-                        onclick="loadCustomers()"
+                        class="refresh-btn"
+                        onclick="loadInspections()"
                     >
                         🔄 Refresh
                     </button>
 
                 </div>
 
-                <div
-                    class="customer-grid"
-                    id="customersGrid"
-                ></div>
 
-            </section>
+                <div class="notice">
 
-
-            <!-- ==========================================
-                 SELLERS
-            =========================================== -->
-
-            <section
-                class="section"
-                id="sellersSection"
-            >
-
-                <h1 class="page-title">
-                    Sellers
-                </h1>
-
-                <p class="page-description">
-                    Manage marketplace sellers.
-                </p>
-
-                <div class="toolbar">
-
-                    <input
-                        type="text"
-                        class="search-input"
-                        id="sellerSearch"
-                        placeholder="Search sellers..."
-                        oninput="renderSellers()"
-                    >
-
-                    <button
-                        class="small-btn gray-btn"
-                        onclick="loadSellers()"
-                    >
-                        🔄 Refresh
-                    </button>
+                    Customers can request an
+                    inspection directly from a
+                    car or property listing.
 
                 </div>
 
-                <div
-                    class="customer-grid"
-                    id="sellersGrid"
-                ></div>
+
+                <div class="panel">
+
+                    <div class="panel-heading">
+
+                        <h2>
+                            Inspection Requests
+                        </h2>
+
+                        <input
+                            class="search"
+                            placeholder="Search inspections..."
+                            oninput="
+                                searchInspections(
+                                    this.value
+                                )
+                            "
+                        >
+
+                    </div>
+
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Phone
+                                    </th>
+
+                                    <th>
+                                        Listing
+                                    </th>
+
+                                    <th>
+                                        Location
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Time
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Change Status
+                                    </th>
+
+                                    <th>
+                                        Details
+                                    </th>
+
+                                    <th>
+                                        Submitted
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="inspectionTableBody"
+                            >
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
 
             </section>
+
 
         </main>
 
@@ -1308,2108 +1321,9 @@
 </div>
 
 
-<!-- =====================================================
-     PRODUCT MODAL
-===================================================== -->
 
-<div
-    class="modal"
-    id="productModal"
->
-
-    <div class="modal-box">
-
-        <div class="modal-header">
-
-            <h2 id="productModalTitle">
-                Add Product
-            </h2>
-
-            <button
-                class="close-btn"
-                onclick="closeProductModal()"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <form id="productForm">
-
-            <input
-                type="hidden"
-                id="productId"
-            >
-
-            <div class="form-grid">
-
-                <div class="form-group">
-                    <label>Product Name</label>
-                    <input
-                        id="productName"
-                        required
-                        placeholder="e.g. iPhone 15 128GB"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Category</label>
-                    <select id="productCategory" required>
-                        <option value="">Select category</option>
-                        <option>Phones</option>
-                        <option>Electronics</option>
-                        <option>Power</option>
-                        <option>Fashion</option>
-                        <option>Beauty</option>
-                        <option>Home</option>
-                        <option>Baby</option>
-                        <option>Sports</option>
-                        <option>Tools</option>
-                        <option>Gifts</option>
-                        <option>Property</option>
-                        <option>Cars</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Price (₦)</label>
-                    <input
-                        type="number"
-                        id="productPrice"
-                        min="0"
-                        required
-                        placeholder="999000"
-                    >
-                </div>
-
-                <div class="form-group">
-                    <label>Stock</label>
-                    <input
-                        type="number"
-                        id="productStock"
-                        min="0"
-                        value="10"
-                        required
-                    >
-                </div>
-
-                <div class="form-group full">
-                    <label>Image URL</label>
-                    <input
-                        type="url"
-                        id="productImage"
-                        placeholder="https://example.com/image.jpg"
-                    >
-                </div>
-
-                <div class="form-group full">
-                    <label>Description</label>
-                    <textarea
-                        id="productDescription"
-                        rows="4"
-                        placeholder="Product description..."
-                    ></textarea>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="small-btn gray-btn"
-                    onclick="closeProductModal()"
-                >
-                    Cancel
-                </button>
-
-                <button
-                    type="submit"
-                    class="small-btn green-btn"
-                >
-                    Save Product
-                </button>
-
-            </div>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-<script>
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-const API_BASE = "";
-
-let products = [];
-let orders = [];
-let customers = [];
-let sellers = [];
-
-let editingProductId = null;
-
-
-/* =====================================================
-   API HELPER
-===================================================== */
-
-async function api(url, options = {}) {
-
-    const token =
-        localStorage.getItem("naijaDealsToken") ||
-        localStorage.getItem("adminToken");
-
-    const headers = {
-        ...(options.body
-            ? {"Content-Type": "application/json"}
-            : {}),
-        ...(options.headers || {})
-    };
-
-    if (token) {
-        headers.Authorization = "Bearer " + token;
-    }
-
-    const response = await fetch(
-        API_BASE + url,
-        {
-            ...options,
-            headers
-        }
-    );
-
-    const text = await response.text();
-
-    let data = {};
-
-    try {
-        data = text ? JSON.parse(text) : {};
-    } catch {
-        data = {
-            message: text || "Invalid server response."
-        };
-    }
-
-    if (!response.ok) {
-        throw new Error(
-            data.message ||
-            data.error ||
-            `Request failed (${response.status})`
-        );
-    }
-
-    return data;
-}
-
-
-/* =====================================================
-   LOCAL DEMO PRODUCTS
-   These keep the admin page useful when API is empty.
-===================================================== */
-
-const defaultProducts = [
-
-    {
-        id: "p001",
-        name: "iPhone 15 128GB",
-        category: "Phones",
-        price: 999000,
-        stock: 10,
-        image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=700&q=85",
-        description: "Apple iPhone 15 128GB"
-    },
-
-    {
-        id: "p002",
-        name: "iPhone 14",
-        category: "Phones",
-        price: 850000,
-        stock: 8,
-        image: "https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?auto=format&fit=crop&w=700&q=85",
-        description: "Apple iPhone 14"
-    },
-
-    {
-        id: "p003",
-        name: "Samsung Galaxy S24 Ultra",
-        category: "Phones",
-        price: 1350000,
-        stock: 6,
-        image: "https://images.unsplash.com/photo-1707230862120-9a1f8d4a2f3a?auto=format&fit=crop&w=700&q=85",
-        description: "Samsung Galaxy S24 Ultra"
-    },
-
-    {
-        id: "p004",
-        name: "Samsung Galaxy A55",
-        category: "Phones",
-        price: 520000,
-        stock: 12,
-        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=700&q=85",
-        description: "Samsung Galaxy A55"
-    },
-
-    {
-        id: "p005",
-        name: "Tecno Camon 30",
-        category: "Phones",
-        price: 350000,
-        stock: 10,
-        image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=700&q=85",
-        description: "Tecno Camon 30"
-    },
-
-    {
-        id: "p006",
-        name: "Infinix Note 40",
-        category: "Phones",
-        price: 320000,
-        stock: 9,
-        image: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=700&q=85",
-        description: "Infinix Note 40"
-    },
-
-    {
-        id: "p007",
-        name: "MacBook Air M2",
-        category: "Electronics",
-        price: 1250000,
-        stock: 5,
-        image: "https://images.unsplash.com/photo-1517336714739-489689fd1ca8?auto=format&fit=crop&w=700&q=85",
-        description: "Apple MacBook Air M2"
-    },
-
-    {
-        id: "p008",
-        name: "HP Pavilion Laptop",
-        category: "Electronics",
-        price: 750000,
-        stock: 7,
-        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=700&q=85",
-        description: "HP Pavilion Laptop"
-    },
-
-    {
-        id: "p009",
-        name: "Samsung 55 Inch 4K Smart TV",
-        category: "Electronics",
-        price: 650000,
-        stock: 4,
-        image: "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=700&q=85",
-        description: "Samsung 55 Inch 4K Smart TV"
-    },
-
-    {
-        id: "p010",
-        name: "5KVA Solar Inverter",
-        category: "Power",
-        price: 950000,
-        stock: 8,
-        image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=700&q=85",
-        description: "5KVA Solar Inverter"
-    }
-
-];
-
-
-/* =====================================================
-   LOGIN
-===================================================== */
-
-document
-    .getElementById("loginForm")
-    .addEventListener("submit", async function(event) {
-
-        event.preventDefault();
-
-        const identifier =
-            document
-                .getElementById("loginIdentifier")
-                .value
-                .trim();
-
-        const password =
-            document
-                .getElementById("loginPassword")
-                .value;
-
-        const message =
-            document.getElementById("loginMessage");
-
-        message.className = "login-message";
-        message.textContent = "";
-
-        try {
-
-            /*
-             * Main backend login.
-             */
-
-            const result = await api(
-                "/api/admin/login",
-                {
-                    method: "POST",
-                    body: JSON.stringify({
-                        email: identifier,
-                        username: identifier,
-                        password
-                    })
-                }
-            );
-
-            const token =
-                result.token ||
-                result.accessToken ||
-                result.sessionToken;
-
-            if (token) {
-                localStorage.setItem(
-                    "adminToken",
-                    token
-                );
-            }
-
-            localStorage.setItem(
-                "naijaDealsAdminLoggedIn",
-                "true"
-            );
-
-            showAdmin();
-
-        } catch (error) {
-
-            /*
-             * Local fallback.
-             *
-             * Change these if your server uses different
-             * admin credentials.
-             */
-
-            const localUsername = "admin";
-            const localPassword = "phablo";
-
-            if (
-                identifier === localUsername &&
-                password === localPassword
-            ) {
-
-                localStorage.setItem(
-                    "naijaDealsAdminLoggedIn",
-                    "true"
-                );
-
-                localStorage.setItem(
-                    "adminLocalMode",
-                    "true"
-                );
-
-                showAdmin();
-
-                return;
-            }
-
-            message.textContent =
-                error.message ||
-                "Invalid admin login.";
-
-            message.className =
-                "login-message error";
-        }
-
-    });
-
-
-/* =====================================================
-   SHOW ADMIN
-===================================================== */
-
-function showAdmin() {
-
-    document
-        .getElementById("loginPage")
-        .style.display = "none";
-
-    document
-        .getElementById("adminApp")
-        .classList.add("active");
-
-    loadProducts();
-    loadOrders();
-    loadCustomers();
-    loadSellers();
-}
-
-
-/* =====================================================
-   CHECK LOGIN
-===================================================== */
-
-function checkLogin() {
-
-    const loggedIn =
-        localStorage.getItem(
-            "naijaDealsAdminLoggedIn"
-        );
-
-    if (loggedIn === "true") {
-        showAdmin();
-    }
-
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-function logout() {
-
-    localStorage.removeItem(
-        "naijaDealsAdminLoggedIn"
-    );
-
-    localStorage.removeItem(
-        "adminToken"
-    );
-
-    localStorage.removeItem(
-        "adminLocalMode"
-    );
-
-    location.reload();
-}
-
-
-/* =====================================================
-   HOME
-===================================================== */
-
-function goHome() {
-
-    window.location.href = "index.html";
-
-}
-
-
-/* =====================================================
-   SECTIONS
-===================================================== */
-
-function showSection(sectionName, button) {
-
-    document
-        .querySelectorAll(".section")
-        .forEach(section => {
-
-            section.classList.remove("active");
-
-        });
-
-    const section =
-        document.getElementById(
-            sectionName + "Section"
-        );
-
-    if (section) {
-        section.classList.add("active");
-    }
-
-    document
-        .querySelectorAll(".side-btn")
-        .forEach(btn => {
-
-            btn.classList.remove("active");
-
-        });
-
-    if (button) {
-        button.classList.add("active");
-    }
-
-}
-
-
-/* =====================================================
-   PRODUCTS
-===================================================== */
-
-async function loadProducts() {
-
-    try {
-
-        const result =
-            await api("/api/products");
-
-        let serverProducts =
-            Array.isArray(result)
-                ? result
-                : (
-                    result.products ||
-                    result.data ||
-                    []
-                );
-
-        if (serverProducts.length) {
-
-            products = serverProducts;
-
-            localStorage.setItem(
-                "naijaDealsProducts",
-                JSON.stringify(products)
-            );
-
-            document.getElementById(
-                "productNotice"
-            ).textContent =
-                "Products are connected to your server.";
-
-            document.getElementById(
-                "productNotice"
-            ).className =
-                "notice notice-success";
-
-        } else {
-
-            useLocalProducts();
-
-        }
-
-    } catch (error) {
-
-        useLocalProducts();
-
-        document.getElementById(
-            "productNotice"
-        ).textContent =
-            "Server product API is unavailable. Showing local products so you can still manage the page.";
-
-        document.getElementById(
-            "productNotice"
-        ).className =
-            "notice notice-warning";
-
-    }
-
-    renderProducts();
-    updateDashboard();
-
-}
-
-
-/* =====================================================
-   LOCAL PRODUCTS
-===================================================== */
-
-function useLocalProducts() {
-
-    const saved =
-        localStorage.getItem(
-            "naijaDealsProducts"
-        );
-
-    if (saved) {
-
-        try {
-
-            products =
-                JSON.parse(saved);
-
-            if (Array.isArray(products)) {
-                return;
-            }
-
-        } catch {}
-
-    }
-
-    products =
-        JSON.parse(
-            JSON.stringify(defaultProducts)
-        );
-
-    saveLocalProducts();
-
-}
-
-
-/* =====================================================
-   SAVE LOCAL PRODUCTS
-===================================================== */
-
-function saveLocalProducts() {
-
-    localStorage.setItem(
-        "naijaDealsProducts",
-        JSON.stringify(products)
-    );
-
-}
-
-
-/* =====================================================
-   RENDER PRODUCTS
-===================================================== */
-
-function renderProducts() {
-
-    const body =
-        document.getElementById(
-            "productsBody"
-        );
-
-    const search =
-        (
-            document.getElementById(
-                "productSearch"
-            ).value || ""
-        )
-        .toLowerCase()
-        .trim();
-
-    const category =
-        document.getElementById(
-            "categoryFilter"
-        ).value;
-
-    const filtered =
-        products.filter(product => {
-
-            const name =
-                String(
-                    product.name || ""
-                ).toLowerCase();
-
-            const productCategory =
-                String(
-                    product.category || ""
-                );
-
-            const matchesSearch =
-                !search ||
-                name.includes(search) ||
-                productCategory
-                    .toLowerCase()
-                    .includes(search);
-
-            const matchesCategory =
-                !category ||
-                productCategory === category;
-
-            return (
-                matchesSearch &&
-                matchesCategory
-            );
-
-        });
-
-    if (!filtered.length) {
-
-        body.innerHTML = `
-            <tr>
-                <td colspan="6">
-                    <div class="empty-state">
-                        <div class="emoji">📦</div>
-                        <h3>No products found</h3>
-                        <p>Add a product or change your search.</p>
-                    </div>
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-    body.innerHTML =
-        filtered.map(product => {
-
-            const stock =
-                Number(product.stock || 0);
-
-            const status =
-                stock <= 0
-                    ? `<span class="badge badge-red">Out of stock</span>`
-                    : stock <= 3
-                        ? `<span class="badge badge-orange">Low stock</span>`
-                        : `<span class="badge badge-green">Available</span>`;
-
-            const image =
-                product.image ||
-                product.imageUrl ||
-                "";
-
-            const imageHtml =
-                image
-                    ? `
-                        <img
-                            class="product-image"
-                            src="${escapeHtml(image)}"
-                            alt=""
-                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
-                        >
-                        <div
-                            class="product-placeholder"
-                            style="display:none"
-                        >
-                            📦
-                        </div>
-                    `
-                    : `
-                        <div class="product-placeholder">
-                            📦
-                        </div>
-                    `;
-
-            return `
-                <tr>
-
-                    <td>
-
-                        <div class="product-cell">
-
-                            ${imageHtml}
-
-                            <div>
-
-                                <div class="product-name">
-                                    ${escapeHtml(
-                                        product.name ||
-                                        "Unnamed product"
-                                    )}
-                                </div>
-
-                                <div class="product-id">
-                                    ID:
-                                    ${escapeHtml(
-                                        String(
-                                            product.id ||
-                                            "-"
-                                        )
-                                    )}
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            product.category ||
-                            "-"
-                        )}
-                    </td>
-
-                    <td>
-                        <span class="price">
-                            ${formatNaira(
-                                product.price || 0
-                            )}
-                        </span>
-                    </td>
-
-                    <td>
-                        ${stock}
-                    </td>
-
-                    <td>
-                        ${status}
-                    </td>
-
-                    <td>
-
-                        <div class="action-buttons">
-
-                            <button
-                                class="action-btn edit-btn"
-                                onclick="editProduct('${escapeAttribute(product.id)}')"
-                            >
-                                ✏️ Edit
-                            </button>
-
-                            <button
-                                class="action-btn delete-btn"
-                                onclick="deleteProduct('${escapeAttribute(product.id)}')"
-                            >
-                                🗑️ Delete
-                            </button>
-
-                        </div>
-
-                    </td>
-
-                </tr>
-            `;
-
-        }).join("");
-
-}
-
-
-/* =====================================================
-   PRODUCT MODAL
-===================================================== */
-
-function openProductModal(product = null) {
-
-    editingProductId =
-        product
-            ? product.id
-            : null;
-
-    document.getElementById(
-        "productModalTitle"
-    ).textContent =
-        product
-            ? "Edit Product"
-            : "Add Product";
-
-    document.getElementById(
-        "productId"
-    ).value =
-        product?.id || "";
-
-    document.getElementById(
-        "productName"
-    ).value =
-        product?.name || "";
-
-    document.getElementById(
-        "productCategory"
-    ).value =
-        product?.category || "";
-
-    document.getElementById(
-        "productPrice"
-    ).value =
-        product?.price || "";
-
-    document.getElementById(
-        "productStock"
-    ).value =
-        product?.stock ?? 10;
-
-    document.getElementById(
-        "productImage"
-    ).value =
-        product?.image ||
-        product?.imageUrl ||
-        "";
-
-    document.getElementById(
-        "productDescription"
-    ).value =
-        product?.description || "";
-
-    document
-        .getElementById("productModal")
-        .classList.add("active");
-
-}
-
-
-/* =====================================================
-   CLOSE MODAL
-===================================================== */
-
-function closeProductModal() {
-
-    document
-        .getElementById("productModal")
-        .classList.remove("active");
-
-    editingProductId = null;
-
-    document
-        .getElementById("productForm")
-        .reset();
-
-}
-
-
-/* =====================================================
-   EDIT PRODUCT
-===================================================== */
-
-function editProduct(id) {
-
-    const product =
-        products.find(
-            p => String(p.id) === String(id)
-        );
-
-    if (!product) {
-
-        alert("Product not found.");
-
-        return;
-    }
-
-    openProductModal(product);
-
-}
-
-
-/* =====================================================
-   SAVE PRODUCT
-===================================================== */
-
-document
-    .getElementById("productForm")
-    .addEventListener(
-        "submit",
-        async function(event) {
-
-            event.preventDefault();
-
-            const productData = {
-
-                name:
-                    document.getElementById(
-                        "productName"
-                    ).value.trim(),
-
-                category:
-                    document.getElementById(
-                        "productCategory"
-                    ).value,
-
-                price:
-                    Number(
-                        document.getElementById(
-                            "productPrice"
-                        ).value
-                    ),
-
-                stock:
-                    Number(
-                        document.getElementById(
-                            "productStock"
-                        ).value
-                    ),
-
-                image:
-                    document.getElementById(
-                        "productImage"
-                    ).value.trim(),
-
-                description:
-                    document.getElementById(
-                        "productDescription"
-                    ).value.trim()
-
-            };
-
-
-            if (!productData.name) {
-
-                alert(
-                    "Please enter a product name."
-                );
-
-                return;
-            }
-
-
-            if (!productData.category) {
-
-                alert(
-                    "Please select a category."
-                );
-
-                return;
-            }
-
-
-            if (productData.price < 0) {
-
-                alert(
-                    "Price cannot be negative."
-                );
-
-                return;
-            }
-
-
-            try {
-
-                if (editingProductId) {
-
-                    /*
-                     * Try backend first.
-                     */
-
-                    try {
-
-                        const result =
-                            await api(
-                                `/api/products/${encodeURIComponent(editingProductId)}`,
-                                {
-                                    method: "PUT",
-                                    body:
-                                        JSON.stringify(
-                                            productData
-                                        )
-                                }
-                            );
-
-                        const updated =
-                            result.product ||
-                            result.data ||
-                            result;
-
-                        const index =
-                            products.findIndex(
-                                p =>
-                                    String(p.id) ===
-                                    String(editingProductId)
-                            );
-
-                        products[index] =
-                            {
-                                ...products[index],
-                                ...updated,
-                                ...productData,
-                                id:
-                                    products[index].id
-                            };
-
-                    } catch {
-
-                        /*
-                         * Local fallback.
-                         */
-
-                        const index =
-                            products.findIndex(
-                                p =>
-                                    String(p.id) ===
-                                    String(editingProductId)
-                            );
-
-                        if (index >= 0) {
-
-                            products[index] = {
-                                ...products[index],
-                                ...productData
-                            };
-
-                        }
-
-                    }
-
-                } else {
-
-                    const newProduct = {
-
-                        id:
-                            "ND-" +
-                            Date.now()
-                                .toString(36)
-                                .toUpperCase(),
-
-                        ...productData
-
-                    };
-
-
-                    /*
-                     * Try backend.
-                     */
-
-                    try {
-
-                        const result =
-                            await api(
-                                "/api/products",
-                                {
-                                    method: "POST",
-                                    body:
-                                        JSON.stringify(
-                                            productData
-                                        )
-                                }
-                            );
-
-                        const created =
-                            result.product ||
-                            result.data ||
-                            result;
-
-                        products.unshift({
-
-                            ...newProduct,
-                            ...created
-
-                        });
-
-                    } catch {
-
-                        /*
-                         * Local fallback.
-                         */
-
-                        products.unshift(
-                            newProduct
-                        );
-
-                    }
-
-                }
-
-
-                saveLocalProducts();
-
-                renderProducts();
-                updateDashboard();
-
-                closeProductModal();
-
-                alert(
-                    editingProductId
-                        ? "Product updated successfully."
-                        : "Product added successfully."
-                );
-
-            } catch (error) {
-
-                alert(
-                    error.message ||
-                    "Could not save product."
-                );
-
-            }
-
-        }
-    );
-
-
-/* =====================================================
-   DELETE PRODUCT
-===================================================== */
-
-async function deleteProduct(id) {
-
-    const product =
-        products.find(
-            p => String(p.id) === String(id)
-        );
-
-    if (!product) {
-        return;
-    }
-
-    const confirmed =
-        confirm(
-            `Delete "${product.name}"?\n\nThis action cannot be undone.`
-        );
-
-    if (!confirmed) {
-        return;
-    }
-
-
-    try {
-
-        /*
-         * Try backend.
-         */
-
-        try {
-
-            await api(
-                `/api/products/${encodeURIComponent(id)}`,
-                {
-                    method: "DELETE"
-                }
-            );
-
-        } catch {
-            /*
-             * If backend endpoint doesn't exist,
-             * continue with local data.
-             */
-        }
-
-
-        products =
-            products.filter(
-                p =>
-                    String(p.id) !==
-                    String(id)
-            );
-
-        saveLocalProducts();
-
-        renderProducts();
-        updateDashboard();
-
-    } catch (error) {
-
-        alert(
-            error.message ||
-            "Could not delete product."
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   ORDERS
-===================================================== */
-
-async function loadOrders() {
-
-    try {
-
-        const result =
-            await api("/api/orders");
-
-        orders =
-            Array.isArray(result)
-                ? result
-                : (
-                    result.orders ||
-                    result.data ||
-                    []
-                );
-
-        localStorage.setItem(
-            "naijaDealsOrders",
-            JSON.stringify(orders)
-        );
-
-    } catch {
-
-        const saved =
-            localStorage.getItem(
-                "naijaDealsOrders"
-            );
-
-        if (saved) {
-
-            try {
-
-                orders =
-                    JSON.parse(saved);
-
-            } catch {
-
-                orders = [];
-
-            }
-
-        } else {
-
-            orders = [];
-
-        }
-
-    }
-
-    renderOrders();
-    updateDashboard();
-
-}
-
-
-/* =====================================================
-   RENDER ORDERS
-===================================================== */
-
-function renderOrders() {
-
-    const container =
-        document.getElementById(
-            "ordersList"
-        );
-
-    const search =
-        (
-            document.getElementById(
-                "orderSearch"
-            )?.value || ""
-        )
-        .toLowerCase()
-        .trim();
-
-    const filtered =
-        orders.filter(order => {
-
-            const text =
-                JSON.stringify(order)
-                    .toLowerCase();
-
-            return (
-                !search ||
-                text.includes(search)
-            );
-
-        });
-
-
-    if (!filtered.length) {
-
-        container.innerHTML = `
-            <div class="table-card">
-                <div class="empty-state">
-                    <div class="emoji">🛒</div>
-                    <h3>No orders yet</h3>
-                    <p>Customer orders will appear here.</p>
-                </div>
-            </div>
-        `;
-
-        return;
-    }
-
-
-    container.innerHTML =
-        filtered.map(order => {
-
-            const id =
-                order.id ||
-                order.orderId ||
-                "Order";
-
-            const customer =
-                order.customerName ||
-                order.name ||
-                order.customer?.name ||
-                "Customer";
-
-            const phone =
-                order.phone ||
-                order.customerPhone ||
-                order.customer?.phone ||
-                "";
-
-            const status =
-                order.status ||
-                "Pending";
-
-            const total =
-                order.total ||
-                order.amount ||
-                0;
-
-            const items =
-                order.items ||
-                order.products ||
-                [];
-
-
-            let itemsHtml = "";
-
-            if (Array.isArray(items) && items.length) {
-
-                itemsHtml =
-                    items.map(item => {
-
-                        const itemName =
-                            item.name ||
-                            item.productName ||
-                            "Product";
-
-                        const qty =
-                            item.quantity ||
-                            item.qty ||
-                            1;
-
-                        const price =
-                            item.price ||
-                            0;
-
-                        return `
-                            <div class="order-item">
-                                <span>
-                                    ${escapeHtml(
-                                        itemName
-                                    )}
-                                    × ${qty}
-                                </span>
-
-                                <strong>
-                                    ${formatNaira(price * qty)}
-                                </strong>
-                            </div>
-                        `;
-
-                    }).join("");
-
-            } else {
-
-                itemsHtml = `
-                    <div class="order-item">
-                        <span>Order submitted</span>
-                    </div>
-                `;
-
-            }
-
-
-            const date =
-                order.createdAt ||
-                order.date ||
-                order.created_at ||
-                "";
-
-
-            return `
-                <div class="order-card">
-
-                    <div class="order-header">
-
-                        <div>
-
-                            <div class="order-id">
-                                ${escapeHtml(
-                                    String(id)
-                                )}
-                            </div>
-
-                            <div class="order-meta">
-                                ${escapeHtml(customer)}
-                                ${phone
-                                    ? " • " +
-                                      escapeHtml(phone)
-                                    : ""}
-                            </div>
-
-                            ${
-                                date
-                                    ? `
-                                        <div class="order-meta">
-                                            ${escapeHtml(
-                                                formatDate(date)
-                                            )}
-                                        </div>
-                                      `
-                                    : ""
-                            }
-
-                        </div>
-
-                        <span class="badge ${
-                            String(status)
-                                .toLowerCase()
-                                .includes("paid")
-                                ? "badge-green"
-                                : "badge-orange"
-                        }">
-                            ${escapeHtml(
-                                String(status)
-                            )}
-                        </span>
-
-                    </div>
-
-
-                    <div class="order-items">
-
-                        ${itemsHtml}
-
-                    </div>
-
-
-                    <div
-                        style="
-                            display:flex;
-                            justify-content:space-between;
-                            gap:10px;
-                            align-items:center;
-                        "
-                    >
-
-                        <strong>Total</strong>
-
-                        <span class="order-total">
-                            ${formatNaira(total)}
-                        </span>
-
-                    </div>
-
-                </div>
-            `;
-
-        }).join("");
-
-}
-
-
-/* =====================================================
-   CUSTOMERS
-===================================================== */
-
-async function loadCustomers() {
-
-    try {
-
-        const result =
-            await api("/api/admin/customers");
-
-        customers =
-            Array.isArray(result)
-                ? result
-                : (
-                    result.customers ||
-                    result.users ||
-                    result.data ||
-                    []
-                );
-
-    } catch {
-
-        try {
-
-            const result =
-                await api("/api/customers");
-
-            customers =
-                Array.isArray(result)
-                    ? result
-                    : (
-                        result.customers ||
-                        result.users ||
-                        result.data ||
-                        []
-                    );
-
-        } catch {
-
-            customers = [];
-
-        }
-
-    }
-
-    renderCustomers();
-    updateDashboard();
-
-}
-
-
-/* =====================================================
-   RENDER CUSTOMERS
-===================================================== */
-
-function renderCustomers() {
-
-    const grid =
-        document.getElementById(
-            "customersGrid"
-        );
-
-    const search =
-        (
-            document.getElementById(
-                "customerSearch"
-            )?.value || ""
-        )
-        .toLowerCase()
-        .trim();
-
-
-    const filtered =
-        customers.filter(customer => {
-
-            const text =
-                JSON.stringify(customer)
-                    .toLowerCase();
-
-            return (
-                !search ||
-                text.includes(search)
-            );
-
-        });
-
-
-    if (!filtered.length) {
-
-        grid.innerHTML = `
-            <div
-                class="table-card"
-                style="grid-column:1/-1"
-            >
-                <div class="empty-state">
-                    <div class="emoji">👥</div>
-                    <h3>No customers found</h3>
-                    <p>Registered customers will appear here.</p>
-                </div>
-            </div>
-        `;
-
-        return;
-    }
-
-
-    grid.innerHTML =
-        filtered.map(customer => {
-
-            const name =
-                customer.name ||
-                customer.fullName ||
-                "Customer";
-
-            const email =
-                customer.email ||
-                "";
-
-            const phone =
-                customer.phone ||
-                "";
-
-            const firstLetter =
-                name
-                    .charAt(0)
-                    .toUpperCase();
-
-
-            return `
-                <div class="customer-card">
-
-                    <div class="avatar">
-                        ${escapeHtml(firstLetter)}
-                    </div>
-
-                    <div class="customer-name">
-                        ${escapeHtml(name)}
-                    </div>
-
-                    ${
-                        email
-                            ? `
-                                <div class="customer-info">
-                                    ✉️ ${escapeHtml(email)}
-                                </div>
-                              `
-                            : ""
-                    }
-
-                    ${
-                        phone
-                            ? `
-                                <div class="customer-info">
-                                    📱 ${escapeHtml(phone)}
-                                </div>
-                              `
-                            : ""
-                    }
-
-                    <div class="customer-info">
-                        Customer
-                    </div>
-
-                </div>
-            `;
-
-        }).join("");
-
-}
-
-
-/* =====================================================
-   SELLERS
-===================================================== */
-
-async function loadSellers() {
-
-    try {
-
-        const result =
-            await api("/api/admin/sellers");
-
-        sellers =
-            Array.isArray(result)
-                ? result
-                : (
-                    result.sellers ||
-                    result.data ||
-                    []
-                );
-
-    } catch {
-
-        try {
-
-            const result =
-                await api("/api/sellers");
-
-            sellers =
-                Array.isArray(result)
-                    ? result
-                    : (
-                        result.sellers ||
-                        result.data ||
-                        []
-                    );
-
-        } catch {
-
-            sellers = [];
-
-        }
-
-    }
-
-    renderSellers();
-    updateDashboard();
-
-}
-
-
-/* =====================================================
-   RENDER SELLERS
-===================================================== */
-
-function renderSellers() {
-
-    const grid =
-        document.getElementById(
-            "sellersGrid"
-        );
-
-    const search =
-        (
-            document.getElementById(
-                "sellerSearch"
-            )?.value || ""
-        )
-        .toLowerCase()
-        .trim();
-
-
-    const filtered =
-        sellers.filter(seller => {
-
-            const text =
-                JSON.stringify(seller)
-                    .toLowerCase();
-
-            return (
-                !search ||
-                text.includes(search)
-            );
-
-        });
-
-
-    if (!filtered.length) {
-
-        grid.innerHTML = `
-            <div
-                class="table-card"
-                style="grid-column:1/-1"
-            >
-                <div class="empty-state">
-                    <div class="emoji">🏪</div>
-                    <h3>No sellers found</h3>
-                    <p>Seller accounts will appear here.</p>
-                </div>
-            </div>
-        `;
-
-        return;
-    }
-
-
-    grid.innerHTML =
-        filtered.map(seller => {
-
-            const name =
-                seller.name ||
-                seller.businessName ||
-                seller.storeName ||
-                "Seller";
-
-            const email =
-                seller.email ||
-                "";
-
-            const phone =
-                seller.phone ||
-                "";
-
-            const firstLetter =
-                name
-                    .charAt(0)
-                    .toUpperCase();
-
-
-            return `
-                <div class="customer-card">
-
-                    <div class="avatar">
-                        ${escapeHtml(firstLetter)}
-                    </div>
-
-                    <div class="customer-name">
-                        ${escapeHtml(name)}
-                    </div>
-
-                    ${
-                        email
-                            ? `
-                                <div class="customer-info">
-                                    ✉️ ${escapeHtml(email)}
-                                </div>
-                              `
-                            : ""
-                    }
-
-                    ${
-                        phone
-                            ? `
-                                <div class="customer-info">
-                                    📱 ${escapeHtml(phone)}
-                                </div>
-                              `
-                            : ""
-                    }
-
-                    <div class="customer-info">
-                        Seller
-                    </div>
-
-                </div>
-            `;
-
-        }).join("");
-
-}
-
-
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
-function updateDashboard() {
-
-    document.getElementById(
-        "statProducts"
-    ).textContent =
-        products.length;
-
-    document.getElementById(
-        "statOrders"
-    ).textContent =
-        orders.length;
-
-    document.getElementById(
-        "statCustomers"
-    ).textContent =
-        customers.length;
-
-    document.getElementById(
-        "statSellers"
-    ).textContent =
-        sellers.length;
-
-
-    const body =
-        document.getElementById(
-            "recentProductsBody"
-        );
-
-    const recent =
-        products.slice(0, 8);
-
-
-    if (!recent.length) {
-
-        body.innerHTML = `
-            <tr>
-                <td colspan="4">
-                    <div class="empty-state">
-                        <div class="emoji">📦</div>
-                        <p>No products available.</p>
-                    </div>
-                </td>
-            </tr>
-        `;
-
-        return;
-    }
-
-
-    body.innerHTML =
-        recent.map(product => {
-
-            return `
-                <tr>
-
-                    <td>
-                        <strong>
-                            ${escapeHtml(
-                                product.name ||
-                                "Product"
-                            )}
-                        </strong>
-                    </td>
-
-                    <td>
-                        ${escapeHtml(
-                            product.category ||
-                            "-"
-                        )}
-                    </td>
-
-                    <td>
-                        <span class="price">
-                            ${formatNaira(
-                                product.price || 0
-                            )}
-                        </span>
-                    </td>
-
-                    <td>
-                        ${Number(
-                            product.stock || 0
-                        )}
-                    </td>
-
-                </tr>
-            `;
-
-        }).join("");
-
-
-    document.getElementById(
-        "dashboardNotice"
-    ).textContent =
-        `You currently have ${products.length} product(s), ${orders.length} order(s), ${customers.length} customer(s), and ${sellers.length} seller(s).`;
-
-}
-
-
-/* =====================================================
-   REFRESH EVERYTHING
-===================================================== */
-
-async function refreshEverything() {
-
-    await Promise.allSettled([
-        loadProducts(),
-        loadOrders(),
-        loadCustomers(),
-        loadSellers()
-    ]);
-
-}
-
-
-/* =====================================================
-   FORMAT NAIRA
-===================================================== */
-
-function formatNaira(value) {
-
-    const number =
-        Number(value) || 0;
-
-    return (
-        "₦" +
-        number.toLocaleString(
-            "en-NG"
-        )
-    );
-
-}
-
-
-/* =====================================================
-   FORMAT DATE
-===================================================== */
-
-function formatDate(value) {
-
-    try {
-
-        return new Date(value)
-            .toLocaleString(
-                "en-NG",
-                {
-                    dateStyle: "medium",
-                    timeStyle: "short"
-                }
-            );
-
-    } catch {
-
-        return String(value);
-
-    }
-
-}
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHtml(value) {
-
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-
-}
-
-
-/* =====================================================
-   ESCAPE ATTRIBUTE
-===================================================== */
-
-function escapeAttribute(value) {
-
-    return String(value ?? "")
-        .replace(/\\/g, "\\\\")
-        .replace(/'/g, "\\'");
-
-}
-
-
-/* =====================================================
-   CLOSE MODAL WHEN CLICKING OUTSIDE
-===================================================== */
-
-document
-    .getElementById("productModal")
-    .addEventListener(
-        "click",
-        function(event) {
-
-            if (
-                event.target === this
-            ) {
-
-                closeProductModal();
-
-            }
-
-        }
-    );
-
-
-/* =====================================================
-   START
-===================================================== */
-
-checkLogin();
-
-</script>
+<script src="/admin.js"></script>
 
 </body>
+
 </html>

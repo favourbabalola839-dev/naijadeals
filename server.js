@@ -27,6 +27,10 @@ const USERS_FILE = path.join(DATA_DIR, "users.json");
 const PRODUCTS_FILE = path.join(DATA_DIR, "products.json");
 const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
 const SESSIONS_FILE = path.join(DATA_DIR, "sessions.json");
+const INSPECTION_FILE = path.join(
+    DATA_DIR,
+    "inspection-requests.json"
+);
 
 if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
@@ -42,6 +46,7 @@ ensureFile(USERS_FILE, []);
 ensureFile(PRODUCTS_FILE, []);
 ensureFile(ORDERS_FILE, []);
 ensureFile(SESSIONS_FILE, []);
+ensureFile(INSPECTION_FILE, []);
 
 function readJSON(file) {
     try {
@@ -1927,7 +1932,368 @@ app.get(
         });
     }
 );
+/* =========================================================
+   INSPECTION REQUESTS
+========================================================= */
 
+/*
+   CUSTOMER:
+   Submit an inspection request for a car or property.
+*/
+
+app.post(
+    "/api/inspection-requests",
+    (req, res) => {
+
+        try {
+
+            const {
+                name,
+                phone,
+                email,
+                date,
+                time,
+                message,
+                productId,
+                productName,
+                category,
+                location
+            } = req.body;
+
+
+            if (
+                !name ||
+                !phone ||
+                !date ||
+                !time
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Name, phone number, inspection date and time are required."
+
+                });
+
+            }
+
+
+            const requests =
+                readJSON(INSPECTION_FILE);
+
+
+            const request = {
+
+                id:
+                    makeId("inspection"),
+
+                name:
+                    cleanText(
+                        name,
+                        150
+                    ),
+
+                phone:
+                    cleanText(
+                        phone,
+                        50
+                    ),
+
+                email:
+                    cleanText(
+                        email,
+                        200
+                    ),
+
+                date:
+                    cleanText(
+                        date,
+                        30
+                    ),
+
+                time:
+                    cleanText(
+                        time,
+                        30
+                    ),
+
+                message:
+                    cleanText(
+                        message,
+                        2000
+                    ),
+
+                productId:
+                    cleanText(
+                        productId,
+                        150
+                    ),
+
+                productName:
+                    cleanText(
+                        productName,
+                        200
+                    ),
+
+                category:
+                    cleanText(
+                        category,
+                        100
+                    ),
+
+                location:
+                    cleanText(
+                        location,
+                        300
+                    ),
+
+                status:
+                    "pending",
+
+                createdAt:
+                    new Date().toISOString(),
+
+                updatedAt:
+                    new Date().toISOString()
+
+            };
+
+
+            requests.unshift(request);
+
+
+            writeJSON(
+                INSPECTION_FILE,
+                requests
+            );
+
+
+            res.status(201).json({
+
+                success: true,
+
+                message:
+                    "Inspection request submitted successfully.",
+
+                request
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Inspection request error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Could not save inspection request."
+
+            });
+
+        }
+
+    }
+);
+
+
+/*
+   ADMIN:
+   Get all inspection requests.
+*/
+
+app.get(
+    "/api/admin/inspection-requests",
+    requireAdmin,
+    (req, res) => {
+
+        try {
+
+            const requests =
+                readJSON(
+                    INSPECTION_FILE
+                );
+
+
+            requests.sort(
+                (a, b) =>
+                    new Date(b.createdAt) -
+                    new Date(a.createdAt)
+            );
+
+
+            res.json({
+
+                success: true,
+
+                count:
+                    requests.length,
+
+                requests
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Inspection loading error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Could not load inspection requests."
+
+            });
+
+        }
+
+    }
+);
+
+
+/*
+   ADMIN:
+   Update inspection status.
+*/
+
+app.put(
+    "/api/admin/inspection-requests/:id",
+    requireAdmin,
+    (req, res) => {
+
+        try {
+
+            const requests =
+                readJSON(
+                    INSPECTION_FILE
+                );
+
+
+            const index =
+                requests.findIndex(
+                    item =>
+                        item.id ===
+                        req.params.id
+                );
+
+
+            if (index === -1) {
+
+                return res.status(404).json({
+
+                    success: false,
+
+                    message:
+                        "Inspection request not found."
+
+                });
+
+            }
+
+
+            const allowedStatuses = [
+
+                "pending",
+
+                "confirmed",
+
+                "completed",
+
+                "cancelled"
+
+            ];
+
+
+            const status =
+                cleanText(
+                    req.body.status,
+                    30
+                ).toLowerCase();
+
+
+            if (
+                !allowedStatuses.includes(
+                    status
+                )
+            ) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "Invalid inspection status."
+
+                });
+
+            }
+
+
+            requests[index].status =
+                status;
+
+
+            requests[index].updatedAt =
+                new Date().toISOString();
+
+
+            writeJSON(
+                INSPECTION_FILE,
+                requests
+            );
+
+
+            res.json({
+
+                success: true,
+
+                message:
+                    "Inspection request updated.",
+
+                request:
+                    requests[index]
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Inspection update error:",
+                error
+            );
+
+
+            res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Could not update inspection request."
+
+            });
+
+        }
+
+    }
+);
 /* =========================================================
    HEALTH CHECK
 ========================================================= */
