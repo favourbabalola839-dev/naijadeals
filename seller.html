@@ -1,0 +1,2445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>NaijaDeals Seller Dashboard</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --green: #008753;
+    --green-dark: #006b42;
+    --orange: #ff7a00;
+    --red: #dc3545;
+    --dark: #17201c;
+    --gray: #66716c;
+    --light: #f5f7f6;
+    --white: #fff;
+    --border: #dfe6e2;
+    --shadow: 0 8px 30px rgba(0,0,0,.08);
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--light);
+    color: var(--dark);
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+header {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-inner {
+    max-width: 1400px;
+    margin: auto;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+    color: var(--green);
+}
+
+.logo span {
+    color: var(--orange);
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.header-btn {
+    border: 1px solid var(--border);
+    background: white;
+    padding: 10px 14px;
+    border-radius: 9px;
+    font-weight: bold;
+}
+
+.header-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.logout-btn {
+    color: var(--red);
+}
+
+.page {
+    max-width: 1400px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.welcome {
+    background:
+        radial-gradient(
+            circle at right,
+            rgba(255,122,0,.25),
+            transparent 35%
+        ),
+        linear-gradient(
+            135deg,
+            #006b42,
+            #009c61
+        );
+    color: white;
+    border-radius: 22px;
+    padding: 35px;
+    margin-bottom: 25px;
+}
+
+.welcome h1 {
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+.welcome p {
+    opacity: .9;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.stat {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.stat-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 900;
+}
+
+.stat-label {
+    color: var(--gray);
+    margin-top: 4px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    gap: 25px;
+    align-items: start;
+}
+
+.card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: var(--shadow);
+}
+
+.card h2 {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    outline: none;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--green);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.section-divider {
+    border-top: 1px solid var(--border);
+    margin: 22px 0;
+    padding-top: 20px;
+}
+
+.section-divider h3 {
+    margin-bottom: 15px;
+}
+
+.special-fields {
+    display: none;
+    background: #f3f8f5;
+    border: 1px solid #d8ebe1;
+    border-radius: 13px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.special-fields.active {
+    display: block;
+}
+
+.special-title {
+    color: var(--green);
+    font-weight: 900;
+    margin-bottom: 14px;
+}
+
+.submit-btn {
+    width: 100%;
+    border: none;
+    background: var(--green);
+    color: white;
+    padding: 14px;
+    border-radius: 10px;
+    font-weight: 900;
+    font-size: 15px;
+}
+
+.submit-btn:hover {
+    background: var(--green-dark);
+}
+
+.secondary-btn {
+    border: 1px solid var(--border);
+    background: white;
+    padding: 11px 14px;
+    border-radius: 9px;
+    font-weight: bold;
+}
+
+.secondary-btn:hover {
+    border-color: var(--green);
+    color: var(--green);
+}
+
+.products-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.products-list {
+    display: grid;
+    gap: 12px;
+}
+
+.seller-product {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 15px;
+    align-items: center;
+}
+
+.seller-product-image {
+    width: 90px;
+    height: 90px;
+    border-radius: 11px;
+    background: #edf2ef;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    font-size: 35px;
+}
+
+.seller-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-info h3 {
+    margin-bottom: 5px;
+}
+
+.product-category {
+    color: var(--green);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.product-price {
+    font-size: 19px;
+    font-weight: 900;
+    margin-top: 7px;
+}
+
+.product-location {
+    color: var(--gray);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.product-actions {
+    display: flex;
+    gap: 6px;
+    flex-direction: column;
+}
+
+.edit-btn {
+    border: 1px solid var(--green);
+    color: var(--green);
+    background: white;
+    padding: 8px 12px;
+    border-radius: 7px;
+}
+
+.delete-btn {
+    border: 1px solid #ffd0d5;
+    color: var(--red);
+    background: #fff5f6;
+    padding: 8px 12px;
+    border-radius: 7px;
+}
+
+.orders {
+    margin-top: 25px;
+}
+
+.order-card {
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.status {
+    padding: 5px 9px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    background: #eef4f0;
+    color: var(--green);
+}
+
+.empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--gray);
+    border: 1px dashed var(--border);
+    border-radius: 13px;
+}
+
+.toast {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    background: #17201c;
+    color: white;
+    padding: 13px 18px;
+    border-radius: 9px;
+    z-index: 5000;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: .3s;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 3000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.overlay.active {
+    display: flex;
+}
+
+.modal {
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: white;
+    border-radius: 18px;
+    padding: 25px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 50%;
+    background: #f1f3f2;
+    font-size: 20px;
+}
+
+@media (max-width: 1000px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media (max-width: 650px) {
+    .header-inner {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .header-btn {
+        flex: 1;
+    }
+
+    .welcome {
+        padding: 25px;
+    }
+
+    .welcome h1 {
+        font-size: 28px;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .page {
+        padding: 20px 12px;
+    }
+
+    .seller-product {
+        grid-template-columns: 65px 1fr;
+    }
+
+    .seller-product-image {
+        width: 65px;
+        height: 65px;
+    }
+
+    .product-actions {
+        grid-column: 1/-1;
+        flex-direction: row;
+    }
+
+    .product-actions button {
+        flex: 1;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-inner">
+
+        <a
+            href="/"
+            class="logo"
+        >
+            Naija<span>Deals</span>
+        </a>
+
+        <div class="header-actions">
+
+            <button
+                class="header-btn"
+                onclick="window.location.href='/'"
+            >
+                🏠 Marketplace
+            </button>
+
+            <button
+                class="header-btn"
+                onclick="window.location.href='/admin.html'"
+            >
+                ⚙️ Admin
+            </button>
+
+            <button
+                class="header-btn logout-btn"
+                onclick="logout()"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main class="page">
+
+    <section class="welcome">
+
+        <h1>
+            Seller Dashboard
+        </h1>
+
+        <p id="welcomeText">
+            Manage your NaijaDeals listings and orders.
+        </p>
+
+    </section>
+
+
+    <section class="dashboard-grid">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📦
+            </div>
+
+            <div
+                class="stat-number"
+                id="totalProducts"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                My Products
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🛒
+            </div>
+
+            <div
+                class="stat-number"
+                id="totalOrders"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Orders
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🚙
+            </div>
+
+            <div
+                class="stat-number"
+                id="carListings"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Cars
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                🏠
+            </div>
+
+            <div
+                class="stat-number"
+                id="propertyListings"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Properties
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="content-grid">
+
+
+        <!-- CREATE PRODUCT -->
+
+        <section class="card">
+
+            <h2>
+                Add New Listing
+            </h2>
+
+            <form id="productForm">
+
+                <div class="form-group">
+
+                    <label>
+                        Listing Category
+                    </label>
+
+                    <select
+                        id="category"
+                        required
+                    >
+
+                        <option value="">
+                            Select category
+                        </option>
+
+                        <option value="Phones">
+                            📱 Phones
+                        </option>
+
+                        <option value="Electronics">
+                            💻 Electronics
+                        </option>
+
+                        <option value="Power">
+                            ⚡ Power & Electricity
+                        </option>
+
+                        <option value="Fashion">
+                            👗 Fashion
+                        </option>
+
+                        <option value="Beauty">
+                            💄 Beauty
+                        </option>
+
+                        <option value="Food">
+                            🍚 Food & Groceries
+                        </option>
+
+                        <option value="Home">
+                            🏠 Home & Kitchen
+                        </option>
+
+                        <option value="Baby & Kids">
+                            👶 Baby & Kids
+                        </option>
+
+                        <option value="Auto">
+                            🔧 Auto
+                        </option>
+
+                        <option value="Tools">
+                            🧰 Tools
+                        </option>
+
+                        <option value="Sports">
+                            ⚽ Sports & Fitness
+                        </option>
+
+                        <option value="School & Office">
+                            📚 School & Office
+                        </option>
+
+                        <option value="Gifts">
+                            🎁 Gifts
+                        </option>
+
+                        <option value="Cars">
+                            🚙 Cars
+                        </option>
+
+                        <option value="Houses & Property">
+                            🏠 Houses & Property
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Listing Name / Title
+                    </label>
+
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="e.g. Toyota Camry 2022"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Price (₦)
+                    </label>
+
+                    <input
+                        id="price"
+                        type="number"
+                        min="0"
+                        placeholder="e.g. 32500000"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Stock / Quantity
+                    </label>
+
+                    <input
+                        id="stock"
+                        type="number"
+                        min="1"
+                        value="1"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- CAR FIELDS -->
+
+                <div
+                    class="special-fields"
+                    id="carFields"
+                >
+
+                    <div class="special-title">
+                        🚙 Vehicle Information
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Make
+                        </label>
+
+                        <input
+                            id="make"
+                            type="text"
+                            placeholder="Toyota"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Model
+                        </label>
+
+                        <input
+                            id="model"
+                            type="text"
+                            placeholder="Camry"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Year
+                        </label>
+
+                        <input
+                            id="year"
+                            type="number"
+                            placeholder="2022"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Mileage
+                        </label>
+
+                        <input
+                            id="mileage"
+                            type="text"
+                            placeholder="45,000 km"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Transmission
+                        </label>
+
+                        <select id="transmission">
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option value="Automatic">
+                                Automatic
+                            </option>
+
+                            <option value="Manual">
+                                Manual
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Fuel Type
+                        </label>
+
+                        <select id="fuelType">
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option value="Petrol">
+                                Petrol
+                            </option>
+
+                            <option value="Diesel">
+                                Diesel
+                            </option>
+
+                            <option value="Hybrid">
+                                Hybrid
+                            </option>
+
+                            <option value="Electric">
+                                Electric
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Condition
+                        </label>
+
+                        <select id="condition">
+
+                            <option value="">
+                                Select
+                            </option>
+
+                            <option value="Brand New">
+                                Brand New
+                            </option>
+
+                            <option value="Foreign Used">
+                                Foreign Used
+                            </option>
+
+                            <option value="Nigerian Used">
+                                Nigerian Used
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PROPERTY FIELDS -->
+
+                <div
+                    class="special-fields"
+                    id="propertyFields"
+                >
+
+                    <div class="special-title">
+                        🏠 Property Information
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Property Type
+                        </label>
+
+                        <select id="propertyType">
+
+                            <option value="">
+                                Select property type
+                            </option>
+
+                            <option value="House">
+                                House
+                            </option>
+
+                            <option value="Duplex">
+                                Duplex
+                            </option>
+
+                            <option value="Flat">
+                                Flat
+                            </option>
+
+                            <option value="Apartment">
+                                Apartment
+                            </option>
+
+                            <option value="Bungalow">
+                                Bungalow
+                            </option>
+
+                            <option value="Land">
+                                Land
+                            </option>
+
+                            <option value="Shop">
+                                Shop
+                            </option>
+
+                            <option value="Office">
+                                Office
+                            </option>
+
+                            <option value="Warehouse">
+                                Warehouse
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Bedrooms
+                        </label>
+
+                        <input
+                            id="bedrooms"
+                            type="number"
+                            min="0"
+                            placeholder="4"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Bathrooms
+                        </label>
+
+                        <input
+                            id="bathrooms"
+                            type="number"
+                            min="0"
+                            placeholder="5"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Parking Spaces
+                        </label>
+
+                        <input
+                            id="parking"
+                            type="number"
+                            min="0"
+                            placeholder="3"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            Property Size
+                        </label>
+
+                        <input
+                            id="size"
+                            type="text"
+                            placeholder="650 sqm"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="form-group">
+
+                    <label>
+                        📍 Location
+                    </label>
+
+                    <input
+                        id="location"
+                        type="text"
+                        placeholder="e.g. Lekki Phase 1, Lagos"
+                    >
+
+                    <small
+                        style="
+                            display:block;
+                            color:#66716c;
+                            margin-top:6px;
+                            line-height:1.5;
+                        "
+                    >
+                        For cars and properties, enter the
+                        actual listing location. A Google Maps
+                        search link will be generated automatically.
+                    </small>
+
+                </div>
+
+
+                <!-- IMAGE -->
+
+                <div class="form-group">
+
+                    <label>
+                        📸 Main Image URL
+                    </label>
+
+                    <input
+                        id="image"
+                        type="url"
+                        placeholder="https://example.com/image.jpg"
+                    >
+
+                    <small
+                        style="
+                            display:block;
+                            color:#66716c;
+                            margin-top:6px;
+                        "
+                    >
+                        Use a direct image URL. For real listings,
+                        use a photo of the actual item, car or property.
+                    </small>
+
+                </div>
+
+
+                <!-- EXTRA IMAGES -->
+
+                <div class="form-group">
+
+                    <label>
+                        📸 Additional Image URLs
+                    </label>
+
+                    <textarea
+                        id="images"
+                        placeholder="Put one image URL on each line"
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Describe your product..."
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    🚀 Publish Listing
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- MY PRODUCTS -->
+
+        <section class="card">
+
+            <div class="products-header">
+
+                <div>
+
+                    <h2>
+                        My Listings
+                    </h2>
+
+                    <p
+                        style="
+                            color:#66716c;
+                            font-size:13px;
+                        "
+                    >
+                        Products you have published.
+                    </p>
+
+                </div>
+
+                <button
+                    class="secondary-btn"
+                    onclick="loadSellerData()"
+                >
+                    🔄 Refresh
+                </button>
+
+            </div>
+
+
+            <div
+                class="products-list"
+                id="productsList"
+            >
+
+                <div class="empty">
+                    Loading listings...
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+
+    <!-- ORDERS -->
+
+    <section
+        class="card orders"
+    >
+
+        <div class="products-header">
+
+            <div>
+
+                <h2>
+                    Customer Orders
+                </h2>
+
+                <p
+                    style="
+                        color:#66716c;
+                        font-size:13px;
+                    "
+                >
+                    Orders containing your products.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div id="ordersList">
+
+            <div class="empty">
+                Loading orders...
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- EDIT MODAL -->
+
+<div
+    class="overlay"
+    id="editOverlay"
+>
+
+    <div class="modal">
+
+        <button
+            class="close"
+            onclick="closeEdit()"
+        >
+            ×
+        </button>
+
+        <h2>
+            Edit Listing
+        </h2>
+
+        <form id="editForm">
+
+            <input
+                type="hidden"
+                id="editId"
+            >
+
+            <div class="form-group">
+
+                <label>
+                    Product Name
+                </label>
+
+                <input
+                    id="editName"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Price
+                </label>
+
+                <input
+                    id="editPrice"
+                    type="number"
+                    min="0"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Stock
+                </label>
+
+                <input
+                    id="editStock"
+                    type="number"
+                    min="0"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Location
+                </label>
+
+                <input
+                    id="editLocation"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Main Image URL
+                </label>
+
+                <input
+                    id="editImage"
+                    type="url"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Description
+                </label>
+
+                <textarea
+                    id="editDescription"
+                ></textarea>
+
+            </div>
+
+
+            <button
+                class="submit-btn"
+                type="submit"
+            >
+                Save Changes
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
+
+<script>
+
+/* =========================================================
+   STATE
+========================================================= */
+
+const token =
+    localStorage.getItem("naijaDealsToken") || "";
+
+let sellerProducts = [];
+
+let sellerOrders = [];
+
+
+/* =========================================================
+   API
+========================================================= */
+
+async function api(url, options = {}) {
+
+    const headers = {
+        "Content-Type": "application/json",
+        ...(options.headers || {})
+    };
+
+    if (token) {
+
+        headers.Authorization =
+            "Bearer " + token;
+    }
+
+    const response =
+        await fetch(url, {
+            ...options,
+            headers
+        });
+
+    let data;
+
+    try {
+
+        data =
+            await response.json();
+
+    } catch {
+
+        data = {
+            success: false,
+            message: "Invalid server response"
+        };
+
+    }
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.message ||
+            "Request failed"
+        );
+    }
+
+    return data;
+}
+
+
+/* =========================================================
+   AUTH CHECK
+========================================================= */
+
+async function checkLogin() {
+
+    if (!token) {
+
+        window.location.href =
+            "/";
+
+        return false;
+    }
+
+    try {
+
+        const data =
+            await api("/api/me");
+
+        if (!data.success) {
+
+            localStorage.removeItem(
+                "naijaDealsToken"
+            );
+
+            window.location.href =
+                "/";
+
+            return false;
+        }
+
+        if (
+            data.user.role !== "seller" &&
+            data.user.role !== "admin"
+        ) {
+
+            showToast(
+                "You need a seller account."
+            );
+
+            setTimeout(() => {
+
+                window.location.href = "/";
+
+            }, 1500);
+
+            return false;
+        }
+
+        document.getElementById(
+            "welcomeText"
+        ).textContent =
+            `Welcome, ${data.user.name}. Manage your NaijaDeals listings and orders here.`;
+
+        return true;
+
+    } catch (error) {
+
+        console.error(error);
+
+        localStorage.removeItem(
+            "naijaDealsToken"
+        );
+
+        window.location.href =
+            "/";
+
+        return false;
+    }
+}
+
+
+/* =========================================================
+   LOAD SELLER DATA
+========================================================= */
+
+async function loadSellerData() {
+
+    try {
+
+        const data =
+            await api(
+                "/api/seller/dashboard"
+            );
+
+        if (
+            data.products &&
+            Array.isArray(data.products)
+        ) {
+
+            sellerProducts =
+                data.products;
+
+        } else {
+
+            const productsData =
+                await api(
+                    "/api/seller/products"
+                );
+
+            sellerProducts =
+                productsData.products || [];
+
+        }
+
+        if (
+            data.orders &&
+            Array.isArray(data.orders)
+        ) {
+
+            sellerOrders =
+                data.orders;
+
+        } else {
+
+            const ordersData =
+                await api(
+                    "/api/seller/orders"
+                );
+
+            sellerOrders =
+                ordersData.orders || [];
+
+        }
+
+        renderStats();
+
+        renderProducts();
+
+        renderOrders();
+
+    } catch (error) {
+
+        console.error(error);
+
+        /*
+           Fallback to individual endpoints.
+        */
+
+        try {
+
+            const productsData =
+                await api(
+                    "/api/seller/products"
+                );
+
+            sellerProducts =
+                productsData.products || [];
+
+        } catch {
+
+            sellerProducts = [];
+        }
+
+        try {
+
+            const ordersData =
+                await api(
+                    "/api/seller/orders"
+                );
+
+            sellerOrders =
+                ordersData.orders || [];
+
+        } catch {
+
+            sellerOrders = [];
+        }
+
+        renderStats();
+
+        renderProducts();
+
+        renderOrders();
+    }
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function renderStats() {
+
+    document.getElementById(
+        "totalProducts"
+    ).textContent =
+        sellerProducts.length;
+
+    document.getElementById(
+        "totalOrders"
+    ).textContent =
+        sellerOrders.length;
+
+    document.getElementById(
+        "carListings"
+    ).textContent =
+        sellerProducts.filter(
+            p => p.category === "Cars"
+        ).length;
+
+    document.getElementById(
+        "propertyListings"
+    ).textContent =
+        sellerProducts.filter(
+            p => p.category === "Houses & Property"
+        ).length;
+}
+
+
+/* =========================================================
+   RENDER PRODUCTS
+========================================================= */
+
+function renderProducts() {
+
+    const container =
+        document.getElementById(
+            "productsList"
+        );
+
+    if (!sellerProducts.length) {
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <div style="font-size:45px;">
+                    📦
+                </div>
+
+                <h3 style="margin-top:10px;">
+                    You have no listings yet.
+                </h3>
+
+                <p style="margin-top:6px;">
+                    Add your first product, car or property.
+                </p>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        sellerProducts
+            .map(renderProduct)
+            .join("");
+}
+
+
+function renderProduct(product) {
+
+    const image =
+        product.image ||
+        (
+            Array.isArray(product.images)
+                ? product.images[0]
+                : ""
+        );
+
+    const imageHTML =
+        image
+            ? `
+                <img
+                    src="${escapeAttribute(image)}"
+                    alt=""
+                    onerror="this.style.display='none'"
+                >
+              `
+            : (
+                product.category === "Cars"
+                    ? "🚙"
+                    : product.category === "Houses & Property"
+                        ? "🏠"
+                        : "🛍️"
+            );
+
+    return `
+        <div class="seller-product">
+
+            <div class="seller-product-image">
+                ${imageHTML}
+            </div>
+
+            <div class="product-info">
+
+                <div class="product-category">
+                    ${escapeHTML(
+                        product.category || "Product"
+                    )}
+                </div>
+
+                <h3>
+                    ${escapeHTML(
+                        product.name || "Unnamed listing"
+                    )}
+                </h3>
+
+                <div class="product-price">
+                    ${formatMoney(product.price)}
+                </div>
+
+                ${
+                    product.location
+                        ? `
+                            <div class="product-location">
+                                📍
+                                ${escapeHTML(
+                                    product.location
+                                )}
+                            </div>
+                          `
+                        : ""
+                }
+
+                <div
+                    style="
+                        margin-top:6px;
+                        color:#66716c;
+                        font-size:12px;
+                    "
+                >
+                    Stock:
+                    ${Number(product.stock || 0)}
+                </div>
+
+            </div>
+
+            <div class="product-actions">
+
+                <button
+                    class="edit-btn"
+                    onclick="openEdit('${escapeAttribute(product.id)}')"
+                >
+                    Edit
+                </button>
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteProduct('${escapeAttribute(product.id)}')"
+                >
+                    Delete
+                </button>
+
+            </div>
+
+        </div>
+    `;
+}
+
+
+/* =========================================================
+   RENDER ORDERS
+========================================================= */
+
+function renderOrders() {
+
+    const container =
+        document.getElementById(
+            "ordersList"
+        );
+
+    if (!sellerOrders.length) {
+
+        container.innerHTML = `
+            <div class="empty">
+                No customer orders yet.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML =
+        sellerOrders
+            .map(order => {
+
+                const items =
+                    Array.isArray(order.items)
+                        ? order.items
+                        : [];
+
+                return `
+                    <div class="order-card">
+
+                        <div class="order-header">
+
+                            <strong>
+                                Order
+                                ${escapeHTML(
+                                    String(order.id || "")
+                                )}
+                            </strong>
+
+                            <span class="status">
+                                ${escapeHTML(
+                                    order.status ||
+                                    "Pending"
+                                )}
+                            </span>
+
+                        </div>
+
+                        <div
+                            style="
+                                margin-top:8px;
+                                color:#66716c;
+                                font-size:13px;
+                            "
+                        >
+                            Customer:
+                            ${escapeHTML(
+                                order.customerName ||
+                                order.userName ||
+                                "Customer"
+                            )}
+                        </div>
+
+                        <div
+                            style="
+                                margin-top:5px;
+                                font-size:13px;
+                            "
+                        >
+                            ${
+                                items
+                                    .map(
+                                        item =>
+                                            `${escapeHTML(
+                                                item.name || "Product"
+                                            )} × ${
+                                                item.quantity || 1
+                                            }`
+                                    )
+                                    .join(", ")
+                            }
+                        </div>
+
+                        <div
+                            style="
+                                margin-top:8px;
+                                font-weight:900;
+                            "
+                        >
+                            ${formatMoney(
+                                order.total || 0
+                            )}
+                        </div>
+
+                    </div>
+                `;
+
+            })
+            .join("");
+}
+
+
+/* =========================================================
+   CATEGORY CHANGE
+========================================================= */
+
+document.getElementById(
+    "category"
+).addEventListener(
+    "change",
+    updateSpecialFields
+);
+
+
+function updateSpecialFields() {
+
+    const category =
+        document.getElementById(
+            "category"
+        ).value;
+
+    const carFields =
+        document.getElementById(
+            "carFields"
+        );
+
+    const propertyFields =
+        document.getElementById(
+            "propertyFields"
+        );
+
+    carFields.classList.remove("active");
+
+    propertyFields.classList.remove("active");
+
+    if (category === "Cars") {
+
+        carFields.classList.add("active");
+
+    }
+
+    if (
+        category ===
+        "Houses & Property"
+    ) {
+
+        propertyFields.classList.add("active");
+
+    }
+}
+
+
+/* =========================================================
+   CREATE PRODUCT
+========================================================= */
+
+document.getElementById(
+    "productForm"
+).addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const category =
+            value("category");
+
+        const name =
+            value("name");
+
+        const price =
+            Number(value("price"));
+
+        const stock =
+            Number(value("stock"));
+
+        if (
+            !category ||
+            !name ||
+            !price
+        ) {
+
+            showToast(
+                "Please fill the required fields."
+            );
+
+            return;
+        }
+
+        const mainImage =
+            value("image");
+
+        const additionalImages =
+            document.getElementById(
+                "images"
+            ).value
+            .split("\n")
+            .map(item => item.trim())
+            .filter(Boolean);
+
+        const images = [
+            ...(mainImage ? [mainImage] : []),
+            ...additionalImages
+        ];
+
+        const payload = {
+
+            name,
+
+            category,
+
+            price,
+
+            stock,
+
+            description:
+                value("description"),
+
+            image:
+                mainImage,
+
+            images,
+
+            location:
+                value("location"),
+
+            /* Car */
+
+            make:
+                value("make"),
+
+            model:
+                value("model"),
+
+            year:
+                value("year"),
+
+            mileage:
+                value("mileage"),
+
+            transmission:
+                value("transmission"),
+
+            fuelType:
+                value("fuelType"),
+
+            condition:
+                value("condition"),
+
+            /* Property */
+
+            propertyType:
+                value("propertyType"),
+
+            bedrooms:
+                value("bedrooms"),
+
+            bathrooms:
+                value("bathrooms"),
+
+            parking:
+                value("parking"),
+
+            size:
+                value("size")
+
+        };
+
+
+        try {
+
+            const data =
+                await api(
+                    "/api/seller/products",
+                    {
+                        method: "POST",
+
+                        body:
+                            JSON.stringify(payload)
+                    }
+                );
+
+            if (!data.success) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to publish listing"
+                );
+            }
+
+            showToast(
+                "Listing published successfully!"
+            );
+
+            document.getElementById(
+                "productForm"
+            ).reset();
+
+            updateSpecialFields();
+
+            await loadSellerData();
+
+        } catch (error) {
+
+            showToast(
+                error.message
+            );
+        }
+
+    }
+);
+
+
+/* =========================================================
+   EDIT PRODUCT
+========================================================= */
+
+function openEdit(id) {
+
+    const product =
+        sellerProducts.find(
+            p =>
+                String(p.id) ===
+                String(id)
+        );
+
+    if (!product) {
+
+        showToast(
+            "Product not found."
+        );
+
+        return;
+    }
+
+    document.getElementById(
+        "editId"
+    ).value =
+        product.id;
+
+    document.getElementById(
+        "editName"
+    ).value =
+        product.name || "";
+
+    document.getElementById(
+        "editPrice"
+    ).value =
+        product.price || 0;
+
+    document.getElementById(
+        "editStock"
+    ).value =
+        product.stock || 0;
+
+    document.getElementById(
+        "editLocation"
+    ).value =
+        product.location || "";
+
+    document.getElementById(
+        "editImage"
+    ).value =
+        product.image || "";
+
+    document.getElementById(
+        "editDescription"
+    ).value =
+        product.description || "";
+
+    document.getElementById(
+        "editOverlay"
+    ).classList.add("active");
+}
+
+
+function closeEdit() {
+
+    document.getElementById(
+        "editOverlay"
+    ).classList.remove("active");
+}
+
+
+document.getElementById(
+    "editForm"
+).addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const id =
+            value("editId");
+
+        const payload = {
+
+            name:
+                value("editName"),
+
+            price:
+                Number(
+                    value("editPrice")
+                ),
+
+            stock:
+                Number(
+                    value("editStock")
+                ),
+
+            location:
+                value("editLocation"),
+
+            image:
+                value("editImage"),
+
+            description:
+                value("editDescription")
+
+        };
+
+        try {
+
+            const data =
+                await api(
+                    `/api/seller/products/${encodeURIComponent(id)}`,
+                    {
+                        method: "PUT",
+
+                        body:
+                            JSON.stringify(payload)
+                    }
+                );
+
+            if (!data.success) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to update listing"
+                );
+            }
+
+            closeEdit();
+
+            showToast(
+                "Listing updated successfully."
+            );
+
+            loadSellerData();
+
+        } catch (error) {
+
+            showToast(
+                error.message
+            );
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DELETE PRODUCT
+========================================================= */
+
+async function deleteProduct(id) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this listing?"
+        );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const data =
+            await api(
+                `/api/seller/products/${encodeURIComponent(id)}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+        if (!data.success) {
+
+            throw new Error(
+                data.message ||
+                "Unable to delete listing"
+            );
+        }
+
+        showToast(
+            "Listing deleted."
+        );
+
+        loadSellerData();
+
+    } catch (error) {
+
+        showToast(
+            error.message
+        );
+    }
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout() {
+
+    try {
+
+        await api(
+            "/api/logout",
+            {
+                method: "POST"
+            }
+        );
+
+    } catch {
+        // Continue logout locally.
+    }
+
+    localStorage.removeItem(
+        "naijaDealsToken"
+    );
+
+    window.location.href =
+        "/";
+}
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function value(id) {
+
+    const element =
+        document.getElementById(id);
+
+    return element
+        ? element.value.trim()
+        : "";
+}
+
+
+function formatMoney(amount) {
+
+    return "₦" +
+        Number(amount || 0)
+            .toLocaleString("en-NG");
+}
+
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function escapeAttribute(value) {
+
+    return escapeHTML(value)
+        .replace(/`/g, "&#096;");
+}
+
+
+function showToast(message) {
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+    toast.textContent =
+        message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove(
+            "show"
+        );
+
+    }, 3000);
+}
+
+
+/* =========================================================
+   START
+========================================================= */
+
+(async function() {
+
+    const loggedIn =
+        await checkLogin();
+
+    if (!loggedIn) {
+        return;
+    }
+
+    await loadSellerData();
+
+})();
+
+</script>
+
+</body>
+</html>
