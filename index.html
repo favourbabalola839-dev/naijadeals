@@ -6,22 +6,6 @@
 <title>NaijaDeals — Buy & Sell in Nigeria</title>
 
 <style>
-
-.admin-link {
-    display: inline-block;
-    padding: 10px 18px;
-    background: #111827;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 700;
-    transition: 0.2s ease;
-}
-
-.admin-link:hover {
-    background: #2563eb;
-    transform: translateY(-1px);
-}
 *{
     box-sizing:border-box;
     margin:0;
@@ -56,9 +40,7 @@ a{
 /* =========================
    TOP BAR
 ========================= */
-<a href=/admin.html" class="admin-login-button">
-    🔐 Admin Login
-</a>
+
 .topbar{
     background:#071c13;
     color:white;
@@ -96,73 +78,82 @@ a{
     padding:12px 5%;
     display:flex;
     align-items:center;
-    justify-content:space-between;
-    gap:20px;
+    gap:22px;
 }
 
 .logo{
+    min-width:170px;
+    font-size:27px;
+    font-weight:900;
+    color:#0b8f55;
     display:flex;
     align-items:center;
-    gap:10px;
-    font-size:23px;
-    font-weight:900;
-    color:#087344;
-    white-space:nowrap;
+    gap:7px;
 }
 
-.logo-icon{
-    width:42px;
-    height:42px;
-    border-radius:12px;
-    display:grid;
-    place-items:center;
+.logo span{
+    color:#172033;
+}
+
+.search{
+    flex:1;
+    position:relative;
+}
+
+.search input{
+    width:100%;
+    height:46px;
+    border:1px solid #dfe4eb;
+    border-radius:25px;
+    padding:0 52px 0 20px;
+    outline:none;
+    font-size:15px;
+    background:#f8fafc;
+}
+
+.search input:focus{
+    border-color:#0b8f55;
+    background:white;
+    box-shadow:0 0 0 4px rgba(11,143,85,.08);
+}
+
+.search button{
+    position:absolute;
+    right:5px;
+    top:5px;
+    width:36px;
+    height:36px;
+    border:0;
+    border-radius:50%;
     background:#0b8f55;
     color:white;
-    font-size:21px;
-    box-shadow:0 7px 18px rgba(11,143,85,.25);
-}
-
-.nav-links{
-    display:flex;
-    align-items:center;
-    gap:20px;
-    font-size:14px;
-    font-weight:700;
-}
-
-.nav-links a{
-    color:#4e5665;
-    transition:.2s;
-}
-
-.nav-links a:hover{
-    color:#0b8f55;
+    font-size:17px;
 }
 
 .nav-actions{
     display:flex;
     align-items:center;
-    gap:9px;
+    gap:8px;
 }
 
 .nav-btn{
-    border:1px solid #dfe5eb;
+    border:0;
     background:white;
+    padding:10px 11px;
     border-radius:10px;
-    padding:10px 13px;
-    font-weight:800;
-    color:#273044;
+    font-weight:700;
+    color:#283244;
+    transition:.2s;
 }
 
 .nav-btn:hover{
-    border-color:#0b8f55;
+    background:#eef8f3;
     color:#0b8f55;
 }
 
 .sell-btn{
     background:#0b8f55;
     color:white;
-    border:0;
 }
 
 .sell-btn:hover{
@@ -176,28 +167,17 @@ a{
 
 .cart-count{
     position:absolute;
-    top:-7px;
-    right:-7px;
-    min-width:20px;
-    height:20px;
-    padding:0 5px;
-    border-radius:20px;
-    background:#ff4f4f;
+    top:0;
+    right:0;
+    background:#ff4d4d;
     color:white;
-    display:grid;
-    place-items:center;
-    font-size:10px;
-    font-weight:900;
-}
-
-.menu-btn{
-    display:none;
-    border:1px solid #dfe5eb;
-    background:white;
-    border-radius:10px;
-    width:43px;
-    height:43px;
-    font-size:20px;
+    width:19px;
+    height:19px;
+    border-radius:50%;
+    font-size:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 /* =========================
@@ -205,161 +185,159 @@ a{
 ========================= */
 
 .hero{
+    min-height:590px;
     position:relative;
     overflow:hidden;
-    min-height:570px;
     background:
-        radial-gradient(circle at 15% 20%,rgba(70,222,137,.18),transparent 30%),
-        radial-gradient(circle at 90% 10%,rgba(70,222,137,.14),transparent 28%),
-        linear-gradient(135deg,#061c12,#0a3924 48%,#0b8f55);
+        radial-gradient(circle at 85% 20%,rgba(100,225,153,.25),transparent 25%),
+        radial-gradient(circle at 10% 80%,rgba(48,143,255,.15),transparent 30%),
+        linear-gradient(135deg,#071c13,#0b4f32 55%,#0b8f55);
     color:white;
 }
 
 .hero-inner{
     width:min(1200px,90%);
     margin:auto;
-    min-height:570px;
+    min-height:590px;
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1.1fr .9fr;
     align-items:center;
-    gap:45px;
+    gap:40px;
     position:relative;
     z-index:2;
 }
 
 .hero-content{
-    max-width:620px;
+    animation:heroText 1s ease both;
+}
+
+@keyframes heroText{
+    from{
+        opacity:0;
+        transform:translateY(35px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
 }
 
 .hero-badge{
     display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:8px 13px;
-    border:1px solid rgba(255,255,255,.18);
-    background:rgba(255,255,255,.08);
+    padding:8px 14px;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(255,255,255,.1);
+    backdrop-filter:blur(8px);
     border-radius:30px;
-    font-size:12px;
-    font-weight:800;
-    margin-bottom:18px;
-}
-
-.hero h1{
-    font-size:clamp(38px,5vw,68px);
-    line-height:1.02;
-    letter-spacing:-2px;
+    font-size:13px;
     margin-bottom:20px;
 }
 
+.hero h1{
+    font-size:clamp(42px,6vw,78px);
+    line-height:.98;
+    letter-spacing:-3px;
+    margin-bottom:24px;
+}
+
 .hero h1 span{
-    color:#75e6a3;
+    color:#71e7a0;
 }
 
 .hero p{
-    color:#d8efe2;
-    line-height:1.7;
-    font-size:16px;
-    max-width:570px;
-}
-
-.hero-search{
-    margin-top:25px;
-    background:white;
-    padding:7px;
-    border-radius:14px;
-    display:flex;
     max-width:620px;
-    box-shadow:0 20px 50px rgba(0,0,0,.22);
-}
-
-.hero-search input{
-    flex:1;
-    border:0;
-    outline:0;
-    padding:13px 14px;
-    min-width:0;
-    font-size:14px;
-}
-
-.hero-search button{
-    border:0;
-    background:#0b8f55;
-    color:white;
-    padding:0 20px;
-    border-radius:10px;
-    font-weight:800;
-}
-
-.hero-search button:hover{
-    background:#087344;
+    font-size:18px;
+    line-height:1.7;
+    color:#d7eee2;
+    margin-bottom:30px;
 }
 
 .hero-buttons{
     display:flex;
     flex-wrap:wrap;
-    gap:10px;
-    margin-top:16px;
+    gap:12px;
 }
 
-.hero-primary{
+.hero-main-btn{
+    border:0;
+    padding:15px 24px;
+    border-radius:12px;
     background:white;
     color:#087344;
-    border:0;
-    border-radius:10px;
-    padding:12px 18px;
-    font-weight:900;
+    font-size:15px;
+    font-weight:800;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
 }
 
-.hero-secondary{
+.hero-outline-btn{
+    border:1px solid rgba(255,255,255,.4);
+    padding:15px 24px;
+    border-radius:12px;
     background:rgba(255,255,255,.08);
     color:white;
-    border:1px solid rgba(255,255,255,.22);
-    border-radius:10px;
-    padding:12px 18px;
     font-weight:800;
 }
 
+.hero-main-btn:hover,
+.hero-outline-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* HERO FLOATING CARDS */
+
 .hero-visual{
     position:relative;
-    min-height:430px;
+    height:440px;
 }
 
 .float-card{
     position:absolute;
-    background:white;
+    background:rgba(255,255,255,.94);
     color:#172033;
     border-radius:20px;
-    padding:13px;
-    box-shadow:0 25px 60px rgba(0,0,0,.25);
+    padding:18px;
+    box-shadow:0 25px 70px rgba(0,0,0,.2);
+    animation:float 4s ease-in-out infinite;
 }
 
-.float-card.large{
-    width:290px;
-    right:50px;
-    top:35px;
-    transform:rotate(2deg);
+.float-card.main{
+    width:300px;
+    left:50%;
+    top:70px;
+    transform:translateX(-50%);
 }
 
 .float-card.small1{
-    width:220px;
+    width:190px;
     left:0;
-    bottom:70px;
-    transform:rotate(-5deg);
+    top:270px;
+    animation-delay:.5s;
 }
 
 .float-card.small2{
-    width:220px;
+    width:190px;
     right:0;
-    bottom:5px;
-    transform:rotate(4deg);
+    top:250px;
+    animation-delay:1s;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-15px);
+    }
 }
 
 .product-preview-image{
-    width:100%;
-    height:155px;
-    border-radius:14px;
+    height:180px;
+    border-radius:15px;
     overflow:hidden;
-    background:#eef2f4;
+    background:#eef2f5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .product-preview-image img{
@@ -369,14 +347,36 @@ a{
 }
 
 .float-card h3{
-    margin-top:10px;
-    font-size:16px;
+    margin-top:13px;
+    font-size:18px;
 }
 
 .float-price{
-    margin-top:6px;
     color:#0b8f55;
     font-weight:900;
+    margin-top:6px;
+}
+
+/* Decorative circles */
+
+.hero-circle{
+    position:absolute;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.12);
+}
+
+.hero-circle.one{
+    width:500px;
+    height:500px;
+    right:-180px;
+    top:-200px;
+}
+
+.hero-circle.two{
+    width:300px;
+    height:300px;
+    left:-140px;
+    bottom:-180px;
 }
 
 /* =========================
@@ -385,21 +385,21 @@ a{
 
 .stats{
     width:min(1100px,90%);
-    margin:-45px auto 0;
+    margin:-45px auto 45px;
     position:relative;
-    z-index:10;
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
+    z-index:5;
     background:white;
     border-radius:18px;
-    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    box-shadow:0 15px 45px rgba(0,0,0,.08);
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
     overflow:hidden;
 }
 
 .stat{
     padding:24px;
     text-align:center;
-    border-right:1px solid #edf0f3;
+    border-right:1px solid #edf0f4;
 }
 
 .stat:last-child{
@@ -410,16 +410,16 @@ a{
     display:block;
     color:#0b8f55;
     font-size:28px;
-    margin-bottom:4px;
+    margin-bottom:5px;
 }
 
 .stat span{
-    color:#717988;
+    color:#707989;
     font-size:13px;
 }
 
 /* =========================
-   GENERAL
+   MAIN
 ========================= */
 
 .container{
@@ -428,25 +428,24 @@ a{
 }
 
 .section{
-    padding:70px 0;
+    padding:35px 0 70px;
 }
 
 .section-title{
     display:flex;
     justify-content:space-between;
-    align-items:flex-end;
+    align-items:end;
     gap:20px;
     margin-bottom:25px;
 }
 
 .section-title h2{
     font-size:30px;
-    margin-bottom:7px;
 }
 
 .section-title p{
-    color:#7b8492;
-    font-size:14px;
+    color:#778092;
+    margin-top:6px;
 }
 
 /* =========================
@@ -455,45 +454,59 @@ a{
 
 .categories{
     display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:15px;
+    grid-template-columns:repeat(7,1fr);
+    gap:13px;
 }
 
-.category-card{
+.category{
+    border:1px solid #e5e9ef;
     background:white;
-    border:1px solid #e8ebef;
-    border-radius:17px;
-    padding:22px 15px;
+    border-radius:16px;
+    padding:18px 10px;
+    min-height:125px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
     text-align:center;
-    transition:.25s;
-    cursor:pointer;
+    transition:.3s;
+    position:relative;
+    overflow:hidden;
 }
 
-.category-card:hover{
-    transform:translateY(-5px);
-    border-color:#0b8f55;
-    box-shadow:0 14px 35px rgba(0,0,0,.07);
+.category::after{
+    content:"";
+    position:absolute;
+    width:90px;
+    height:90px;
+    background:#e8f8ef;
+    border-radius:50%;
+    right:-35px;
+    top:-35px;
+    transition:.3s;
+}
+
+.category:hover{
+    transform:translateY(-7px);
+    border-color:#a8dec1;
+    box-shadow:0 12px 30px rgba(11,143,85,.12);
+}
+
+.category:hover::after{
+    transform:scale(1.5);
 }
 
 .category-icon{
-    width:62px;
-    height:62px;
-    margin:0 auto 11px;
-    border-radius:17px;
-    display:grid;
-    place-items:center;
-    background:#e9f8ef;
-    font-size:29px;
+    font-size:36px;
+    position:relative;
+    z-index:1;
+    margin-bottom:10px;
 }
 
-.category-card h3{
-    font-size:14px;
-    margin-bottom:5px;
-}
-
-.category-card p{
-    color:#89919d;
-    font-size:11px;
+.category strong{
+    position:relative;
+    z-index:1;
+    font-size:13px;
 }
 
 /* =========================
@@ -506,14 +519,26 @@ a{
 
 .products-section.active{
     display:block;
+    animation:productsReveal .7s ease both;
+}
+
+@keyframes productsReveal{
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
 }
 
 .products-toolbar{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:15px;
     margin-bottom:20px;
+    gap:15px;
 }
 
 .back-category{
@@ -650,53 +675,6 @@ a{
 }
 
 /* =========================
-   INSPECTION BUTTON
-========================= */
-
-.inspection-btn{
-    width:100%;
-    margin-top:8px;
-    height:40px;
-    border:1px solid #0b8f55;
-    background:#ecfaf2;
-    color:#087344;
-    border-radius:9px;
-    font-weight:800;
-    font-size:12px;
-}
-
-.inspection-btn:hover{
-    background:#dff5e8;
-}
-
-.inspection-note{
-    background:#f0faf4;
-    border:1px solid #ccebd9;
-    color:#17683f;
-    border-radius:10px;
-    padding:11px;
-    font-size:12px;
-    line-height:1.5;
-    margin-bottom:15px;
-}
-
-.inspection-listing{
-    background:#f7f8fa;
-    border:1px solid #e5e8ed;
-    padding:12px;
-    border-radius:10px;
-    font-weight:800;
-    margin-bottom:15px;
-}
-
-@media(max-width:600px){
-    .inspection-btn{
-        height:42px;
-        font-size:12px;
-    }
-}
-
-/* =========================
    SELLER BANNER
 ========================= */
 
@@ -709,391 +687,38 @@ a{
     align-items:center;
     justify-content:space-between;
     gap:30px;
-}
-
-.seller-banner h2{
-    font-size:30px;
-    margin-bottom:8px;
-}
-
-.seller-banner p{
-    color:#d4eee0;
-    line-height:1.6;
-}
-
-.seller-banner button{
-    border:0;
-    background:white;
-    color:#087344;
-    padding:13px 20px;
-    border-radius:10px;
-    font-weight:900;
-    white-space:nowrap;
-}
-
-/* =========================
-   MODALS
-========================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.6);
-    z-index:3000;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.modal.active{
-    display:flex;
-}
-
-.modal-box{
-    background:white;
-    width:min(560px,100%);
-    max-height:90vh;
-    overflow:auto;
-    border-radius:20px;
-    padding:25px;
+    overflow:hidden;
     position:relative;
-    box-shadow:0 25px 80px rgba(0,0,0,.3);
 }
 
-.modal-box h2{
-    font-size:24px;
-    margin-bottom:15px;
-}
-
-.close{
+.seller-banner::after{
+    content:"";
     position:absolute;
-    top:12px;
-    right:14px;
-    border:0;
-    background:#f0f2f4;
-    width:36px;
-    height:36px;
+    width:260px;
+    height:260px;
+    border:35px solid rgba(255,255,255,.06);
     border-radius:50%;
-    font-size:23px;
-    line-height:1;
-}
-
-.form-group{
-    margin-bottom:14px;
-}
-
-.form-group label{
-    display:block;
-    font-size:12px;
-    font-weight:800;
-    margin-bottom:6px;
-    color:#4e5665;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select{
-    width:100%;
-    border:1px solid #dfe4ea;
-    border-radius:10px;
-    padding:12px;
-    outline:none;
-    font-size:14px;
-}
-
-.form-group textarea{
-    min-height:90px;
-    resize:vertical;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus{
-    border-color:#0b8f55;
-}
-
-.form-submit{
-    width:100%;
-    border:0;
-    background:#0b8f55;
-    color:white;
-    border-radius:10px;
-    padding:13px;
-    font-weight:900;
-    margin-top:5px;
-}
-
-.form-submit:hover{
-    background:#087344;
-}
-.products-section.active{
-    display:block;
-}
-
-.products-toolbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:20px;
-    gap:15px;
-}
-
-.products-toolbar h2{
-    font-size:28px;
-}
-
-.products-toolbar p{
-    color:#778092;
-    font-size:14px;
-    margin-top:5px;
-}
-
-.back-category{
-    border:1px solid #dfe5eb;
-    background:white;
-    border-radius:10px;
-    padding:10px 15px;
-    font-weight:700;
-}
-
-.product-grid{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:17px;
-}
-
-.product-card{
-    background:white;
-    border-radius:17px;
-    overflow:hidden;
-    border:1px solid #e8ebef;
-    transition:.3s;
-    animation:cardIn .55s ease both;
-}
-
-@keyframes cardIn{
-    from{
-        opacity:0;
-        transform:translateY(25px);
-    }
-
-    to{
-        opacity:1;
-        transform:none;
-    }
-}
-
-.product-card:hover{
-    transform:translateY(-7px);
-    box-shadow:0 15px 35px rgba(0,0,0,.09);
-}
-
-.product-image{
-    height:210px;
-    background:#f1f4f6;
-    position:relative;
-    overflow:hidden;
-}
-
-.product-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:.5s;
-}
-
-.product-card:hover .product-image img{
-    transform:scale(1.06);
-}
-
-.product-badge{
-    position:absolute;
-    top:10px;
-    left:10px;
-    background:#ff4f4f;
-    color:white;
-    padding:5px 8px;
-    border-radius:7px;
-    font-size:11px;
-    font-weight:800;
-}
-
-.product-info{
-    padding:15px;
-}
-
-.product-category{
-    font-size:11px;
-    color:#7c8492;
-    margin-bottom:6px;
-}
-
-.product-name{
-    font-size:15px;
-    font-weight:800;
-    line-height:1.35;
-    min-height:41px;
-}
-
-.product-location{
-    color:#747d8c;
-    font-size:12px;
-    margin-top:7px;
-}
-
-.product-price{
-    color:#0b8f55;
-    font-weight:900;
-    font-size:18px;
-    margin-top:9px;
-}
-
-.product-old{
-    color:#a1a7b0;
-    text-decoration:line-through;
-    font-size:12px;
-    margin-left:5px;
-}
-
-.product-actions{
-    display:grid;
-    grid-template-columns:1fr 42px;
-    gap:7px;
-    margin-top:13px;
-}
-
-.add-cart{
-    border:0;
-    background:#0b8f55;
-    color:white;
-    border-radius:9px;
-    height:39px;
-    font-weight:800;
-}
-
-.add-cart:hover{
-    background:#087344;
-}
-
-.view-product{
-    border:1px solid #dfe5eb;
-    background:white;
-    border-radius:9px;
-    font-size:17px;
-}
-
-/* =========================
-   INSPECTION BUTTON
-========================= */
-
-.inspection-btn{
-    width:100%;
-    border:1px solid #0b8f55;
-    background:#edfaf3;
-    color:#087344;
-    border-radius:9px;
-    height:39px;
-    font-weight:800;
-    margin-top:8px;
-    font-size:12px;
-    transition:.2s;
-}
-
-.inspection-btn:hover{
-    background:#d9f4e5;
-    transform:translateY(-1px);
-}
-
-.inspection-info{
-    background:#f1faf5;
-    border:1px solid #cdebd9;
-    border-radius:10px;
-    padding:12px;
-    margin-bottom:15px;
-    color:#17683f;
-    font-size:13px;
-    line-height:1.5;
-}
-
-.inspection-listing{
-    background:#f6f8fa;
-    border:1px solid #e3e7eb;
-    border-radius:10px;
-    padding:12px;
-    margin-bottom:15px;
-}
-
-.inspection-listing strong{
-    display:block;
-    color:#172033;
-    margin-bottom:4px;
-}
-
-.inspection-listing span{
-    color:#778092;
-    font-size:12px;
-}
-
-/* =========================
-   EMPTY STATE
-========================= */
-
-.empty{
-    grid-column:1/-1;
-    text-align:center;
-    background:white;
-    border:1px solid #e8ebef;
-    border-radius:18px;
-    padding:50px 20px;
-}
-
-.empty-icon{
-    font-size:42px;
-    margin-bottom:12px;
-}
-
-.empty h3{
-    font-size:20px;
-    margin-bottom:8px;
-}
-
-.empty p{
-    color:#7b8492;
-    font-size:14px;
-}
-
-/* =========================
-   SELLER BANNER
-========================= */
-
-.seller-banner{
-    background:linear-gradient(135deg,#061c12,#0b8f55);
-    color:white;
-    border-radius:25px;
-    padding:42px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:30px;
+    right:-80px;
+    top:-100px;
 }
 
 .seller-banner h2{
-    font-size:30px;
-    margin-bottom:8px;
+    font-size:32px;
+    margin-bottom:9px;
 }
 
 .seller-banner p{
-    color:#d4eee0;
-    line-height:1.6;
+    color:#d2e9dc;
 }
 
 .seller-banner button{
+    position:relative;
+    z-index:2;
     border:0;
+    padding:14px 22px;
+    border-radius:11px;
     background:white;
     color:#087344;
-    padding:13px 20px;
-    border-radius:10px;
     font-weight:900;
     white-space:nowrap;
 }
@@ -1103,67 +728,203 @@ a{
 ========================= */
 
 footer{
-    background:#061c12;
+    margin-top:50px;
+    background:#071c13;
     color:white;
-    padding:50px 0 25px;
+    padding:50px 5% 90px;
 }
 
 .footer-grid{
+    width:min(1200px,100%);
+    margin:auto;
     display:grid;
     grid-template-columns:2fr 1fr 1fr 1fr;
-    gap:35px;
+    gap:40px;
 }
 
 .footer-brand{
-    max-width:350px;
-}
-
-.footer-brand h2{
-    color:#71e7a0;
+    font-size:26px;
+    font-weight:900;
+    color:#72e5a0;
     margin-bottom:12px;
 }
 
-.footer-brand p{
-    color:#a8c1b3;
+footer p{
+    color:#aebeb6;
     line-height:1.7;
-    font-size:14px;
 }
 
-.footer-column h3{
-    font-size:14px;
+.footer-col h4{
     margin-bottom:15px;
 }
 
-.footer-column a{
+.footer-col button{
     display:block;
-    color:#a8c1b3;
-    font-size:13px;
-    margin-bottom:10px;
+    border:0;
+    background:none;
+    color:#b8c8bf;
+    padding:6px 0;
+    text-align:left;
 }
 
-.footer-column a:hover{
-    color:#71e7a0;
-}
-
-.footer-bottom{
-    border-top:1px solid rgba(255,255,255,.08);
-    margin-top:35px;
-    padding-top:20px;
-    text-align:center;
-    color:#82998c;
-    font-size:12px;
+.footer-col button:hover{
+    color:white;
 }
 
 /* =========================
-   MODAL
+   MOBILE HAMBURGER MENU
+========================= */
+
+.mobile-menu-btn{
+    display:none;
+    min-width:42px;
+    min-height:42px;
+    font-size:22px;
+    line-height:1;
+    border:1px solid #dfe4eb;
+}
+
+.mobile-menu-overlay{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:7000;
+    background:rgba(4,13,9,.45);
+    backdrop-filter:blur(2px);
+}
+
+.mobile-menu-overlay.active{display:block;}
+
+.mobile-menu{
+    position:absolute;
+    top:0;
+    right:0;
+    width:min(330px,88vw);
+    height:100%;
+    background:white;
+    box-shadow:-12px 0 35px rgba(0,0,0,.18);
+    padding:22px 18px;
+    transform:translateX(105%);
+    transition:transform .28s ease;
+    overflow-y:auto;
+}
+
+.mobile-menu-overlay.active .mobile-menu{
+    transform:translateX(0);
+}
+
+.mobile-menu-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-bottom:18px;
+    border-bottom:1px solid #e8ebef;
+    margin-bottom:12px;
+}
+
+.mobile-menu-title{
+    font-size:20px;
+    font-weight:900;
+    color:#0b8f55;
+}
+
+.mobile-menu-close{
+    width:40px;
+    height:40px;
+    border:0;
+    border-radius:50%;
+    background:#f0f3f5;
+    font-size:22px;
+}
+
+.mobile-menu-link{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:13px;
+    border:0;
+    background:white;
+    color:#172033;
+    padding:15px 12px;
+    border-radius:12px;
+    text-align:left;
+    font-size:15px;
+    font-weight:800;
+    margin:4px 0;
+}
+
+.mobile-menu-link:hover{
+    background:#eef8f3;
+    color:#0b8f55;
+}
+
+.mobile-menu-link.admin{
+    background:#0b8f55;
+    color:white;
+    margin-top:12px;
+}
+
+.mobile-menu-link.admin:hover{
+    background:#087344;
+    color:white;
+}
+
+.mobile-menu-link .menu-icon{
+    width:30px;
+    text-align:center;
+    font-size:20px;
+}
+
+.mobile-menu-divider{
+    height:1px;
+    background:#e8ebef;
+    margin:12px 0;
+}
+
+body.mobile-menu-open{overflow:hidden;}
+
+/* =========================
+   MOBILE BOTTOM NAV
+========================= */
+
+.mobile-nav{
+    display:none;
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:3000;
+    background:white;
+    border-top:1px solid #e5e8ec;
+    box-shadow:0 -5px 20px rgba(0,0,0,.08);
+    grid-template-columns:repeat(4,1fr);
+}
+
+.mobile-nav button{
+    background:white;
+    border:0;
+    padding:9px 3px;
+    color:#596272;
+    font-size:11px;
+}
+
+.mobile-nav button strong{
+    display:block;
+    font-size:19px;
+    margin-bottom:2px;
+}
+
+/* =========================
+   MODALS
 ========================= */
 
 .modal{
+    display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.65);
     z-index:5000;
-    display:none;
+    background:rgba(4,13,9,.7);
+    backdrop-filter:blur(6px);
     align-items:center;
     justify-content:center;
     padding:20px;
@@ -1171,111 +932,140 @@ footer{
 
 .modal.active{
     display:flex;
+    animation:modalFade .25s ease;
+}
+
+@keyframes modalFade{
+    from{opacity:0;}
+    to{opacity:1;}
 }
 
 .modal-box{
-    width:min(570px,100%);
+    width:min(560px,100%);
     max-height:90vh;
-    overflow-y:auto;
+    overflow:auto;
     background:white;
-    border-radius:20px;
+    border-radius:22px;
     padding:25px;
     position:relative;
-    box-shadow:0 30px 80px rgba(0,0,0,.3);
+    animation:modalBox .3s ease;
+}
+
+@keyframes modalBox{
+    from{
+        transform:scale(.9) translateY(20px);
+        opacity:0;
+    }
+    to{
+        transform:none;
+        opacity:1;
+    }
+}
+
+.close{
+    position:absolute;
+    right:18px;
+    top:15px;
+    width:35px;
+    height:35px;
+    border:0;
+    border-radius:50%;
+    background:#f0f3f5;
+    font-size:18px;
 }
 
 .modal-box h2{
-    font-size:24px;
-    margin-bottom:7px;
-}
-
-.modal-subtitle{
-    color:#778092;
-    font-size:13px;
-    line-height:1.5;
     margin-bottom:18px;
 }
 
-.close-modal{
-    position:absolute;
-    right:15px;
-    top:15px;
-    width:36px;
-    height:36px;
-    border:0;
-    border-radius:50%;
-    background:#f1f3f5;
-    font-size:20px;
-}
-
-.close-modal:hover{
-    background:#e4e7ea;
-}
-
 .form-group{
-    margin-bottom:14px;
+    margin-bottom:13px;
 }
 
 .form-group label{
     display:block;
-    font-size:12px;
-    font-weight:800;
-    color:#4c5564;
+    font-size:13px;
+    font-weight:700;
     margin-bottom:6px;
 }
 
 .form-group input,
-.form-group select,
-.form-group textarea{
+.form-group select{
     width:100%;
+    height:44px;
     border:1px solid #dfe4ea;
-    border-radius:10px;
-    padding:12px;
+    border-radius:9px;
+    padding:0 12px;
     outline:none;
-    font-size:14px;
-    background:white;
 }
 
 .form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus{
+.form-group select:focus{
     border-color:#0b8f55;
-    box-shadow:0 0 0 3px rgba(11,143,85,.08);
 }
 
-.form-group textarea{
-    min-height:90px;
-    resize:vertical;
-}
-
-.form-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-.submit-btn{
+.form-submit{
     width:100%;
+    height:45px;
     border:0;
+    border-radius:10px;
     background:#0b8f55;
     color:white;
-    border-radius:10px;
-    padding:13px;
     font-weight:900;
     margin-top:5px;
 }
 
-.submit-btn:hover{
-    background:#087344;
+.form-switch{
+    margin-top:15px;
+    text-align:center;
+    font-size:13px;
 }
 
-/* =========================
-   CART
-========================= */
+.form-switch button{
+    border:0;
+    background:none;
+    color:#0b8f55;
+    font-weight:800;
+}
+
+/* PRODUCT DETAIL */
+
+.detail-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.detail-image{
+    height:350px;
+    border-radius:15px;
+    overflow:hidden;
+    background:#f1f4f6;
+}
+
+.detail-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.detail-price{
+    color:#0b8f55;
+    font-size:28px;
+    font-weight:900;
+    margin:12px 0;
+}
+
+.detail-location{
+    color:#707989;
+    margin:10px 0;
+}
+
+/* CART */
 
 .cart-item{
     display:grid;
-    grid-template-columns:70px 1fr auto;
+    grid-template-columns:65px 1fr auto;
     gap:12px;
     align-items:center;
     padding:12px 0;
@@ -1283,11 +1073,10 @@ footer{
 }
 
 .cart-item-image{
-    width:70px;
-    height:70px;
+    width:65px;
+    height:65px;
     border-radius:10px;
     overflow:hidden;
-    background:#f1f4f6;
 }
 
 .cart-item-image img{
@@ -1298,46 +1087,28 @@ footer{
 
 .cart-item h4{
     font-size:14px;
-    margin-bottom:4px;
 }
 
 .cart-item p{
-    font-size:12px;
-    color:#778092;
+    color:#0b8f55;
+    font-size:13px;
+    font-weight:800;
+    margin-top:4px;
 }
 
-.cart-remove{
+.remove-item{
     border:0;
     background:#fff0f0;
-    color:#e44747;
-    border-radius:8px;
-    padding:7px 9px;
-    font-size:11px;
-    font-weight:800;
-}
-
-.cart-summary{
-    margin-top:18px;
-    padding-top:18px;
-    border-top:1px solid #e7eaee;
+    color:#e34848;
+    border-radius:7px;
+    padding:6px;
 }
 
 .cart-total{
     display:flex;
     justify-content:space-between;
-    align-items:center;
+    padding:18px 0;
     font-size:20px;
-    font-weight:900;
-    margin-bottom:15px;
-}
-
-.checkout-btn{
-    width:100%;
-    border:0;
-    background:#0b8f55;
-    color:white;
-    padding:13px;
-    border-radius:10px;
     font-weight:900;
 }
 
@@ -1348,16 +1119,16 @@ footer{
 .toast{
     position:fixed;
     right:20px;
-    bottom:20px;
-    z-index:7000;
-    background:#172033;
+    bottom:25px;
+    z-index:9000;
+    background:#071c13;
     color:white;
     padding:13px 17px;
     border-radius:10px;
-    box-shadow:0 12px 30px rgba(0,0,0,.2);
-    font-size:13px;
-    transform:translateY(120px);
+    box-shadow:0 15px 35px rgba(0,0,0,.2);
+    transform:translateY(100px);
     opacity:0;
+    pointer-events:none;
     transition:.3s;
 }
 
@@ -1366,51 +1137,483 @@ footer{
     opacity:1;
 }
 
+/* =====================================================
+   🚗 CAR PAGE TRANSITION
+===================================================== */
+
+.page-transition{
+    position:fixed;
+    inset:0;
+    background:
+        linear-gradient(
+            180deg,
+            #7ed0ff 0%,
+            #dff5ff 55%,
+            #76b856 55%,
+            #76b856 72%,
+            #222 72%,
+            #222 100%
+        );
+    z-index:99999;
+    pointer-events:none;
+    opacity:0;
+    visibility:hidden;
+    overflow:hidden;
+    transition:opacity:.25s ease,visibility:.25s ease;
+}
+
+.page-transition.active{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+}
+
+.page-transition::before{
+    content:"☀️";
+    position:absolute;
+    right:12%;
+    top:8%;
+    font-size:70px;
+    animation:sunFloat 2s ease-in-out infinite;
+}
+
+@keyframes sunFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-12px);
+    }
+}
+
+.transition-cloud{
+    position:absolute;
+    background:white;
+    opacity:.7;
+    border-radius:50px;
+    width:130px;
+    height:35px;
+    top:17%;
+    left:8%;
+    animation:cloudMove 7s linear infinite;
+}
+
+.transition-cloud::before,
+.transition-cloud::after{
+    content:"";
+    position:absolute;
+    background:white;
+    border-radius:50%;
+}
+
+.transition-cloud::before{
+    width:55px;
+    height:55px;
+    left:25px;
+    bottom:10px;
+}
+
+.transition-cloud::after{
+    width:70px;
+    height:70px;
+    right:20px;
+    bottom:5px;
+}
+
+.cloud-two{
+    top:30%;
+    left:auto;
+    right:10%;
+    transform:scale(.7);
+    animation-delay:2s;
+}
+
+@keyframes cloudMove{
+    from{
+        transform:translateX(-40px);
+    }
+    to{
+        transform:translateX(80px);
+    }
+}
+
+.page-transition .grass{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:28%;
+    height:17%;
+    background:#76b856;
+}
+
+.page-transition .road{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:28%;
+    background:#242424;
+}
+
+.page-transition .road::before{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:0;
+    width:200%;
+    height:8px;
+    background:repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 45px,
+        white 45px,
+        white 125px,
+        transparent 125px,
+        transparent 170px
+    );
+    animation:roadMove .42s linear infinite;
+}
+
+@keyframes roadMove{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(-170px);
+    }
+}
+
+/* CAR */
+
+.page-transition .car{
+    position:absolute;
+    left:-240px;
+    bottom:21%;
+    width:190px;
+    height:105px;
+    animation:driveAcross 1.65s cubic-bezier(.25,.8,.25,1) forwards;
+    filter:drop-shadow(0 15px 10px rgba(0,0,0,.3));
+}
+
+.page-transition .carBody{
+    position:absolute;
+    bottom:18px;
+    left:5px;
+    width:180px;
+    height:52px;
+    background:#078b53;
+    border-radius:30px 38px 12px 12px;
+}
+
+.page-transition .carRoof{
+    position:absolute;
+    left:39px;
+    bottom:57px;
+    width:105px;
+    height:47px;
+    background:#078b53;
+    border-radius:65px 65px 0 0;
+}
+
+.page-transition .window{
+    position:absolute;
+    bottom:61px;
+    width:42px;
+    height:28px;
+    background:#a5dff2;
+    border:3px solid #05673e;
+    z-index:2;
+}
+
+.page-transition .window.one{
+    left:49px;
+    border-radius:30px 5px 5px 5px;
+}
+
+.page-transition .window.two{
+    left:96px;
+    border-radius:5px 30px 5px 5px;
+}
+
+.page-transition .wheel{
+    position:absolute;
+    bottom:1px;
+    width:38px;
+    height:38px;
+    background:#111;
+    border-radius:50%;
+    border:6px solid #333;
+    z-index:4;
+    animation:wheelSpin .22s linear infinite;
+}
+
+.page-transition .wheel.one{
+    left:25px;
+}
+
+.page-transition .wheel.two{
+    right:22px;
+}
+
+@keyframes wheelSpin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.page-transition .headlight{
+    position:absolute;
+    right:-1px;
+    bottom:40px;
+    width:17px;
+    height:17px;
+    background:#fffbd1;
+    border-radius:50%;
+    box-shadow:
+        0 0 20px #fff,
+        0 0 45px #fffbd1;
+    z-index:5;
+}
+
+.page-transition .bumper{
+    position:absolute;
+    right:-3px;
+    bottom:25px;
+    width:13px;
+    height:10px;
+    background:#222;
+    border-radius:3px;
+}
+
+@keyframes driveAcross{
+    0%{
+        left:-240px;
+        transform:rotate(0deg);
+    }
+
+    15%{
+        transform:rotate(-2deg);
+    }
+
+    45%{
+        transform:rotate(1deg);
+    }
+
+    75%{
+        transform:rotate(-1deg);
+    }
+
+    100%{
+        left:calc(100vw + 60px);
+        transform:rotate(0deg);
+    }
+}
+
+/* SPEED LINES */
+
+.page-transition .speedLine{
+    position:absolute;
+    height:4px;
+    background:rgba(255,255,255,.85);
+    border-radius:5px;
+    left:-150px;
+    animation:speedMove .65s linear infinite;
+}
+
+.page-transition .speedLine.one{
+    width:80px;
+    bottom:31%;
+}
+
+.page-transition .speedLine.two{
+    width:45px;
+    bottom:35%;
+    animation-delay:.12s;
+}
+
+.page-transition .speedLine.three{
+    width:65px;
+    bottom:27%;
+    animation-delay:.3s;
+}
+
+.page-transition .speedLine.four{
+    width:100px;
+    bottom:39%;
+    animation-delay:.45s;
+}
+
+@keyframes speedMove{
+    from{
+        transform:translateX(0);
+        opacity:0;
+    }
+
+    20%{
+        opacity:1;
+    }
+
+    to{
+        transform:translateX(115vw);
+        opacity:0;
+    }
+}
+
+.transitionText{
+    position:absolute;
+    top:24%;
+    left:50%;
+    transform:translateX(-50%);
+    color:#073b25;
+    font-size:clamp(25px,5vw,48px);
+    font-weight:900;
+    white-space:nowrap;
+    text-shadow:0 3px 10px rgba(255,255,255,.8);
+    animation:textPop .7s ease;
+    z-index:10;
+}
+
+.transitionSubtext{
+    position:absolute;
+    top:32%;
+    left:50%;
+    transform:translateX(-50%);
+    color:#17452f;
+    font-weight:700;
+    font-size:15px;
+    white-space:nowrap;
+    animation:textPop .9s ease;
+    z-index:10;
+}
+
+@keyframes textPop{
+    from{
+        opacity:0;
+        transform:translateX(-50%) translateY(20px) scale(.8);
+    }
+
+    to{
+        opacity:1;
+        transform:translateX(-50%) translateY(0) scale(1);
+    }
+}
+
 /* =========================
-   MOBILE
+   EMPTY STATE
+========================= */
+
+.empty{
+    text-align:center;
+    background:white;
+    padding:50px 20px;
+    border-radius:18px;
+    color:#727b8a;
+}
+
+.empty-icon{
+    font-size:50px;
+    margin-bottom:10px;
+}
+
+/* =====================================================
+   INSPECTION
+===================================================== */
+
+.inspection-btn{
+    width:100%;
+    margin-top:8px;
+    height:39px;
+    border:1px solid #0b8f55;
+    background:#eefaf3;
+    color:#087344;
+    border-radius:9px;
+    font-weight:800;
+}
+
+.inspection-btn:hover{
+    background:#dff5e8;
+}
+
+.inspection-note{
+    background:#eefaf3;
+    border:1px solid #c9ead7;
+    border-radius:12px;
+    padding:12px;
+    margin:0 0 16px;
+    font-size:13px;
+    color:#365347;
+    line-height:1.5;
+}
+
+.inspection-listing{
+    font-weight:800;
+    color:#0b8f55;
+    margin-bottom:14px;
+}
+
+@media(max-width:620px){
+    .inspection-btn{
+        height:42px;
+    }
+}
+
+/* =========================
+   RESPONSIVE
 ========================= */
 
 @media(max-width:1100px){
 
     .categories{
-        grid-template-columns:repeat(4,1fr);
+        grid-template-columns:repeat(5,1fr);
     }
 
     .product-grid{
         grid-template-columns:repeat(4,1fr);
     }
 
-    .nav-links{
-        gap:13px;
+    .nav{
+        gap:10px;
+    }
+
+    .logo{
+        min-width:auto;
+    }
+
+    .nav-btn span{
+        display:none;
     }
 }
 
 @media(max-width:850px){
 
-    .nav-links{
-        display:none;
-    }
-
-    .menu-btn{
-        display:block;
-    }
-
     .hero-inner{
         grid-template-columns:1fr;
-        padding-top:55px;
-        padding-bottom:50px;
+        padding:70px 0 30px;
+        text-align:center;
     }
 
-    .hero{
-        min-height:auto;
+    .hero p{
+        margin-left:auto;
+        margin-right:auto;
     }
 
-    .hero-inner{
-        min-height:auto;
+    .hero-buttons{
+        justify-content:center;
     }
 
     .hero-visual{
-        height:360px;
+        height:330px;
+    }
+
+    .float-card.main{
+        width:250px;
+        top:15px;
+    }
+
+    .float-card.small1,
+    .float-card.small2{
+        width:150px;
+        top:190px;
     }
 
     .stats{
@@ -1421,12 +1624,13 @@ footer{
         border-right:0;
     }
 
-    .stat:nth-child(-n+2){
-        border-bottom:1px solid #edf0f4;
+    .stat:nth-child(3),
+    .stat:nth-child(4){
+        border-top:1px solid #edf0f4;
     }
 
     .categories{
-        grid-template-columns:repeat(3,1fr);
+        grid-template-columns:repeat(4,1fr);
     }
 
     .product-grid{
@@ -1438,41 +1642,69 @@ footer{
     }
 }
 
-@media(max-width:600px){
+@media(max-width:620px){
+
+    body{
+        padding-bottom:58px;
+    }
 
     .topbar{
+        justify-content:center;
+        text-align:center;
         font-size:11px;
-        padding:8px 4%;
+    }
+
+    .topbar span:last-child{
+        display:none;
     }
 
     .nav{
         padding:10px 4%;
+        flex-wrap:wrap;
     }
 
     .logo{
-        font-size:19px;
+        font-size:21px;
+        flex:1;
     }
 
-    .logo-icon{
-        width:37px;
-        height:37px;
+    .search{
+        order:3;
+        flex-basis:100%;
     }
 
-    .nav-actions .sell-btn{
-        display:none;
+    .nav-actions{
+        gap:3px;
     }
 
     .nav-btn{
-        padding:9px 10px;
+        padding:8px;
+        font-size:17px;
+    }
+
+    .nav-btn span{
+        display:none;
+    }
+
+    .mobile-menu-btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        font-size:21px;
+    }
+
+    .hero{
+        min-height:620px;
     }
 
     .hero-inner{
+        min-height:620px;
         width:92%;
-        padding-top:45px;
+        padding-top:55px;
     }
 
     .hero h1{
-        font-size:43px;
+        font-size:45px;
         letter-spacing:-2px;
     }
 
@@ -1480,67 +1712,59 @@ footer{
         font-size:15px;
     }
 
-    .hero-search{
-        width:100%;
-    }
-
-    .hero-search button{
-        padding:0 14px;
-    }
-
     .hero-visual{
-        height:330px;
+        height:270px;
     }
 
     .float-card.main{
-        width:245px;
+        width:210px;
         left:50%;
-        top:20px;
-    }
-
-    .float-card.small1,
-    .float-card.small2{
-        width:145px;
-        padding:10px;
     }
 
     .float-card.small1{
+        width:130px;
         left:0;
-        top:220px;
+        top:160px;
     }
 
     .float-card.small2{
+        width:130px;
         right:0;
-        top:205px;
+        top:150px;
     }
 
-    .product-preview-image{
-        height:125px;
+    .float-card.small1 .product-preview-image,
+    .float-card.small2 .product-preview-image{
+        height:75px;
     }
 
-    .float-card h3{
-        font-size:13px;
+    .float-card.main .product-preview-image{
+        height:105px;
     }
 
     .stats{
         width:92%;
-        margin-top:-25px;
+        margin-top:-30px;
     }
 
     .stat{
-        padding:18px 10px;
+        padding:18px 8px;
     }
 
     .stat strong{
         font-size:22px;
     }
 
-    .section{
-        padding:30px 0 50px;
-    }
-
     .container{
         width:92%;
+    }
+
+    .section{
+        padding:25px 0 50px;
+    }
+
+    .section-title{
+        display:block;
     }
 
     .section-title h2{
@@ -1548,7 +1772,21 @@ footer{
     }
 
     .categories{
-        grid-template-columns:repeat(2,1fr);
+        grid-template-columns:repeat(3,1fr);
+        gap:8px;
+    }
+
+    .category{
+        min-height:105px;
+        padding:12px 5px;
+    }
+
+    .category-icon{
+        font-size:29px;
+    }
+
+    .category strong{
+        font-size:11px;
     }
 
     .product-grid{
@@ -1557,7 +1795,7 @@ footer{
     }
 
     .product-image{
-        height:155px;
+        height:170px;
     }
 
     .product-info{
@@ -1566,7 +1804,6 @@ footer{
 
     .product-name{
         font-size:13px;
-        min-height:36px;
     }
 
     .product-price{
@@ -1574,68 +1811,71 @@ footer{
     }
 
     .product-actions{
-        grid-template-columns:1fr 36px;
-    }
-
-    .add-cart{
-        font-size:11px;
+        grid-template-columns:1fr;
     }
 
     .view-product{
-        font-size:14px;
-    }
-
-    .products-toolbar{
-        align-items:flex-start;
-    }
-
-    .products-toolbar h2{
-        font-size:22px;
+        display:none;
     }
 
     .seller-banner{
         padding:27px 20px;
-        flex-direction:column;
-        align-items:flex-start;
+        display:block;
     }
 
     .seller-banner h2{
-        font-size:24px;
+        font-size:25px;
+    }
+
+    .seller-banner button{
+        margin-top:18px;
     }
 
     .footer-grid{
         grid-template-columns:1fr;
+        gap:25px;
     }
 
-    .modal{
-        padding:10px;
+    .mobile-nav{
+        display:grid;
     }
 
-    .modal-box{
-        padding:20px 16px;
-        border-radius:16px;
-    }
-
-    .form-row{
+    .detail-grid{
         grid-template-columns:1fr;
-        gap:0;
     }
 
-    .cart-item{
-        grid-template-columns:55px 1fr;
+    .detail-image{
+        height:250px;
     }
 
-    .cart-item-image{
-        width:55px;
-        height:55px;
+    .transitionText{
+        font-size:31px;
     }
 
-    .cart-remove{
-        grid-column:2;
-        width:max-content;
+    .transitionSubtext{
+        font-size:12px;
     }
 }
-</style>
+
+@media(max-width:620px){
+    .nav-actions > .nav-btn:nth-child(3){
+        display:none;
+    }
+}
+
+/* Reduced motion */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
+    }
+}
 </style>
 </head>
 
@@ -1646,319 +1886,209 @@ footer{
 ========================= -->
 
 <div class="topbar">
-    <span>
-        🇳🇬 Nigeria's marketplace for buying and selling
-    </span>
-
-    <span>
-        Safe deals • Trusted listings • <strong>Nationwide</strong>
-    </span>
+    <span>🇳🇬 <strong>NaijaDeals</strong> — Buy and sell across Nigeria</span>
+    <span>Fast shopping • Local sellers • Naira prices</span>
 </div>
-
 
 <!-- =========================
      HEADER
 ========================= -->
 
 <header class="header">
-
     <nav class="nav">
 
-        <a href="#" class="logo">
-            <span class="logo-icon">N</span>
-            <span>NaijaDeals</span>
-        </a>
+        <button class="logo" onclick="goHome()">
+            🛍️ Naija<span>Deals</span>
+        </button>
 
-        <div class="nav-links">
-
-            <a href="#home">
-                Home
-            </a>
-
-            <a href="#categories">
-                Categories
-            </a>
-
-            <a href="#how-it-works">
-                How it works
-            </a>
-
-            <a href="#contact">
-                Contact
-            </a>
-
-            
-<a href="/admin.html" class="admin-link"><n href="/admin.html" class="admin-login-button">
-    🔐 Admin Login
-</a>
-
+        <div class="search">
+            <input
+                id="searchInput"
+                type="text"
+                placeholder="Search phones, cars, houses, fashion..."
+                oninput="handleSearch()"
+            >
+            <button onclick="handleSearch()">🔎</button>
         </div>
 
         <div class="nav-actions">
 
-            <button
-                class="nav-btn cart-btn"
-                onclick="openCart()"
-            >
-                🛒 Cart
+            <button class="nav-btn" onclick="openAuth()">
+                👤 <span>Account</span>
+            </button>
 
-                <span
-                    class="cart-count"
-                    id="cartCount"
-                >
-                    0
-                </span>
+            <button class="nav-btn sell-btn" onclick="goSeller()">
+                🏪 <span>Sell</span>
+            </button>
 
+            <button class="nav-btn" onclick="goAdmin()">
+                🔐 <span>Admin</span>
+            </button>
+
+            <button class="nav-btn cart-btn" onclick="openCart()">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
             </button>
 
             <button
-                class="nav-btn sell-btn"
-                onclick="openSellModal()"
-            >
-                + Sell
-            </button>
-
-            <button
-                class="menu-btn"
+                class="nav-btn mobile-menu-btn"
+                id="mobileMenuButton"
                 onclick="toggleMobileMenu()"
-            >
-                ☰
-            </button>
+                aria-label="Open menu"
+                aria-expanded="false"
+            >☰</button>
 
         </div>
 
     </nav>
-
-    <div
-        id="mobileMenu"
-        style="
-            display:none;
-            padding:0 5% 15px;
-            background:white;
-            border-top:1px solid #edf0f3;
-        "
-    >
-
-        <a
-            href="#home"
-            onclick="closeMobileMenu()"
-            style="
-                display:block;
-                padding:10px 0;
-                font-weight:700;
-            "
-        >
-            Home
-        </a>
-
-        <a
-            href="#categories"
-            onclick="closeMobileMenu()"
-            style="
-                display:block;
-                padding:10px 0;
-                font-weight:700;
-            "
-        >
-            Categories
-        </a>
-
-        <a
-            href="#how-it-works"
-            onclick="closeMobileMenu()"
-            style="
-                display:block;
-                padding:10px 0;
-                font-weight:700;
-            "
-        >
-            How it works
-        </a>
-
-        <a
-            href="#contact"
-            onclick="closeMobileMenu()"
-            style="
-                display:block;
-                padding:10px 0;
-                font-weight:700;
-            "
-        >
-            Contact
-        </a>
-
-        <button
-            onclick="openSellModal();closeMobileMenu()"
-            style="
-                width:100%;
-                border:0;
-                background:#0b8f55;
-                color:white;
-                padding:12px;
-                border-radius:10px;
-                font-weight:800;
-                margin-top:5px;
-            "
-        >
-            + Sell an Item
-        </button>
-
-    </div>
-
 </header>
 
+<!-- =========================
+     MOBILE HAMBURGER MENU
+========================= -->
+
+<div class="mobile-menu-overlay" id="mobileMenuOverlay"
+     onclick="handleMobileMenuBackground(event)">
+    <aside class="mobile-menu" id="mobileMenu"
+           aria-label="Mobile navigation"
+           onclick="event.stopPropagation()">
+
+        <div class="mobile-menu-header">
+            <div class="mobile-menu-title">🛍️ NaijaDeals</div>
+            <button class="mobile-menu-close"
+                    onclick="closeMobileMenu()"
+                    aria-label="Close menu">×</button>
+        </div>
+
+        <button class="mobile-menu-link"
+                onclick="goHome(); closeMobileMenu();">
+            <span class="menu-icon">🏠</span>
+            <span>Home</span>
+        </button>
+
+        <button class="mobile-menu-link"
+                onclick="scrollToCategories(); closeMobileMenu();">
+            <span class="menu-icon">🛍️</span>
+            <span>Shop Categories</span>
+        </button>
+
+        <button class="mobile-menu-link"
+                onclick="goSeller(); closeMobileMenu();">
+            <span class="menu-icon">🏪</span>
+            <span>Sell on NaijaDeals</span>
+        </button>
+
+        <button class="mobile-menu-link"
+                onclick="openCart(); closeMobileMenu();">
+            <span class="menu-icon">🛒</span>
+            <span>My Cart</span>
+        </button>
+
+        <div class="mobile-menu-divider"></div>
+
+        <button class="mobile-menu-link"
+                onclick="openAuth(); closeMobileMenu();">
+            <span class="menu-icon">👤</span>
+            <span>My Account</span>
+        </button>
+
+        <button class="mobile-menu-link admin"
+                onclick="goAdmin(); closeMobileMenu();">
+            <span class="menu-icon">🔐</span>
+            <span>Admin Panel</span>
+        </button>
+
+    </aside>
+</div>
 
 <!-- =========================
      HERO
 ========================= -->
 
-<section
-    class="hero"
-    id="home"
->
+<section class="hero">
+
+    <div class="hero-circle one"></div>
+    <div class="hero-circle two"></div>
 
     <div class="hero-inner">
 
         <div class="hero-content">
 
             <div class="hero-badge">
-                🇳🇬 Nigeria's growing marketplace
+                🇳🇬 Nigeria's marketplace
             </div>
 
             <h1>
-                Buy. Sell.
-                <span>Connect.</span>
+                Find it.<br>
+                <span>Buy it.</span><br>
+                Sell it.
             </h1>
 
             <p>
-                Discover phones, cars, houses, laptops,
-                fashion, electronics and more from sellers
-                across Nigeria.
+                Shop phones, electronics, fashion, cars, houses,
+                groceries and everyday products from sellers across Nigeria.
             </p>
 
-            <div class="hero-search">
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search phones, cars, houses..."
-                    onkeydown="
-                        if(event.key==='Enter'){
-                            handleSearch();
-                        }
-                    "
-                >
-
-                <button
-                    onclick="handleSearch()"
-                >
-                    Search
-                </button>
-
-            </div>
-
             <div class="hero-buttons">
-
-                <button
-                    class="hero-primary"
-                    onclick="
-                        document
-                        .getElementById('categories')
-                        .scrollIntoView({
-                            behavior:'smooth'
-                        });
-                    "
-                >
-                    Explore Listings
+                <button class="hero-main-btn" onclick="scrollToCategories()">
+                    🛍️ Start Shopping
                 </button>
 
-                <button
-                    class="hero-secondary"
-                    onclick="openSellModal()"
-                >
-                    Sell Something
+                <button class="hero-outline-btn" onclick="goSeller()">
+                    🏪 Sell on NaijaDeals
                 </button>
-
             </div>
 
         </div>
 
-
-        <!-- HERO VISUAL -->
-
         <div class="hero-visual">
 
-            <div class="float-card large">
+            <div class="float-card main">
 
                 <div class="product-preview-image">
-
                     <img
                         src="https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg?auto=compress&cs=tinysrgb&w=800"
                         alt="Phone"
                     >
-
                 </div>
 
-                <h3>
-                    Smartphones & Gadgets
-                </h3>
-
-                <div class="float-price">
-                    Shop from ₦50,000+
-                </div>
+                <h3>Smartphones & Gadgets</h3>
+                <div class="float-price">Shop from ₦50,000+</div>
 
             </div>
-
 
             <div class="float-card small1">
 
                 <div class="product-preview-image">
-
                     <img
                         src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=600"
                         alt="Car"
                     >
-
                 </div>
 
-                <h3>
-                    🚗 Cars
-                </h3>
-
-                <div class="float-price">
-                    Find vehicles
-                </div>
+                <h3>🚗 Cars</h3>
+                <div class="float-price">Find vehicles</div>
 
             </div>
-
 
             <div class="float-card small2">
 
                 <div class="product-preview-image">
-
                     <img
                         src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600"
                         alt="House"
                     >
-
                 </div>
 
-                <h3>
-                    🏡 Property
-                </h3>
-
-                <div class="float-price">
-                    Find a home
-                </div>
+                <h3>🏡 Property</h3>
+                <div class="float-price">Find a home</div>
 
             </div>
 
         </div>
 
     </div>
-
 </section>
-
 
 <!-- =========================
      STATS
@@ -1967,139 +2097,72 @@ footer{
 <div class="stats">
 
     <div class="stat">
-
-        <strong>
-            13+
-        </strong>
-
-        <span>
-            Categories
-        </span>
-
+        <strong>13+</strong>
+        <span>Categories</span>
     </div>
 
     <div class="stat">
-
-        <strong>
-            300+
-        </strong>
-
-        <span>
-            Listings
-        </span>
-
+        <strong>300+</strong>
+        <span>Listings</span>
     </div>
 
     <div class="stat">
-
-        <strong>
-            36
-        </strong>
-
-        <span>
-            States in Nigeria
-        </span>
-
+        <strong>36</strong>
+        <span>States in Nigeria</span>
     </div>
 
     <div class="stat">
-
-        <strong>
-            24/7
-        </strong>
-
-        <span>
-            Marketplace
-        </span>
-
+        <strong>24/7</strong>
+        <span>Marketplace</span>
     </div>
 
 </div>
-
-
-<!-- =========================
-     MAIN
-========================= -->
-
-<main>
-
 
 <!-- =========================
      CATEGORIES
 ========================= -->
 
-<section
-    class="section"
-    id="categories"
->
+<main>
+
+<section class="section" id="categories">
 
     <div class="container">
 
         <div class="section-title">
-
             <div>
-
-                <h2>
-                    Shop by Category
-                </h2>
-
-                <p>
-                    Choose a category to see available products.
-                </p>
-
+                <h2>Shop by Category</h2>
+                <p>Choose a category to see available products.</p>
             </div>
-
         </div>
 
-
-        <div
-            class="categories"
-            id="categoryGrid"
-        ></div>
+        <div class="categories" id="categoryGrid"></div>
 
     </div>
 
 </section>
 
-
 <!-- =========================
      PRODUCTS
 ========================= -->
 
-<section
-    class="section products-section"
-    id="productsSection"
->
+<section class="section products-section" id="productsSection">
 
     <div class="container">
 
         <div class="products-toolbar">
 
             <div>
-
-                <h2
-                    id="productsTitle"
-                >
-                    Products
-                </h2>
-
-                <p
-                    id="productsDescription"
-                >
+                <h2 id="productsTitle">Products</h2>
+                <p id="productsDescription">
                     Available listings
                 </p>
-
             </div>
 
-            <button
-                class="back-category"
-                onclick="closeProducts()"
-            >
+            <button class="back-category" onclick="closeProducts()">
                 ← Categories
             </button>
 
         </div>
-
 
         <div
             class="product-grid"
@@ -2109,115 +2172,6 @@ footer{
     </div>
 
 </section>
-
-
-<!-- =========================
-     HOW IT WORKS
-========================= -->
-
-<section
-    class="section"
-    id="how-it-works"
->
-
-    <div class="container">
-
-        <div class="section-title">
-
-            <div>
-
-                <h2>
-                    How NaijaDeals Works
-                </h2>
-
-                <p>
-                    Buying and selling made simple.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="categories">
-
-            <div class="category-card">
-
-                <div class="category-icon">
-                    🔎
-                </div>
-
-                <h3>
-                    Find what you need
-                </h3>
-
-                <p>
-                    Browse categories and discover
-                    available listings.
-                </p>
-
-            </div>
-
-
-            <div class="category-card">
-
-                <div class="category-icon">
-                    💬
-                </div>
-
-                <h3>
-                    Contact the seller
-                </h3>
-
-                <p>
-                    Review the listing and contact
-                    the seller.
-                </p>
-
-            </div>
-
-
-            <div class="category-card">
-
-                <div class="category-icon">
-                    🤝
-                </div>
-
-                <h3>
-                    Arrange the deal
-                </h3>
-
-                <p>
-                    Agree on the price, location
-                    and meeting details.
-                </p>
-
-            </div>
-
-
-            <div class="category-card">
-
-                <div class="category-icon">
-                    ⭐
-                </div>
-
-                <h3>
-                    Complete safely
-                </h3>
-
-                <p>
-                    Inspect the item before completing
-                    your purchase.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
 
 <!-- =========================
      SELLER BANNER
@@ -2230,23 +2184,15 @@ footer{
         <div class="seller-banner">
 
             <div>
-
-                <h2>
-                    Have something to sell?
-                </h2>
-
+                <h2>Have something to sell?</h2>
                 <p>
-                    Put your car, house, phone, laptop,
-                    electronics or other products in front
-                    of buyers across Nigeria.
+                    Create your seller account and put your products
+                    in front of customers across Nigeria.
                 </p>
-
             </div>
 
-            <button
-                onclick="openSellModal()"
-            >
-                Start Selling
+            <button onclick="goSeller()">
+                Start Selling →
             </button>
 
         </div>
@@ -2255,439 +2201,426 @@ footer{
 
 </section>
 
-
 </main>
-
 
 <!-- =========================
      FOOTER
 ========================= -->
 
-<footer id="contact">
+<footer>
 
-    <div class="container">
+    <div class="footer-grid">
 
-        <div class="footer-grid">
-
+        <div>
             <div class="footer-brand">
-
-                <h2>
-                    NaijaDeals
-                </h2>
-
-                <p>
-                    A simple Nigerian marketplace for
-                    buying and selling products, vehicles,
-                    properties and more.
-                </p>
-
+                🛍️ NaijaDeals
             </div>
 
+            <p>
+                A Nigerian marketplace for buying and selling
+                products, vehicles and property.
+            </p>
+        </div>
 
-            <div class="footer-column">
+        <div class="footer-col">
 
-                <h3>
-                    Marketplace
-                </h3>
+            <h4>Marketplace</h4>
 
-                <a href="#categories">
-                    Categories
-                </a>
-
-                <a href="#how-it-works">
-                    How it works
-                </a>
-
-                <a
-                    href="#"
-                    onclick="openSellModal();return false;"
-                >
-                    Sell an item
-                </a>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h3>
-                    Popular
-                </h3>
-
-                <a
-                    href="#categories"
-                    onclick="openCategory('Cars')"
-                >
-                    Cars
-                </a>
-
-                <a
-                    href="#categories"
-                    onclick="openCategory('Property')"
-                >
-                    Property
-                </a>
-
-                <a
-                    href="#categories"
-                    onclick="openCategory('Phones')"
-                >
-                    Phones
-                </a>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h3>
-                    Contact
-                </h3>
-
-                <a
-                    href="https://wa.me/2348133267868"
-                    target="_blank"
-                >
-                    WhatsApp
-                </a>
-
-                <a href="#contact">
-                    Customer Support
-                </a>
-
-                <a href="#home">
-                    Back to top
-                </a>
-
-            </div>
+            <button onclick="scrollToCategories()">Categories</button>
+            <button onclick="scrollToCategories()">Products</button>
+            <button onclick="openCart()">Cart</button>
 
         </div>
 
+        <div class="footer-col">
 
-        <div class="footer-bottom">
+            <h4>Sell</h4>
 
-            © 2026 NaijaDeals. All rights reserved.
+            <button onclick="goSeller()">Become a Seller</button>
+            <button onclick="goSeller()">Seller Dashboard</button>
+            <button onclick="goAdmin()">Admin</button>
+
+        </div>
+
+        <div class="footer-col">
+
+            <h4>Help</h4>
+
+            <button onclick="openAuth()">My Account</button>
+            <button onclick="showToast('Customer support will be available soon')">
+                Contact Us
+            </button>
+            <button onclick="showToast('More help options coming soon')">
+                Help Centre
+            </button>
 
         </div>
 
     </div>
 
+    <div style="
+        width:min(1200px,100%);
+        margin:35px auto 0;
+        padding-top:20px;
+        border-top:1px solid rgba(255,255,255,.1);
+        text-align:center;
+        color:#8ea098;
+        font-size:13px;
+    ">
+        © 2026 NaijaDeals. Built for Nigeria 🇳🇬
+    </div>
+
 </footer>
 
+<!-- =========================
+     MOBILE NAV
+========================= -->
+
+<div class="mobile-nav">
+
+    <button onclick="goHome()">
+        <strong>🏠</strong>
+        Home
+    </button>
+
+    <button onclick="scrollToCategories()">
+        <strong>🛍️</strong>
+        Shop
+    </button>
+
+    <button onclick="goSeller()">
+        <strong>🏪</strong>
+        Sell
+    </button>
+
+    <button onclick="openCart()">
+        <strong>🛒</strong>
+        Cart
+    </button>
+
+</div>
+
+<!-- =====================================================
+     🚗 CAR TRANSITION
+===================================================== -->
+
+<div class="page-transition" id="pageTransition">
+
+    <div class="transitionText" id="transitionText">
+        🚗 NaijaDeals
+    </div>
+
+    <div class="transitionSubtext" id="transitionSubtext">
+        Taking you there...
+    </div>
+
+    <div class="transition-cloud"></div>
+    <div class="transition-cloud cloud-two"></div>
+
+    <div class="grass"></div>
+
+    <div class="road"></div>
+
+    <div class="speedLine one"></div>
+    <div class="speedLine two"></div>
+    <div class="speedLine three"></div>
+    <div class="speedLine four"></div>
+
+    <div class="car">
+
+        <div class="carRoof"></div>
+
+        <div class="window one"></div>
+        <div class="window two"></div>
+
+        <div class="carBody"></div>
+
+        <div class="headlight"></div>
+
+        <div class="bumper"></div>
+
+        <div class="wheel one"></div>
+        <div class="wheel two"></div>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     AUTH MODAL
+========================= -->
+
+<div class="modal" id="authModal">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('authModal')">
+            ×
+        </button>
+
+        <h2 id="authTitle">Login to NaijaDeals</h2>
+
+        <div id="authFormArea"></div>
+
+    </div>
+
+</div>
+
+<!-- =========================
+     PRODUCT MODAL
+========================= -->
+
+<div class="modal" id="productModal">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('productModal')">
+            ×
+        </button>
+
+        <div id="productDetail"></div>
+
+    </div>
+
+</div>
 
 <!-- =========================
      CART MODAL
 ========================= -->
 
-<div
-    class="modal"
-    id="cartModal"
->
+<div class="modal" id="cartModal">
 
     <div class="modal-box">
 
-        <button
-            class="close-modal"
-            onclick="closeModal('cartModal')"
-        >
+        <button class="close" onclick="closeModal('cartModal')">
             ×
         </button>
 
-        <h2>
-            Your Cart
-        </h2>
-
-        <p class="modal-subtitle">
-            Review the products you have selected.
-        </p>
+        <h2>🛒 Your Cart</h2>
 
         <div id="cartItems"></div>
 
-        <div class="cart-summary">
-
-            <div class="cart-total">
-
-                <span>
-                    Total
-                </span>
-
-                <span id="cartTotal">
-                    ₦0
-                </span>
-
-            </div>
-
-            <button
-                class="checkout-btn"
-                onclick="checkoutCart()"
-            >
-                Continue to WhatsApp
-            </button>
-
+        <div class="cart-total">
+            <span>Total</span>
+            <span id="cartTotal">₦0</span>
         </div>
+
+        <button
+            class="form-submit"
+            onclick="checkout()"
+        >
+            Proceed to Checkout
+        </button>
 
     </div>
 
 </div>
 
+<!-- =========================
+     CHECKOUT MODAL
+========================= -->
+
+<div class="modal" id="checkoutModal">
+
+    <div class="modal-box">
+
+        <button class="close" onclick="closeModal('checkoutModal')">
+            ×
+        </button>
+
+        <h2>Checkout</h2>
+
+        <div class="form-group">
+            <label>Full Name</label>
+            <input
+                id="checkoutName"
+                type="text"
+                placeholder="Your full name"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input
+                id="checkoutPhone"
+                type="tel"
+                placeholder="080..."
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Delivery Address</label>
+            <input
+                id="checkoutAddress"
+                type="text"
+                placeholder="Street, area, city"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>State</label>
+
+            <select id="checkoutState">
+
+                <option value="">Select state</option>
+
+                <option>Lagos</option>
+                <option>Abuja FCT</option>
+                <option>Rivers</option>
+                <option>Oyo</option>
+                <option>Ogun</option>
+                <option>Kano</option>
+                <option>Kaduna</option>
+                <option>Enugu</option>
+                <option>Delta</option>
+                <option>Edo</option>
+                <option>Akwa Ibom</option>
+                <option>Cross River</option>
+                <option>Imo</option>
+                <option>Abia</option>
+                <option>Anambra</option>
+                <option>Ondo</option>
+                <option>Osun</option>
+                <option>Ekiti</option>
+                <option>Kwara</option>
+                <option>Benue</option>
+                <option>Plateau</option>
+                <option>Niger</option>
+                <option>Bauchi</option>
+                <option>Borno</option>
+                <option>Gombe</option>
+                <option>Yobe</option>
+                <option>Kebbi</option>
+                <option>Sokoto</option>
+                <option>Zamfara</option>
+                <option>Katsina</option>
+                <option>Jigawa</option>
+                <option>Taraba</option>
+                <option>Adamawa</option>
+                <option>Nasarawa</option>
+                <option>Ebonyi</option>
+                <option>Bayelsa</option>
+
+            </select>
+
+        </div>
+
+        <button
+            class="form-submit"
+            onclick="submitOrder()"
+        >
+            Place Order
+        </button>
+
+    </div>
+
+</div>
 
 <!-- =========================
      INSPECTION MODAL
 ========================= -->
 
-<div
-    class="modal"
-    id="inspectionModal"
->
+<div class="modal" id="inspectionModal">
 
     <div class="modal-box">
 
         <button
-            class="close-modal"
+            class="close"
             onclick="closeModal('inspectionModal')"
         >
             ×
         </button>
 
-        <h2>
-            🔎 Request Inspection
-        </h2>
+        <h2>🔎 Request an Inspection</h2>
 
-        <p class="modal-subtitle">
-            Arrange an inspection before buying this
-            vehicle or property.
-        </p>
-
-
-        <div
-            class="inspection-info"
-        >
-            You can request an inspection of a car or
-            house before making a final decision.
-            Fill in your details and we will contact you
-            through WhatsApp.
+        <div class="inspection-note">
+            <strong>Inspect before you buy.</strong><br>
+            Choose a date and time that works for you.
+            We will contact you to confirm the inspection appointment.
         </div>
 
-
-        <div
-            class="inspection-listing"
-            id="inspectionListing"
-        >
-            <strong>
-                Selected listing
-            </strong>
-
-            <span>
-                No listing selected
-            </span>
+        <div class="inspection-listing" id="inspectionListing">
+            Listing
         </div>
 
+        <input type="hidden" id="inspectionProductId">
+        <input type="hidden" id="inspectionType">
 
-        <form
-            id="inspectionForm"
-            onsubmit="submitInspection(event)"
-        >
-
+        <div class="form-group">
+            <label>Full Name</label>
             <input
-                type="hidden"
-                id="inspectionProductId"
+                id="inspectionName"
+                type="text"
+                placeholder="Your full name"
             >
+        </div>
 
+        <div class="form-group">
+            <label>Phone / WhatsApp Number</label>
             <input
-                type="hidden"
-                id="inspectionType"
+                id="inspectionPhone"
+                type="tel"
+                placeholder="080..."
             >
+        </div>
 
-
-            <div class="form-group">
-
-                <label>
-                    Full Name *
-                </label>
-
-                <input
-                    type="text"
-                    id="inspectionName"
-                    placeholder="Enter your full name"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Phone / WhatsApp Number *
-                </label>
-
-                <input
-                    type="tel"
-                    id="inspectionPhone"
-                    placeholder="e.g. 08133267868"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-row">
-
-                <div class="form-group">
-
-                    <label>
-                        Inspection Date *
-                    </label>
-
-                    <input
-                        type="date"
-                        id="inspectionDate"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label>
-                        Preferred Time *
-                    </label>
-
-                    <input
-                        type="time"
-                        id="inspectionTime"
-                        required
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Inspection Location / Address *
-                </label>
-
-                <input
-                    type="text"
-                    id="inspectionLocation"
-                    placeholder="Enter where you want the inspection"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Additional Notes
-                </label>
-
-                <textarea
-                    id="inspectionNotes"
-                    placeholder="Any questions or special instructions?"
-                ></textarea>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="submit-btn"
+        <div class="form-group">
+            <label>Inspection Location / Address</label>
+            <input
+                id="inspectionAddress"
+                type="text"
+                placeholder="Area, street, city"
             >
-                📱 Request Inspection on WhatsApp
-            </button>
+        </div>
 
-        </form>
+        <div class="form-group">
+            <label>Preferred Date</label>
+            <input
+                id="inspectionDate"
+                type="date"
+            >
+        </div>
 
-    </div>
+        <div class="form-group">
+            <label>Preferred Time</label>
+            <input
+                id="inspectionTime"
+                type="time"
+            >
+        </div>
 
-</div>
-
-
-<!-- =========================
-     SELL MODAL
-========================= -->
-
-<div
-    class="modal"
-    id="sellModal"
->
-
-    <div class="modal-box">
-
-        <button
-            class="close-modal"
-            onclick="closeModal('sellModal')"
-        >
-            ×
-        </button>
-
-        <h2>
-            Sell on NaijaDeals
-        </h2>
-
-        <p class="modal-subtitle">
-            Contact us to list your product.
-        </p>
-
-        <div class="inspection-info">
-            Send your product details and photos through
-            WhatsApp and our team can help you list it.
+        <div class="form-group">
+            <label>Additional Notes</label>
+            <input
+                id="inspectionNotes"
+                type="text"
+                placeholder="Any questions or special request?"
+            >
         </div>
 
         <button
-            class="submit-btn"
-            onclick="contactSeller()"
+            class="form-submit"
+            onclick="submitInspection()"
         >
-            📱 Contact NaijaDeals
+            📅 Request Inspection
         </button>
 
     </div>
-
 </div>
-
 
 <!-- =========================
      TOAST
 ========================= -->
 
-<div
-    class="toast"
-    id="toast"
-></div>
-
+<div class="toast" id="toast"></div>
 
 <script>
 
 /* =====================================================
-   STATE
+   CONFIGURATION
 ===================================================== */
 
-const state = {
-
-    products: [],
-
-    displayedProducts: [],
-
-    category: "",
-
-    cart: []
-
-};
-
-
-/* =====================================================
-   WHATSAPP NUMBER
-===================================================== */
-
-const WHATSAPP_NUMBER =
-    "2348133267868";
-
+const API = "";
 
 /* =====================================================
    CATEGORY DATA
@@ -2696,921 +2629,515 @@ const WHATSAPP_NUMBER =
 const categories = [
 
     {
-        name:"Phones",
-        icon:"📱",
-        description:"Smartphones and mobile devices"
+        name:"Phones & Electronics",
+        icon:"📱"
     },
 
     {
-        name:"Laptops",
-        icon:"💻",
-        description:"Laptops and computers"
-    },
-
-    {
-        name:"Cars",
-        icon:"🚗",
-        description:"Cars and vehicles"
-    },
-
-    {
-        name:"Property",
-        icon:"🏡",
-        description:"Houses and property"
-    },
-
-    {
-        name:"Electronics",
-        icon:"📺",
-        description:"TVs and electronics"
+        name:"Power & Electricity",
+        icon:"⚡"
     },
 
     {
         name:"Fashion",
-        icon:"👕",
-        description:"Clothes and fashion"
-    },
-
-    {
-        name:"Watches",
-        icon:"⌚",
-        description:"Watches and smart watches"
-    },
-
-    {
-        name:"Accessories",
-        icon:"🎧",
-        description:"Phone and tech accessories"
-    },
-
-    {
-        name:"Furniture",
-        icon:"🛋️",
-        description:"Home and office furniture"
-    },
-
-    {
-        name:"Appliances",
-        icon:"🧊",
-        description:"Home appliances"
-    },
-
-    {
-        name:"Gaming",
-        icon:"🎮",
-        description:"Gaming consoles and accessories"
+        icon:"👗"
     },
 
     {
         name:"Beauty",
-        icon:"💄",
-        description:"Beauty and personal care"
+        icon:"💄"
     },
 
     {
-        name:"Other",
-        icon:"📦",
-        description:"Other products"
+        name:"Food & Groceries",
+        icon:"🛒"
+    },
+
+    {
+        name:"Home & Kitchen",
+        icon:"🏠"
+    },
+
+    {
+        name:"Baby & Kids",
+        icon:"👶"
+    },
+
+    {
+        name:"Cars",
+        icon:"🚗"
+    },
+
+    {
+        name:"Houses & Property",
+        icon:"🏡"
+    },
+
+    {
+        name:"Tools",
+        icon:"🔧"
+    },
+
+    {
+        name:"Sports & Fitness",
+        icon:"⚽"
+    },
+
+    {
+        name:"School & Office",
+        icon:"📚"
+    },
+
+    {
+        name:"Gifts",
+        icon:"🎁"
     }
 
 ];
 
+const categoryIcons = {};
+
+categories.forEach(category=>{
+    categoryIcons[category.name] = category.icon;
+});
 
 /* =====================================================
-   SAMPLE PRODUCTS
+   IMAGE FALLBACKS
 ===================================================== */
 
-const defaultProducts = [
-    /* =========================
-       PHONES
-    ========================== */
+const categoryImages = {
 
-    {
-        id: "iphone-5",
-        name: "iPhone 5",
-        category: "Phones",
-        price: 55000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 5 smartphone."
-    },
-    {
-        id: "iphone-6",
-        name: "iPhone 6",
-        category: "Phones",
-        price: 65000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 6 smartphone."
-    },
-    {
-        id: "iphone-7",
-        name: "iPhone 7",
-        category: "Phones",
-        price: 85000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 7 smartphone."
-    },
-    {
-        id: "iphone-8",
-        name: "iPhone 8",
-        category: "Phones",
-        price: 95000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1537589376225-5405c60a5bd8?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 8 smartphone."
-    },
-    {
-        id: "iphone-x",
-        name: "iPhone X",
-        category: "Phones",
-        price: 135000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1512499617640-c2f999fe3f3f?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone X."
-    },
-    {
-        id: "iphone-xr",
-        name: "iPhone XR",
-        category: "Phones",
-        price: 165000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1592286927505-2fd0c1e5b6d5?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone XR."
-    },
-    {
-        id: "iphone-11",
-        name: "iPhone 11",
-        category: "Phones",
-        price: 220000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1574755393849-623942496936?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 11."
-    },
-    {
-        id: "iphone-11-pro",
-        name: "iPhone 11 Pro",
-        category: "Phones",
-        price: 270000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 11 Pro."
-    },
-    {
-        id: "iphone-12",
-        name: "iPhone 12",
-        category: "Phones",
-        price: 300000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1603891128711-11b4b2e8c138?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 12."
-    },
-    {
-        id: "iphone-12-pro",
-        name: "iPhone 12 Pro",
-        category: "Phones",
-        price: 350000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1603921326210-6edd2d60ca68?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 12 Pro."
-    },
-    {
-        id: "iphone-13",
-        name: "iPhone 13",
-        category: "Phones",
-        price: 390000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 13."
-    },
-    {
-        id: "iphone-13-pro",
-        name: "iPhone 13 Pro",
-        category: "Phones",
-        price: 470000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1632633173522-1e9c6c2b4b93?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 13 Pro."
-    },
-    {
-        id: "iphone-14",
-        name: "iPhone 14",
-        category: "Phones",
-        price: 500000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1663499482523-1c0c1f1f1c2f?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 14."
-    },
-    {
-        id: "iphone-14-pro",
-        name: "iPhone 14 Pro",
-        category: "Phones",
-        price: 620000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1663499482523-1c0c1f1f1c2f?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 14 Pro."
-    },
-    {
-        id: "iphone-15",
-        name: "iPhone 15",
-        category: "Phones",
-        price: 650000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 15."
-    },
-    {
-        id: "iphone-15-pro",
-        name: "iPhone 15 Pro",
-        category: "Phones",
-        price: 780000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 15 Pro."
-    },
-    {
-        id: "iphone-16",
-        name: "iPhone 16",
-        category: "Phones",
-        price: 850000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1726148923738-8d3b1c5a7f1e?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 16."
-    },
-    {
-        id: "iphone-16-pro",
-        name: "iPhone 16 Pro",
-        category: "Phones",
-        price: 1050000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1726148923738-8d3b1c5a7f1e?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 16 Pro."
-    },
-    {
-        id: "iphone-17",
-        name: "iPhone 17",
-        category: "Phones",
-        price: 1150000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 17."
-    },
-    {
-        id: "iphone-17-pro",
-        name: "iPhone 17 Pro",
-        category: "Phones",
-        price: 1350000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 17 Pro."
-    },
-    {
-        id: "iphone-18",
-        name: "iPhone 18",
-        category: "Phones",
-        price: 1500000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 18."
-    },
-    {
-        id: "iphone-18-pro-max",
-        name: "iPhone 18 Pro Max",
-        category: "Phones",
-        price: 1800000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=900&q=80",
-        description: "Apple iPhone 18 Pro Max."
-    },
+    "Phones & Electronics":
+        "https://images.pexels.com/photos/404280/pexels-photo-404280.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    /* =========================
-       SAMSUNG
-    ========================== */
+    "Power & Electricity":
+        "https://images.pexels.com/photos/356036/pexels-photo-356036.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    {
-        id: "samsung-a14",
-        name: "Samsung Galaxy A14",
-        category: "Phones",
-        price: 145000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy A14."
-    },
-    {
-        id: "samsung-a24",
-        name: "Samsung Galaxy A24",
-        category: "Phones",
-        price: 185000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1610945264803-cf2f9f8a7d5f?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy A24."
-    },
-    {
-        id: "samsung-a34",
-        name: "Samsung Galaxy A34",
-        category: "Phones",
-        price: 240000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy A34."
-    },
-    {
-        id: "samsung-a54",
-        name: "Samsung Galaxy A54",
-        category: "Phones",
-        price: 285000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy A54."
-    },
-    {
-        id: "samsung-s21",
-        name: "Samsung Galaxy S21",
-        category: "Phones",
-        price: 280000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy S21."
-    },
-    {
-        id: "samsung-s22",
-        name: "Samsung Galaxy S22",
-        category: "Phones",
-        price: 350000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1610945264803-cf2f9f8a7d5f?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy S22."
-    },
-    {
-        id: "samsung-s23",
-        name: "Samsung Galaxy S23",
-        category: "Phones",
-        price: 430000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy S23."
-    },
-    {
-        id: "samsung-s24",
-        name: "Samsung Galaxy S24",
-        category: "Phones",
-        price: 600000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy S24."
-    },
-    {
-        id: "samsung-s25",
-        name: "Samsung Galaxy S25",
-        category: "Phones",
-        price: 750000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy S25."
-    },
-    {
-        id: "samsung-z-flip",
-        name: "Samsung Galaxy Z Flip",
-        category: "Phones",
-        price: 650000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy Z Flip."
-    },
-    {
-        id: "samsung-z-fold",
-        name: "Samsung Galaxy Z Fold",
-        category: "Phones",
-        price: 1100000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy Z Fold."
-    },
+    "Fashion":
+        "https://images.pexels.com/photos/994523/pexels-photo-994523.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    /* =========================
-       LAPTOPS
-    ========================== */
+    "Beauty":
+        "https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    {
-        id: "hp-elitebook-840",
-        name: "HP EliteBook 840",
-        category: "Laptops",
-        price: 420000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",
-        description: "HP EliteBook business laptop."
-    },
-    {
-        id: "hp-probook-450",
-        name: "HP ProBook 450",
-        category: "Laptops",
-        price: 350000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1484788984921-03950022c9ef?auto=format&fit=crop&w=900&q=80",
-        description: "HP ProBook laptop."
-    },
-    {
-        id: "hp-pavilion",
-        name: "HP Pavilion",
-        category: "Laptops",
-        price: 500000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",
-        description: "HP Pavilion laptop."
-    },
-    {
-        id: "dell-latitude-5420",
-        name: "Dell Latitude 5420",
-        category: "Laptops",
-        price: 450000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=900&q=80",
-        description: "Dell Latitude business laptop."
-    },
-    {
-        id: "dell-xps-13",
-        name: "Dell XPS 13",
-        category: "Laptops",
-        price: 850000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1593642634367-d91a135587b5?auto=format&fit=crop&w=900&q=80",
-        description: "Dell XPS 13 premium laptop."
-    },
-    {
-        id: "lenovo-thinkpad",
-        name: "Lenovo ThinkPad",
-        category: "Laptops",
-        price: 380000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=80",
-        description: "Lenovo ThinkPad laptop."
-    },
-    {
-        id: "lenovo-ideapad",
-        name: "Lenovo IdeaPad",
-        category: "Laptops",
-        price: 400000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=80",
-        description: "Lenovo IdeaPad laptop."
-    },
-    {
-        id: "macbook-air-m1",
-        name: "MacBook Air M1",
-        category: "Laptops",
-        price: 750000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
-        description: "Apple MacBook Air M1."
-    },
-    {
-        id: "macbook-air-m2",
-        name: "MacBook Air M2",
-        category: "Laptops",
-        price: 1050000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=80",
-        description: "Apple MacBook Air M2."
-    },
-    {
-        id: "macbook-pro",
-        name: "MacBook Pro",
-        category: "Laptops",
-        price: 1450000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&w=900&q=80",
-        description: "Apple MacBook Pro."
-    },
+    "Food & Groceries":
+        "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    /* =========================
-       CARS
-    ========================== */
+    "Home & Kitchen":
+        "https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    {
-        id: "toyota-camry",
-        name: "Toyota Camry",
-        category: "Cars",
-        listingType: "car",
-        price: 12500000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&w=1000&q=80",
-        description: "Clean Toyota Camry in excellent condition."
-    },
-    {
-        id: "toyota-corolla",
-        name: "Toyota Corolla",
-        category: "Cars",
-        listingType: "car",
-        price: 9500000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=1000&q=80",
-        description: "Reliable Toyota Corolla."
-    },
-    {
-        id: "toyota-rav4",
-        name: "Toyota RAV4",
-        category: "Cars",
-        listingType: "car",
-        price: 16500000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1568844293986-8c6c2f7b8d2e?auto=format&fit=crop&w=1000&q=80",
-        description: "Toyota RAV4 SUV."
-    },
-    {
-        id: "toyota-highlander",
-        name: "Toyota Highlander",
-        category: "Cars",
-        listingType: "car",
-        price: 22000000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1000&q=80",
-        description: "Toyota Highlander SUV."
-    },
-    {
-        id: "lexus-rx350",
-        name: "Lexus RX 350",
-        category: "Cars",
-        listingType: "car",
-        price: 28000000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1616422285623-13ff0162193c?auto=format&fit=crop&w=1000&q=80",
-        description: "Luxury Lexus RX 350."
-    },
-    {
-        id: "lexus-es350",
-        name: "Lexus ES 350",
-        category: "Cars",
-        listingType: "car",
-        price: 24500000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1553440569-bcc63803a83d?auto=format&fit=crop&w=1000&q=80",
-        description: "Luxury Lexus ES 350."
-    },
-    {
-        id: "mercedes-c-class",
-        name: "Mercedes-Benz C-Class",
-        category: "Cars",
-        listingType: "car",
-        price: 32000000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1000&q=80",
-        description: "Mercedes-Benz C-Class."
-    },
-    {
-        id: "mercedes-glc",
-        name: "Mercedes-Benz GLC",
-        category: "Cars",
-        listingType: "car",
-        price: 48000000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1000&q=80",
-        description: "Mercedes-Benz GLC SUV."
-    },
-    {
-        id: "bmw-3-series",
-        name: "BMW 3 Series",
-        category: "Cars",
-        listingType: "car",
-        price: 30000000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1000&q=80",
-        description: "BMW 3 Series."
-    },
-    {
-        id: "honda-accord",
-        name: "Honda Accord",
-        category: "Cars",
-        listingType: "car",
-        price: 11000000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1000&q=80",
-        description: "Honda Accord sedan."
-    },
+    "Baby & Kids":
+        "https://images.pexels.com/photos/3662667/pexels-photo-3662667.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    /* =========================
-       HOUSES / PROPERTY
-    ========================== */
+    "Cars":
+        "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    {
-        id: "house-4-bedroom",
-        name: "Modern 4 Bedroom House",
-        category: "Houses",
-        listingType: "property",
-        price: 85000000,
-        location: "Lekki, Lagos",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
-        description: "Modern 4 bedroom house in a desirable location."
-    },
-    {
-        id: "house-5-bedroom",
-        name: "Luxury 5 Bedroom Duplex",
-        category: "Houses",
-        listingType: "property",
-        price: 150000000,
-        location: "Ikoyi, Lagos",
-        image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=80",
-        description: "Luxury five bedroom duplex."
-    },
-    {
-        id: "house-3-bedroom",
-        name: "3 Bedroom Family House",
-        category: "Houses",
-        listingType: "property",
-        price: 55000000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1000&q=80",
-        description: "Spacious three bedroom family home."
-    },
-    {
-        id: "house-modern-duplex",
-        name: "Modern 4 Bedroom Duplex",
-        category: "Houses",
-        listingType: "property",
-        price: 100000000,
-        location: "Ajah, Lagos",
-        image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1000&q=80",
-        description: "Modern duplex with spacious rooms."
-    },
-    {
-        id: "house-bungalow",
-        name: "3 Bedroom Bungalow",
-        category: "Houses",
-        listingType: "property",
-        price: 42000000,
-        location: "Ibadan",
-        image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80",
-        description: "Beautiful three bedroom bungalow."
-    },
-    {
-        id: "luxury-apartment",
-        name: "Luxury 3 Bedroom Apartment",
-        category: "Houses",
-        listingType: "property",
-        price: 65000000,
-        location: "Victoria Island, Lagos",
-        image: "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1000&q=80",
-        description: "Luxury apartment in Victoria Island."
-    },
-    {
-        id: "apartment-2-bedroom",
-        name: "2 Bedroom Apartment",
-        category: "Houses",
-        listingType: "property",
-        price: 35000000,
-        location: "Yaba, Lagos",
-        image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1000&q=80",
-        description: "Modern two bedroom apartment."
-    },
-    {
-        id: "estate-home",
-        name: "Estate 4 Bedroom Home",
-        category: "Houses",
-        listingType: "property",
-        price: 75000000,
-        location: "Gwarinpa, Abuja",
-        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
-        description: "Beautiful home inside a secure estate."
-    },
+    "Houses & Property":
+        "https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    /* =========================
-       WATCHES
-    ========================== */
+    "Tools":
+        "https://images.pexels.com/photos/1249611/pexels-photo-1249611.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    {
-        id: "apple-watch-series-6",
-        name: "Apple Watch Series 6",
-        category: "Watches",
-        price: 180000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=80",
-        description: "Apple Watch Series 6."
-    },
-    {
-        id: "apple-watch-series-8",
-        name: "Apple Watch Series 8",
-        category: "Watches",
-        price: 280000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=80",
-        description: "Apple Watch Series 8."
-    },
-    {
-        id: "apple-watch-series-9",
-        name: "Apple Watch Series 9",
-        category: "Watches",
-        price: 350000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1434493789847-2f02dc6ca35d?auto=format&fit=crop&w=900&q=80",
-        description: "Apple Watch Series 9."
-    },
-    {
-        id: "apple-watch-ultra",
-        name: "Apple Watch Ultra",
-        category: "Watches",
-        price: 550000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=900&q=80",
-        description: "Apple Watch Ultra."
-    },
-    {
-        id: "samsung-watch-5",
-        name: "Samsung Galaxy Watch 5",
-        category: "Watches",
-        price: 220000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy Watch 5."
-    },
-    {
-        id: "samsung-watch-6",
-        name: "Samsung Galaxy Watch 6",
-        category: "Watches",
-        price: 280000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80",
-        description: "Samsung Galaxy Watch 6."
-    },
+    "Sports & Fitness":
+        "https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    /* =========================
-       ACCESSORIES
-    ========================== */
+    "School & Office":
+        "https://images.pexels.com/photos/5905710/pexels-photo-5905710.jpeg?auto=compress&cs=tinysrgb&w=900",
 
-    {
-        id: "power-bank-10000",
-        name: "10,000mAh Power Bank",
-        category: "Accessories",
-        price: 25000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1609592424571-2b5d6b9f6f7c?auto=format&fit=crop&w=900&q=80",
-        description: "Portable 10,000mAh power bank."
-    },
-    {
-        id: "power-bank-20000",
-        name: "20,000mAh Power Bank",
-        category: "Accessories",
-        price: 40000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1609592424571-2b5d6b9f6f7c?auto=format&fit=crop&w=900&q=80",
-        description: "High capacity 20,000mAh power bank."
-    },
-    {
-        id: "iphone-charger",
-        name: "iPhone Fast Charger",
-        category: "Accessories",
-        price: 18000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1587033411391-5d9c7f5f6e6e?auto=format&fit=crop&w=900&q=80",
-        description: "Fast charger for iPhone."
-    },
-    {
-        id: "type-c-charger",
-        name: "USB-C Fast Charger",
-        category: "Accessories",
-        price: 15000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1591290619762-c588e4c7a8a1?auto=format&fit=crop&w=900&q=80",
-        description: "USB-C fast charging adapter."
-    },
-    {
-        id: "phone-pouch",
-        name: "Premium Phone Pouch",
-        category: "Accessories",
-        price: 8000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1601593346740-925612772716?auto=format&fit=crop&w=900&q=80",
-        description: "Protective phone pouch."
-    },
-    {
-        id: "airpods",
-        name: "Wireless Earbuds",
-        category: "Accessories",
-        price: 35000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=900&q=80",
-        description: "Wireless Bluetooth earbuds."
-    },
-    {
-        id: "bluetooth-speaker",
-        name: "Bluetooth Speaker",
-        category: "Accessories",
-        price: 45000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=900&q=80",
-        description: "Portable Bluetooth speaker."
-    },
-    {
-        id: "phone-screen-protector",
-        name: "Phone Screen Protector",
-        category: "Accessories",
-        price: 5000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1609592424571-2b5d6b9f6f7c?auto=format&fit=crop&w=900&q=80",
-        description: "Protective tempered glass screen protector."
-    },
-    {
-        id: "phone-case",
-        name: "Premium Phone Case",
-        category: "Accessories",
-        price: 7000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1603313011108-4a1d1e1c1f7e?auto=format&fit=crop&w=900&q=80",
-        description: "Protective premium phone case."
-    },
-    {
-        id: "car-charger",
-        name: "Car Phone Charger",
-        category: "Accessories",
-        price: 12000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1591290619762-c588e4c7a8a1?auto=format&fit=crop&w=900&q=80",
-        description: "USB car charger for phones."
-    },
-    {
-        id: "smart-watch-band",
-        name: "Smart Watch Band",
-        category: "Accessories",
-        price: 6000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=900&q=80",
-        description: "Replacement smart watch band."
-    },
-    {
-        id: "laptop-bag",
-        name: "Laptop Bag",
-        category: "Accessories",
-        price: 18000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80",
-        description: "Protective laptop carrying bag."
-    },
-    {
-        id: "wireless-keyboard",
-        name: "Wireless Keyboard",
-        category: "Accessories",
-        price: 25000,
-        location: "Abuja",
-        image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=900&q=80",
-        description: "Wireless computer keyboard."
-    },
-    {
-        id: "wireless-mouse",
-        name: "Wireless Mouse",
-        category: "Accessories",
-        price: 12000,
-        location: "Lagos",
-        image: "https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=900&q=80",
-        description: "Wireless computer mouse."
-    }
-];
+    "Gifts":
+        "https://images.pexels.com/photos/264507/pexels-photo-264507.jpeg?auto=compress&cs=tinysrgb&w=900"
 
-
+};
 
 /* =====================================================
-   INITIALIZE
+   EXTRA CATALOGUE
 ===================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
+const extraCatalogue = {
 
-        state.products =
-            loadProducts();
+"Phones & Electronics":[
+    "iPhone 15 Pro Max",
+    "iPhone 15 Pro",
+    "iPhone 14 Pro Max",
+    "iPhone 14",
+    "Samsung Galaxy S24 Ultra",
+    "Samsung Galaxy A55",
+    "Tecno Camon 30",
+    "Infinix Note 40",
+    "Google Pixel 9",
+    "Oraimo Wireless Earbuds",
+    "Sony Headphones",
+    "HP Laptop",
+    "Dell Laptop",
+    "Lenovo ThinkPad",
+    "Apple MacBook Air",
+    "iPad 10th Generation",
+    "Samsung Tablet",
+    "Smart Watch",
+    "Bluetooth Speaker",
+    "Phone Charger"
+],
 
-        loadCart();
+"Power & Electricity":[
+    "20000mAh Power Bank",
+    "Solar Power Bank",
+    "Mini Solar Panel",
+    "Solar Inverter",
+    "1.5KVA Inverter",
+    "3.5KVA Generator",
+    "Rechargeable Fan",
+    "Emergency Light",
+    "LED Bulb Pack",
+    "Extension Box",
+    "Voltage Stabilizer",
+    "Rechargeable Lamp",
+    "Solar Flood Light",
+    "UPS Backup",
+    "Power Station",
+    "Solar Street Light",
+    "Inverter Battery",
+    "Rechargeable Torch",
+    "Electric Fan",
+    "Surge Protector"
+],
 
-        renderCategories();
+"Fashion":[
+    "Men's Senator Wear",
+    "Women's Ankara Dress",
+    "Premium Sneakers",
+    "Leather Shoes",
+    "Ladies Handbag",
+    "Men's Wristwatch",
+    "Women's Wristwatch",
+    "Denim Jacket",
+    "Polo Shirt",
+    "Cargo Pants",
+    "Designer Sunglasses",
+    "Leather Belt",
+    "Traditional Kaftan",
+    "Sports Jersey",
+    "Running Shoes",
+    "Slides",
+    "Hoodie",
+    "T-Shirt",
+    "Wedding Dress",
+    "School Backpack"
+],
 
-        updateCartCount();
+"Beauty":[
+    "Face Moisturizer",
+    "Vitamin C Serum",
+    "Body Lotion",
+    "Perfume",
+    "Foundation",
+    "Lipstick Set",
+    "Hair Conditioner",
+    "Shampoo",
+    "Hair Dryer",
+    "Hair Straightener",
+    "Wig",
+    "Body Spray",
+    "Face Cleanser",
+    "Sunscreen",
+    "Makeup Brush Set",
+    "Hair Cream",
+    "Beard Oil",
+    "Bath Set",
+    "Nail Kit",
+    "Beauty Gift Box"
+],
 
-    }
-);
+"Food & Groceries":[
+    "Golden Penny Semolina",
+    "Rice 10kg",
+    "Beans 5kg",
+    "Indomie Noodles",
+    "Milo Chocolate",
+    "Peak Milk",
+    "Garri 5kg",
+    "Palm Oil",
+    "Groundnut Oil",
+    "Tomato Paste",
+    "Spaghetti Pack",
+    "Cereal Pack",
+    "Sugar 2kg",
+    "Salt Pack",
+    "Bottled Water",
+    "Corn Flakes",
+    "Tea Bags",
+    "Biscuit Carton",
+    "Cooking Seasoning",
+    "Plantain Chips"
+],
 
+"Home & Kitchen":[
+    "Modern Sofa",
+    "Dining Table",
+    "Plastic Chairs",
+    "King Size Bed",
+    "Wardrobe",
+    "Kitchen Cabinet",
+    "Blender",
+    "Microwave Oven",
+    "Electric Kettle",
+    "Air Fryer",
+    "Gas Cooker",
+    "Refrigerator",
+    "Washing Machine",
+    "Standing Fan",
+    "Television Stand",
+    "Curtains",
+    "Duvet Set",
+    "Pillow Set",
+    "Floor Rug",
+    "Wall Mirror"
+],
+
+"Baby & Kids":[
+    "Baby Stroller",
+    "Baby Car Seat",
+    "Baby Clothes",
+    "Baby Shoes",
+    "Baby Diapers",
+    "Baby Formula",
+    "Baby Bath Set",
+    "Baby Feeding Bottle",
+    "Baby Walker",
+    "Kids School Bag",
+    "Kids Sneakers",
+    "Kids Bicycle",
+    "Kids Toy Car",
+    "Doll Set",
+    "Building Blocks",
+    "Educational Toys",
+    "Baby Blanket",
+    "Baby Monitor",
+    "Kids Wristwatch",
+    "Children's Table"
+],
+
+"Cars":[
+    "Toyota Camry 2020",
+    "Toyota Corolla 2021",
+    "Lexus RX 350 2019",
+    "Mercedes-Benz C300",
+    "Mercedes-Benz GLE",
+    "Lexus ES 350",
+    "Honda Accord 2020",
+    "Honda CR-V",
+    "Toyota Highlander",
+    "Toyota RAV4",
+    "Hyundai Sonata",
+    "Kia Sportage",
+    "Ford Explorer",
+    "Range Rover Evoque",
+    "Nissan Altima",
+    "Nissan X-Trail",
+    "Volkswagen Passat",
+    "Peugeot 508",
+    "BMW 3 Series",
+    "Audi A4"
+],
+
+"Houses & Property":[
+    "4 Bedroom Detached Duplex",
+    "3 Bedroom Apartment",
+    "5 Bedroom Luxury Duplex",
+    "2 Bedroom Apartment",
+    "Mini Flat",
+    "Self Contain Apartment",
+    "Commercial Shop",
+    "Office Space",
+    "Residential Land",
+    "Commercial Land",
+    "Estate House",
+    "Luxury Penthouse",
+    "Terrace Duplex",
+    "Semi Detached House",
+    "Beach House",
+    "Farm Land",
+    "Warehouse",
+    "Hotel Building",
+    "Bungalow",
+    "Shortlet Apartment"
+],
+
+"Tools":[
+    "Cordless Drill",
+    "Power Drill",
+    "Hammer",
+    "Screwdriver Set",
+    "Toolbox",
+    "Wrench Set",
+    "Measuring Tape",
+    "Angle Grinder",
+    "Circular Saw",
+    "Hand Saw",
+    "Pliers Set",
+    "Socket Set",
+    "Ladder",
+    "Work Gloves",
+    "Safety Helmet",
+    "Air Compressor",
+    "Pressure Washer",
+    "Jack Stand",
+    "Generator Tool Kit",
+    "Electric Screwdriver"
+],
+
+"Sports & Fitness":[
+    "Football",
+    "Basketball",
+    "Tennis Racket",
+    "Gym Dumbbells",
+    "Yoga Mat",
+    "Treadmill",
+    "Exercise Bike",
+    "Skipping Rope",
+    "Football Boots",
+    "Gym Gloves",
+    "Resistance Bands",
+    "Boxing Gloves",
+    "Punching Bag",
+    "Sports Jersey",
+    "Running Shoes",
+    "Fitness Watch",
+    "Gym Bench",
+    "Water Bottle",
+    "Sports Bag",
+    "Camping Tent"
+],
+
+"School & Office":[
+    "HP Printer",
+    "Laptop Bag",
+    "School Backpack",
+    "Notebook Pack",
+    "Ball Pen Pack",
+    "Office Chair",
+    "Office Desk",
+    "Whiteboard",
+    "Calculator",
+    "Stapler",
+    "Paper Ream",
+    "Desk Lamp",
+    "File Folder",
+    "Printer Ink",
+    "USB Flash Drive",
+    "External Hard Drive",
+    "Keyboard",
+    "Computer Mouse",
+    "Projector",
+    "Bookshelf"
+],
+
+"Gifts":[
+    "Gift Box",
+    "Chocolate Gift Set",
+    "Perfume Gift Set",
+    "Watch Gift Box",
+    "Flower Bouquet",
+    "Birthday Gift Basket",
+    "Wedding Gift Set",
+    "Baby Gift Basket",
+    "Leather Gift Set",
+    "Personalized Mug",
+    "Photo Frame",
+    "Jewelry Box",
+    "Luxury Pen",
+    "Gift Card",
+    "Teddy Bear",
+    "Surprise Box",
+    "Couple Gift Set",
+    "Corporate Gift Box",
+    "Christmas Gift Set",
+    "Romantic Gift Box"
+]
+
+};
+
+/* =====================================================
+   STATE
+===================================================== */
+
+const state = {
+
+    products:[],
+    displayedProducts:[],
+    category:"",
+    cart:[],
+    currentUser:null,
+    authMode:"login"
+
+};
+
+/* =====================================================
+   INIT
+===================================================== */
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    renderCategories();
+
+    loadProducts();
+
+    updateCartCount();
+
+});
+
+/* =====================================================
+   CATEGORY UI
+===================================================== */
+
+function renderCategories(){
+
+    const grid = document.getElementById("categoryGrid");
+
+    grid.innerHTML = categories.map((category,index)=>`
+
+        <button
+            class="category"
+            onclick="selectCategory('${escapeAttr(category.name)}')"
+            style="animation-delay:${index*40}ms"
+        >
+
+            <div class="category-icon">
+                ${category.icon}
+            </div>
+
+            <strong>
+                ${escapeHtml(category.name)}
+            </strong>
+
+        </button>
+
+    `).join("");
+
+}
 
 /* =====================================================
    LOAD PRODUCTS
 ===================================================== */
 
-function loadProducts(){
+async function loadProducts(){
 
     try{
 
-        const saved =
-            localStorage.getItem(
-                "naijadeals_products"
-            );
+        const response = await fetch(API + "/api/products");
 
-        if(saved){
+        if(!response.ok){
+            throw new Error("Could not load products");
+        }
 
-            const data =
-                JSON.parse(saved);
+        const data = await response.json();
 
-            if(Array.isArray(data) && data.length){
-
-                return data;
-
-            }
-
+        if(Array.isArray(data)){
+            state.products = data;
+        }
+        else if(Array.isArray(data.products)){
+            state.products = data.products;
+        }
+        else{
+            state.products = [];
         }
 
     }
@@ -3618,174 +3145,191 @@ function loadProducts(){
 
         console.error(error);
 
-    }
+        state.products = [];
 
-    return defaultProducts;
-
-}
-
-
-/* =====================================================
-   SAVE PRODUCTS
-===================================================== */
-
-function saveProducts(){
-
-    try{
-
-        localStorage.setItem(
-            "naijadeals_products",
-            JSON.stringify(
-                state.products
-            )
+        showToast(
+            "Marketplace data could not be loaded. Check that server.js is running."
         );
 
     }
-    catch(error){
-
-        console.error(error);
-
-    }
 
 }
 
-
 /* =====================================================
-   RENDER CATEGORIES
-===================================================== */
-
-function renderCategories(){
-
-    const grid =
-        document.getElementById(
-            "categoryGrid"
-        );
-
-    grid.innerHTML =
-        categories.map(category => `
-
-            <div
-                class="category-card"
-                onclick="openCategory('${escapeAttr(category.name)}')"
-            >
-
-                <div class="category-icon">
-                    ${category.icon}
-                </div>
-
-                <h3>
-                    ${escapeHtml(category.name)}
-                </h3>
-
-                <p>
-                    ${escapeHtml(category.description)}
-                </p>
-
-            </div>
-
-        `).join("");
-
-}
-
-
-/* =====================================================
-   OPEN CATEGORY
-===================================================== */
-
-function openCategory(category){
-
-    state.category =
-        category;
-
-    state.displayedProducts =
-        getProductsForCategory(category);
-
-    document.getElementById(
-        "productsTitle"
-    ).textContent =
-        category;
-
-    document.getElementById(
-        "productsDescription"
-    ).textContent =
-        `${state.displayedProducts.length} listing(s) available`;
-
-    document.getElementById(
-        "productsSection"
-    ).classList.add("active");
-
-    renderProducts();
-
-    setTimeout(()=>{
-
-        document
-            .getElementById("productsSection")
-            .scrollIntoView({
-                behavior:"smooth",
-                block:"start"
-            });
-
-    },100);
-
-}
-
-
-/* =====================================================
-   GET PRODUCTS FOR CATEGORY
+   CREATE EXTRA DISPLAY PRODUCTS
 ===================================================== */
 
 function getProductsForCategory(category){
 
-    return state.products.filter(
-        product =>
-            String(product.category || "")
-            .toLowerCase() ===
-            String(category)
-            .toLowerCase()
+    let products = state.products.filter(
+        product => product.category === category
     );
+
+    const names = extraCatalogue[category] || [];
+
+    names.forEach((name,index)=>{
+
+        const alreadyExists = products.some(
+            product =>
+                String(product.name || "").toLowerCase() === name.toLowerCase()
+        );
+
+        if(!alreadyExists){
+
+            products.push({
+
+                id:`catalogue_${slug(category)}_${index}`,
+
+                name:name,
+
+                category:category,
+
+                price:getDemoPrice(category,index),
+
+                image:getCategoryImage(category),
+
+                location:
+                    category === "Cars"
+                    ? "Lagos, Nigeria"
+                    : category === "Houses & Property"
+                    ? "Lagos, Nigeria"
+                    : "Nigeria",
+
+                sellerName:"NaijaDeals Seller",
+
+                catalogueDemo:true
+
+            });
+
+        }
+
+    });
+
+    return products.slice(0,20);
 
 }
 
+/* =====================================================
+   DEMO PRICES
+===================================================== */
+
+function getDemoPrice(category,index){
+
+    if(category === "Cars"){
+        return [
+            18500000,
+            22000000,
+            28500000,
+            35000000,
+            45000000,
+            32000000,
+            18000000,
+            26000000,
+            30000000,
+            24000000
+        ][index % 10] || 25000000;
+    }
+
+    if(category === "Houses & Property"){
+        return [
+            85000000,
+            55000000,
+            140000000,
+            45000000,
+            25000000,
+            18000000,
+            35000000,
+            50000000,
+            30000000,
+            65000000
+        ][index % 10] || 50000000;
+    }
+
+    const prices = [
+        25000,
+        45000,
+        75000,
+        120000,
+        180000,
+        250000,
+        350000,
+        500000,
+        750000,
+        1200000
+    ];
+
+    return prices[index % prices.length];
+
+}
 
 /* =====================================================
-   GET CATEGORY IMAGE
+   CATEGORY IMAGE
 ===================================================== */
 
 function getCategoryImage(category){
 
-    const images = {
-
-        Phones:
-        "https://images.unsplash.com/photo-1591337676887-a217a6970a8a?auto=format&fit=crop&w=800&q=80",
-
-        Laptops:
-        "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=80",
-
-        Cars:
-        "https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=800",
-
-        Property:
-        "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=800",
-
-        Electronics:
-        "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=800&q=80",
-
-        Fashion:
-        "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=800&q=80",
-
-        Watches:
-        "https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?auto=format&fit=crop&w=800&q=80",
-
-        Accessories:
-        "https://images.unsplash.com/photo-1609592424691-48c2c5a6f4b0?auto=format&fit=crop&w=800&q=80"
-
-    };
-
-    return images[category] ||
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80";
+    return categoryImages[category] ||
+        "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=900";
 
 }
 
+/* =====================================================
+   SELECT CATEGORY
+===================================================== */
+
+function selectCategory(category){
+
+    const transition =
+        document.getElementById("pageTransition");
+
+    const section =
+        document.getElementById("productsSection");
+
+    const transitionText =
+        document.getElementById("transitionText");
+
+    const transitionSubtext =
+        document.getElementById("transitionSubtext");
+
+    transitionText.textContent =
+        `${categoryIcons[category] || "🛍️"} ${category}`;
+
+    transitionSubtext.textContent =
+        "🚗 Driving to your products...";
+
+    transition.classList.add("active");
+
+    setTimeout(()=>{
+
+        state.category = category;
+
+        state.displayedProducts =
+            getProductsForCategory(category);
+
+        document.getElementById("productsTitle").innerHTML =
+            `${categoryIcons[category] || "🛍️"} ${escapeHtml(category)}`;
+
+        document.getElementById("productsDescription").textContent =
+            `${state.displayedProducts.length} products and listings available`;
+
+        section.classList.add("active");
+
+        renderProducts();
+
+        transition.classList.remove("active");
+
+        setTimeout(()=>{
+
+            section.scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        },100);
+
+    },1200);
+
+}
 
 /* =====================================================
    RENDER PRODUCTS
@@ -3794,30 +3338,20 @@ function getCategoryImage(category){
 function renderProducts(){
 
     const grid =
-        document.getElementById(
-            "productGrid"
-        );
+        document.getElementById("productGrid");
 
     if(!state.displayedProducts.length){
 
         grid.innerHTML = `
 
-            <div
-                class="empty"
-                style="grid-column:1/-1"
-            >
+            <div class="empty" style="grid-column:1/-1">
 
-                <div class="empty-icon">
-                    📦
-                </div>
+                <div class="empty-icon">📦</div>
 
-                <h3>
-                    No products found
-                </h3>
+                <h3>No products found</h3>
 
                 <p>
-                    There are currently no products
-                    in this category.
+                    There are currently no products in this category.
                 </p>
 
             </div>
@@ -3829,39 +3363,26 @@ function renderProducts(){
     }
 
     grid.innerHTML =
-        state.displayedProducts
-        .map((product,index)=>{
+        state.displayedProducts.map((product,index)=>{
 
             const image =
                 product.image ||
                 product.images?.[0] ||
-                getCategoryImage(
-                    product.category
-                );
+                getCategoryImage(product.category);
 
             const price =
-                Number(
-                    product.price || 0
-                );
+                Number(product.price || 0);
 
             const location =
                 product.location ||
                 product.city ||
                 "Nigeria";
 
-            const isCar =
-                product.listingType === "car";
-
-            const isProperty =
-                product.listingType === "property";
-
             return `
 
                 <article
                     class="product-card"
-                    style="
-                        animation-delay:${index*35}ms
-                    "
+                    style="animation-delay:${index*35}ms"
                 >
 
                     <div class="product-image">
@@ -3870,54 +3391,31 @@ function renderProducts(){
                             src="${escapeAttr(image)}"
                             alt="${escapeAttr(product.name || "Product")}"
                             loading="lazy"
-                            onerror="
-                                this.onerror=null;
-                                this.src='${escapeAttr(
-                                    getCategoryImage(
-                                        product.category
-                                    )
-                                )}'
-                            "
+                            onerror="this.onerror=null;this.src='${escapeAttr(getCategoryImage(product.category))}'"
                         >
 
                         ${
-                            isCar
-                            ?
-                            `<span class="product-badge">
-                                🚗 Vehicle
-                            </span>`
+                            product.listingType === "car"
+                            ? `<span class="product-badge">🚗 Vehicle</span>`
                             :
-                            isProperty
-                            ?
-                            `<span class="product-badge">
-                                🏡 Property
-                            </span>`
+                            product.listingType === "property"
+                            ? `<span class="product-badge">🏡 Property</span>`
                             :
                             index < 3
-                            ?
-                            `<span class="product-badge">
-                                NEW
-                            </span>`
-                            :
-                            ""
+                            ? `<span class="product-badge">NEW</span>`
+                            : ""
                         }
 
                     </div>
 
-
                     <div class="product-info">
 
                         <div class="product-category">
-                            ${escapeHtml(
-                                product.category || ""
-                            )}
+                            ${escapeHtml(product.category || "")}
                         </div>
 
                         <div class="product-name">
-                            ${escapeHtml(
-                                product.name ||
-                                "Product"
-                            )}
+                            ${escapeHtml(product.name || "Product")}
                         </div>
 
                         <div class="product-location">
@@ -3926,71 +3424,30 @@ function renderProducts(){
 
                         <div class="product-price">
                             ${formatMoney(price)}
-
-                            ${
-                                product.oldPrice
-                                ?
-                                `<span class="product-old">
-                                    ${formatMoney(
-                                        product.oldPrice
-                                    )}
-                                </span>`
-                                :
-                                ""
-                            }
                         </div>
-
 
                         <div class="product-actions">
 
                             <button
                                 class="add-cart"
-                                onclick="
-                                    addToCart(
-                                        '${escapeAttr(
-                                            product.id
-                                        )}'
-                                    )
-                                "
+                                onclick="addToCart('${escapeAttr(product.id)}')"
                             >
                                 🛒 Add to Cart
                             </button>
 
                             <button
                                 class="view-product"
-                                onclick="
-                                    viewProduct(
-                                        '${escapeAttr(
-                                            product.id
-                                        )}'
-                                    )
-                                "
+                                onclick="viewProduct('${escapeAttr(product.id)}')"
                             >
                                 👁️
                             </button>
 
                         </div>
 
-
                         ${
-                            isCar || isProperty
-                            ?
-                            `
-                            <button
-                                class="inspection-btn"
-                                onclick="
-                                    openInspection(
-                                        '${escapeAttr(
-                                            product.id
-                                        )}'
-                                    )
-                                "
-                            >
-                                🔎 Request Inspection
-                            </button>
-                            `
-                            :
-                            ""
+                            (product.listingType === "car" || product.listingType === "property" || product.category === "Cars" || product.category === "Houses & Property")
+                            ? `<button class="inspection-btn" onclick="openInspection('${escapeAttr(product.id)}')">🔎 Request Inspection</button>`
+                            : ""
                         }
 
                     </div>
@@ -4002,6 +3459,7 @@ function renderProducts(){
         }).join("");
 
 }
+
 /* =====================================================
    CLOSE PRODUCTS
 ===================================================== */
@@ -4009,22 +3467,18 @@ function renderProducts(){
 function closeProducts(){
 
     const section =
-        document.getElementById(
-            "productsSection"
-        );
+        document.getElementById("productsSection");
 
     section.classList.remove("active");
 
     state.category = "";
 
-    document
-        .getElementById("categories")
+    document.getElementById("categories")
         .scrollIntoView({
             behavior:"smooth"
         });
 
 }
-
 
 /* =====================================================
    SEARCH
@@ -4033,24 +3487,17 @@ function closeProducts(){
 function handleSearch(){
 
     const input =
-        document.getElementById(
-            "searchInput"
-        );
+        document.getElementById("searchInput");
 
     const query =
-        input.value
-        .trim()
-        .toLowerCase();
-
+        input.value.trim().toLowerCase();
 
     if(!query){
 
         if(state.category){
 
             state.displayedProducts =
-                getProductsForCategory(
-                    state.category
-                );
+                getProductsForCategory(state.category);
 
             renderProducts();
 
@@ -4060,82 +3507,370 @@ function handleSearch(){
 
     }
 
-
     const results = [];
 
+    state.products.forEach(product=>{
 
-    state.products.forEach(product => {
+        const text =
+            `${product.name || ""}
+             ${product.category || ""}
+             ${product.location || ""}`.toLowerCase();
 
-        const text = `
-
-            ${product.name || ""}
-
-            ${product.category || ""}
-
-            ${product.location || ""}
-
-            ${product.city || ""}
-
-            ${product.description || ""}
-
-        `.toLowerCase();
-
-
-        if(
-            text.includes(query)
-        ){
-
+        if(text.includes(query)){
             results.push(product);
-
         }
 
     });
 
+    Object.keys(extraCatalogue).forEach(category=>{
+
+        extraCatalogue[category].forEach((name,index)=>{
+
+            if(
+                name.toLowerCase().includes(query)
+                ||
+                category.toLowerCase().includes(query)
+            ){
+
+                results.push({
+
+                    id:`search_${slug(category)}_${index}`,
+
+                    name:name,
+
+                    category:category,
+
+                    price:getDemoPrice(category,index),
+
+                    image:getCategoryImage(category),
+
+                    location:
+                        category === "Cars" ||
+                        category === "Houses & Property"
+                        ? "Lagos, Nigeria"
+                        : "Nigeria",
+
+                    sellerName:"NaijaDeals Seller",
+
+                    catalogueDemo:true
+
+                });
+
+            }
+
+        });
+
+    });
 
     state.displayedProducts =
-        results;
+        uniqueProducts(results).slice(0,40);
 
+    document.getElementById("productsTitle").innerHTML =
+        `🔎 Search Results`;
 
-    document
-        .getElementById(
-            "productsTitle"
-        )
-        .textContent =
-        "Search Results";
+    document.getElementById("productsDescription").textContent =
+        `${state.displayedProducts.length} results for "${escapeHtml(query)}"`;
 
-
-    document
-        .getElementById(
-            "productsDescription"
-        )
-        .textContent =
-        `${results.length} listing(s) found`;
-
-
-    document
-        .getElementById(
-            "productsSection"
-        )
+    document.getElementById("productsSection")
         .classList.add("active");
-
 
     renderProducts();
 
-
-    setTimeout(()=>{
-
-        document
-            .getElementById(
-                "productsSection"
-            )
-            .scrollIntoView({
-                behavior:"smooth"
-            });
-
-    },100);
+    document.getElementById("productsSection")
+        .scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
 
 }
 
+/* =====================================================
+   UNIQUE PRODUCTS
+===================================================== */
+
+function uniqueProducts(products){
+
+    const seen = new Set();
+
+    return products.filter(product=>{
+
+        const key =
+            `${product.category}_${product.name}`.toLowerCase();
+
+        if(seen.has(key)){
+            return false;
+        }
+
+        seen.add(key);
+
+        return true;
+
+    });
+
+}
+/* =====================================================
+   VEHICLE / PROPERTY INSPECTION
+===================================================== */
+
+function openInspection(id){
+
+    const product = findProduct(id);
+
+    if(!product){
+        showToast("Listing could not be found");
+        return;
+    }
+
+    const isCar =
+        product.listingType === "car" ||
+        product.category === "Cars";
+
+    const type =
+        isCar
+        ? "Car"
+        : "House / Property";
+
+    document.getElementById("inspectionProductId").value =
+        product.id;
+
+    document.getElementById("inspectionType").value =
+        type;
+
+    document.getElementById("inspectionListing").textContent =
+        `${type}: ${product.name || "Selected listing"}`;
+
+    document.getElementById("inspectionName").value = "";
+    document.getElementById("inspectionPhone").value = "";
+
+    document.getElementById("inspectionAddress").value =
+        product.location ||
+        product.city ||
+        "";
+
+    document.getElementById("inspectionDate").value = "";
+    document.getElementById("inspectionTime").value = "";
+    document.getElementById("inspectionNotes").value = "";
+
+    const dateInput =
+        document.getElementById("inspectionDate");
+
+    dateInput.min =
+        new Date().toISOString().split("T")[0];
+
+    openModal("inspectionModal");
+
+}
+
+function getInspectionRequests(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                "naijadeals_inspection_requests"
+            );
+
+        const data =
+            saved
+            ? JSON.parse(saved)
+            : [];
+
+        return Array.isArray(data)
+            ? data
+            : [];
+
+    }
+    catch(error){
+
+        return [];
+
+    }
+
+}
+
+function saveInspectionRequest(request){
+
+    const requests =
+        getInspectionRequests();
+
+    requests.push(request);
+
+    localStorage.setItem(
+        "naijadeals_inspection_requests",
+        JSON.stringify(requests)
+    );
+
+}
+
+function submitInspection(){
+
+    const product =
+        findProduct(
+            document.getElementById(
+                "inspectionProductId"
+            ).value
+        );
+
+    const type =
+        document.getElementById(
+            "inspectionType"
+        ).value;
+
+    const name =
+        document.getElementById(
+            "inspectionName"
+        ).value.trim();
+
+    const phone =
+        document.getElementById(
+            "inspectionPhone"
+        ).value.trim();
+
+    const address =
+        document.getElementById(
+            "inspectionAddress"
+        ).value.trim();
+
+    const date =
+        document.getElementById(
+            "inspectionDate"
+        ).value;
+
+    const time =
+        document.getElementById(
+            "inspectionTime"
+        ).value;
+
+    const notes =
+        document.getElementById(
+            "inspectionNotes"
+        ).value.trim();
+
+    if(!product){
+
+        showToast(
+            "Listing could not be found"
+        );
+
+        return;
+
+    }
+
+    if(
+        !name ||
+        !phone ||
+        !address ||
+        !date ||
+        !time
+    ){
+
+        showToast(
+            "Please complete your name, phone, location, date and time"
+        );
+
+        return;
+
+    }
+
+    const request = {
+
+        id:
+            "INS-" +
+            Date.now(),
+
+        productId:
+            product.id,
+
+        listingName:
+            product.name ||
+            "Listing",
+
+        listingType:
+            type,
+
+        listingLocation:
+            product.location ||
+            product.city ||
+            "Nigeria",
+
+        customerName:
+            name,
+
+        phone:
+            phone,
+
+        inspectionAddress:
+            address,
+
+        preferredDate:
+            date,
+
+        preferredTime:
+            time,
+
+        notes:
+            notes,
+
+        status:
+            "Pending",
+
+        createdAt:
+            new Date().toISOString()
+
+    };
+
+    saveInspectionRequest(request);
+
+    closeModal(
+        "inspectionModal"
+    );
+
+    const message = [
+
+        "Hello NaijaDeals, I want to request an inspection.",
+
+        `Type: ${type}`,
+
+        `Listing: ${product.name || "Listing"}`,
+
+        `Customer: ${name}`,
+
+        `Phone/WhatsApp: ${phone}`,
+
+        `Inspection location: ${address}`,
+
+        `Preferred date: ${date}`,
+
+        `Preferred time: ${time}`,
+
+        notes
+            ? `Notes: ${notes}`
+            : ""
+
+    ]
+    .filter(Boolean)
+    .join("\n");
+
+    const whatsappNumber =
+        "2348133267868";
+
+    const whatsappUrl =
+        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+    showToast(
+        "Inspection request saved ✓"
+    );
+
+    setTimeout(()=>{
+
+        window.open(
+            whatsappUrl,
+            "_blank"
+        );
+
+    },350);
+
+}
 
 /* =====================================================
    VIEW PRODUCT
@@ -4145,7 +3880,6 @@ function viewProduct(id){
 
     const product =
         findProduct(id);
-
 
     if(!product){
 
@@ -4157,34 +3891,13 @@ function viewProduct(id){
 
     }
 
-
-    /*
-       If you already have product.html,
-       this opens the product page.
-
-       If the page does not exist, the
-       listing is shown through WhatsApp.
-    */
-
-    try{
-
-        window.location.href =
-            "product.html?product=" +
-            encodeURIComponent(
-                product.id
-            );
-
-    }
-    catch(error){
-
-        contactProduct(
-            product
+    window.location.href =
+        "product.html?product=" +
+        encodeURIComponent(
+            product.id
         );
 
-    }
-
 }
-
 
 /* =====================================================
    FIND PRODUCT
@@ -4199,13 +3912,9 @@ function findProduct(id){
                 String(id)
         );
 
-
     if(product){
-
         return product;
-
     }
-
 
     product =
         state.displayedProducts.find(
@@ -4214,18 +3923,13 @@ function findProduct(id){
                 String(id)
         );
 
-
     if(product){
-
         return product;
-
     }
-
 
     return null;
 
 }
-
 
 /* =====================================================
    CART
@@ -4235,7 +3939,6 @@ function addToCart(id){
 
     const product =
         findProduct(id);
-
 
     if(!product){
 
@@ -4247,14 +3950,12 @@ function addToCart(id){
 
     }
 
-
     const existing =
         state.cart.find(
             item =>
                 String(item.id) ===
                 String(product.id)
         );
-
 
     if(existing){
 
@@ -4273,7 +3974,6 @@ function addToCart(id){
 
     }
 
-
     saveCart();
 
     updateCartCount();
@@ -4283,7 +3983,6 @@ function addToCart(id){
     );
 
 }
-
 
 /* =====================================================
    SAVE CART
@@ -4309,7 +4008,6 @@ function saveCart(){
 
 }
 
-
 /* =====================================================
    LOAD CART
 ===================================================== */
@@ -4323,12 +4021,10 @@ function loadCart(){
                 "naijadeals_cart"
             );
 
-
         if(saved){
 
             const data =
                 JSON.parse(saved);
-
 
             if(Array.isArray(data)){
 
@@ -4348,9 +4044,8 @@ function loadCart(){
 
 }
 
-
 /* =====================================================
-   UPDATE CART COUNT
+   UPDATE CART
 ===================================================== */
 
 function updateCartCount(){
@@ -4360,11 +4055,11 @@ function updateCartCount(){
             (sum,item)=>
                 sum +
                 Number(
-                    item.quantity || 1
+                    item.quantity ||
+                    1
                 ),
             0
         );
-
 
     document.getElementById(
         "cartCount"
@@ -4372,7 +4067,6 @@ function updateCartCount(){
         count;
 
 }
-
 
 /* =====================================================
    OPEN CART
@@ -4388,7 +4082,6 @@ function openCart(){
 
 }
 
-
 /* =====================================================
    RENDER CART
 ===================================================== */
@@ -4399,7 +4092,6 @@ function renderCart(){
         document.getElementById(
             "cartItems"
         );
-
 
     if(!state.cart.length){
 
@@ -4416,28 +4108,25 @@ function renderCart(){
                 </h3>
 
                 <p>
-                    Add products to your cart
-                    to continue.
+                    Add products to your cart to continue.
                 </p>
 
             </div>
 
         `;
 
-
         document.getElementById(
             "cartTotal"
         ).textContent =
-        "₦0";
-
+            "₦0";
 
         return;
 
     }
 
-
     box.innerHTML =
-        state.cart.map(item => `
+        state.cart
+        .map(item=>`
 
             <div class="cart-item">
 
@@ -4457,7 +4146,6 @@ function renderCart(){
 
                 </div>
 
-
                 <div>
 
                     <h4>
@@ -4476,45 +4164,29 @@ function renderCart(){
 
                 </div>
 
-
                 <button
-                    class="cart-remove"
-                    onclick="
-                        removeFromCart(
-                            '${escapeAttr(
-                                item.id
-                            )}'
-                        )
-                    "
+                    class="remove-item"
+                    onclick="removeFromCart('${escapeAttr(item.id)}')"
                 >
-                    Remove
+                    🗑️
                 </button>
 
             </div>
 
-        `).join("");
-
-
-    const total =
-        state.cart.reduce(
-            (sum,item)=>
-                sum +
-                Number(item.price || 0) *
-                Number(item.quantity || 1),
-            0
-        );
-
+        `)
+        .join("");
 
     document.getElementById(
         "cartTotal"
     ).textContent =
-        formatMoney(total);
+        formatMoney(
+            getCartTotal()
+        );
 
 }
 
-
 /* =====================================================
-   REMOVE FROM CART
+   REMOVE CART
 ===================================================== */
 
 function removeFromCart(id){
@@ -4526,7 +4198,6 @@ function removeFromCart(id){
                 String(id)
         );
 
-
     saveCart();
 
     updateCartCount();
@@ -4535,12 +4206,33 @@ function removeFromCart(id){
 
 }
 
-
 /* =====================================================
-   CHECKOUT CART
+   CART TOTAL
 ===================================================== */
 
-function checkoutCart(){
+function getCartTotal(){
+
+    return state.cart.reduce(
+        (sum,item)=>
+            sum +
+            Number(
+                item.price ||
+                0
+            ) *
+            Number(
+                item.quantity ||
+                1
+            ),
+        0
+    );
+
+}
+
+/* =====================================================
+   CHECKOUT
+===================================================== */
+
+function checkout(){
 
     if(!state.cart.length){
 
@@ -4552,774 +4244,785 @@ function checkoutCart(){
 
     }
 
-
-    let message =
-        "Hello NaijaDeals, I want to buy these items:%0A%0A";
-
-
-    let total = 0;
-
-
-    state.cart.forEach(
-        (item,index)=>{
-
-            const itemTotal =
-                Number(item.price || 0) *
-                Number(item.quantity || 1);
-
-
-            total +=
-                itemTotal;
-
-
-            message +=
-                `${index + 1}. ${encodeURIComponent(
-                    item.name
-                )}%0A`;
-
-            message +=
-                `Price: ${encodeURIComponent(
-                    formatMoney(
-                        item.price
-                    )
-                )}%0A`;
-
-            message +=
-                `Quantity: ${item.quantity}%0A%0A`;
-
-        }
+    closeModal(
+        "cartModal"
     );
-
-
-    message +=
-        `Total: ${encodeURIComponent(
-            formatMoney(total)
-        )}`;
-
-
-    const url =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
-
-
-    window.open(
-        url,
-        "_blank"
-    );
-
-}
-
-
-/* =====================================================
-   INSPECTION FEATURE
-===================================================== */
-
-/*
-   This function opens the inspection form
-   specifically for cars and houses.
-*/
-
-function openInspection(id){
-
-    const product =
-        findProduct(id);
-
-
-    if(!product){
-
-        showToast(
-            "Listing could not be found"
-        );
-
-        return;
-
-    }
-
-
-    const isCar =
-        product.listingType === "car";
-
-
-    const isProperty =
-        product.listingType === "property";
-
-
-    /*
-       Do not allow inspection requests
-       for normal products.
-    */
-
-    if(!isCar && !isProperty){
-
-        showToast(
-            "Inspection is available for cars and property only."
-        );
-
-        return;
-
-    }
-
-
-    const type =
-        isCar
-        ? "Car"
-        : "House / Property";
-
-
-    document.getElementById(
-        "inspectionProductId"
-    ).value =
-        product.id;
-
-
-    document.getElementById(
-        "inspectionType"
-    ).value =
-        type;
-
-
-    document.getElementById(
-        "inspectionListing"
-    ).innerHTML = `
-
-        <strong>
-            ${escapeHtml(
-                product.name ||
-                "Selected Listing"
-            )}
-        </strong>
-
-        <span>
-            ${type}
-            •
-            ${escapeHtml(
-                product.location ||
-                product.city ||
-                "Nigeria"
-            )}
-            •
-            ${formatMoney(
-                product.price || 0
-            )}
-        </span>
-
-    `;
-
-
-    /*
-       Set today's date as the minimum
-       inspection date.
-    */
-
-    const dateInput =
-        document.getElementById(
-            "inspectionDate"
-        );
-
-
-    const today =
-        new Date();
-
-
-    const year =
-        today.getFullYear();
-
-
-    const month =
-        String(
-            today.getMonth() + 1
-        ).padStart(2,"0");
-
-
-    const day =
-        String(
-            today.getDate()
-        ).padStart(2,"0");
-
-
-    dateInput.min =
-        `${year}-${month}-${day}`;
-
-
-    document.getElementById(
-        "inspectionForm"
-    ).reset();
-
-
-    /*
-       reset() clears the hidden fields too,
-       so put them back after reset.
-    */
-
-    document.getElementById(
-        "inspectionProductId"
-    ).value =
-        product.id;
-
-
-    document.getElementById(
-        "inspectionType"
-    ).value =
-        type;
-
-
-    document.getElementById(
-        "inspectionListing"
-    ).innerHTML = `
-
-        <strong>
-            ${escapeHtml(
-                product.name ||
-                "Selected Listing"
-            )}
-        </strong>
-
-        <span>
-            ${type}
-            •
-            ${escapeHtml(
-                product.location ||
-                product.city ||
-                "Nigeria"
-            )}
-            •
-            ${formatMoney(
-                product.price || 0
-            )}
-        </span>
-
-    `;
-
 
     openModal(
-        "inspectionModal"
+        "checkoutModal"
     );
 
 }
 
-
 /* =====================================================
-   SUBMIT INSPECTION
+   SUBMIT ORDER
 ===================================================== */
 
-function submitInspection(event){
-
-    event.preventDefault();
-
-
-    const productId =
-        document.getElementById(
-            "inspectionProductId"
-        ).value;
-
-
-    const type =
-        document.getElementById(
-            "inspectionType"
-        ).value;
-
-
-    const product =
-        findProduct(productId);
-
-
-    if(!product){
-
-        showToast(
-            "Selected listing could not be found."
-        );
-
-        return;
-
-    }
-
+async function submitOrder(){
 
     const name =
         document.getElementById(
-            "inspectionName"
+            "checkoutName"
         ).value.trim();
-
 
     const phone =
         document.getElementById(
-            "inspectionPhone"
+            "checkoutPhone"
         ).value.trim();
 
-
-    const date =
+    const address =
         document.getElementById(
-            "inspectionDate"
+            "checkoutAddress"
+        ).value.trim();
+
+    const stateName =
+        document.getElementById(
+            "checkoutState"
         ).value;
-
-
-    const time =
-        document.getElementById(
-            "inspectionTime"
-        ).value;
-
-
-    const location =
-        document.getElementById(
-            "inspectionLocation"
-        ).value.trim();
-
-
-    const notes =
-        document.getElementById(
-            "inspectionNotes"
-        ).value.trim();
-
 
     if(
         !name ||
         !phone ||
-        !date ||
-        !time ||
-        !location
+        !address ||
+        !stateName
     ){
 
         showToast(
-            "Please complete all required fields."
+            "Please complete all checkout fields"
         );
 
         return;
 
     }
 
+    const orderItems =
+        state.cart.map(item=>({
 
-    /*
-       Create inspection request.
-    */
+            productId:
+                item.id,
 
-    const request = {
+            quantity:
+                item.quantity,
 
-        id:
-            "INS-" +
-            Date.now(),
+            price:
+                item.price
 
-        productId:
-            product.id,
-
-        productName:
-            product.name,
-
-        type:
-            type,
-
-        customerName:
-            name,
-
-        phone:
-            phone,
-
-        date:
-            date,
-
-        time:
-            time,
-
-        location:
-            location,
-
-        notes:
-            notes,
-
-        createdAt:
-            new Date().toISOString()
-
-    };
-
-
-    /*
-       Save inspection request
-       in localStorage.
-    */
-
-    let requests = [];
-
+        }));
 
     try{
 
-        const saved =
-            localStorage.getItem(
-                "naijadeals_inspections"
+        const response =
+            await fetch(
+                API +
+                "/api/orders",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            items:
+                                orderItems,
+
+                            customerName:
+                                name,
+
+                            phone:
+                                phone,
+
+                            address:
+                                address,
+
+                            state:
+                                stateName,
+
+                            total:
+                                getCartTotal()
+
+                        })
+
+                }
             );
 
+        const data =
+            await response.json();
 
-        if(saved){
+        if(!response.ok){
 
-            const parsed =
-                JSON.parse(saved);
+            if(
+                response.status === 401 ||
+                response.status === 403
+            ){
 
+                showToast(
+                    "Please login before placing an order"
+                );
 
-            if(Array.isArray(parsed)){
+                closeModal(
+                    "checkoutModal"
+                );
 
-                requests =
-                    parsed;
+                openAuth();
+
+                return;
 
             }
 
+            throw new Error(
+                data.message ||
+                "Order could not be created"
+            );
+
         }
 
-    }
-    catch(error){
+        state.cart = [];
 
-        requests = [];
+        saveCart();
 
-    }
+        updateCartCount();
 
-
-    requests.push(
-        request
-    );
-
-
-    localStorage.setItem(
-        "naijadeals_inspections",
-        JSON.stringify(
-            requests
-        )
-    );
-
-
-    /*
-       Prepare WhatsApp message.
-    */
-
-    let message =
-        "Hello NaijaDeals 👋%0A%0A";
-
-
-    message +=
-        "I want to request an inspection.%0A%0A";
-
-
-    message +=
-        `Listing: ${encodeURIComponent(
-            product.name
-        )}%0A`;
-
-
-    message +=
-        `Type: ${encodeURIComponent(
-            type
-        )}%0A`;
-
-
-    message +=
-        `Price: ${encodeURIComponent(
-            formatMoney(
-                product.price || 0
-            )
-        )}%0A`;
-
-
-    message +=
-        `Location: ${encodeURIComponent(
-            product.location ||
-            product.city ||
-            "Nigeria"
-        )}%0A%0A`;
-
-
-    message +=
-        `Customer Name: ${encodeURIComponent(
-            name
-        )}%0A`;
-
-
-    message +=
-        `Phone: ${encodeURIComponent(
-            phone
-        )}%0A`;
-
-
-    message +=
-        `Inspection Date: ${encodeURIComponent(
-            date
-        )}%0A`;
-
-
-    message +=
-        `Preferred Time: ${encodeURIComponent(
-            time
-        )}%0A`;
-
-
-    message +=
-        `Inspection Address: ${encodeURIComponent(
-            location
-        )}%0A`;
-
-
-    if(notes){
-
-        message +=
-            `Notes: ${encodeURIComponent(
-                notes
-            )}%0A`;
-
-    }
-
-
-    message +=
-        `%0AInspection ID: ${request.id}`;
-
-
-    const whatsappUrl =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
-
-
-    closeModal(
-        "inspectionModal"
-    );
-
-
-    showToast(
-        "Inspection request saved. Opening WhatsApp..."
-    );
-
-
-    setTimeout(()=>{
-
-        window.open(
-            whatsappUrl,
-            "_blank"
+        closeModal(
+            "checkoutModal"
         );
 
-    },500);
-
-}
-
-
-/* =====================================================
-   GET SAVED INSPECTIONS
-===================================================== */
-
-function getInspectionRequests(){
-
-    try{
-
-        const saved =
-            localStorage.getItem(
-                "naijadeals_inspections"
-            );
-
-
-        if(saved){
-
-            const data =
-                JSON.parse(saved);
-
-
-            if(Array.isArray(data)){
-
-                return data;
-
-            }
-
-        }
+        showToast(
+            "Order placed successfully 🎉"
+        );
 
     }
     catch(error){
 
         console.error(error);
 
+        showToast(
+            error.message ||
+            "Could not place order"
+        );
+
     }
-
-
-    return [];
 
 }
 
-
 /* =====================================================
-   CONTACT PRODUCT
+   AUTH
 ===================================================== */
 
-function contactProduct(product){
+function openAuth(
+    mode="login"
+){
 
-    if(!product){
+    state.authMode =
+        mode;
+
+    renderAuthForm();
+
+    openModal(
+        "authModal"
+    );
+
+}
+
+function renderAuthForm(){
+
+    const login =
+        state.authMode ===
+        "login";
+
+    document.getElementById(
+        "authTitle"
+    ).textContent =
+        login
+        ? "Login to NaijaDeals"
+        : "Create your NaijaDeals account";
+
+    document.getElementById(
+        "authFormArea"
+    ).innerHTML = `
+
+        ${
+            login
+            ?
+            ""
+            :
+            `
+                <div class="form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        id="authName"
+                        type="text"
+                        placeholder="Your name"
+                    >
+
+                </div>
+            `
+        }
+
+        <div class="form-group">
+
+            <label>
+                Email
+            </label>
+
+            <input
+                id="authEmail"
+                type="email"
+                placeholder="you@example.com"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>
+                Password
+            </label>
+
+            <input
+                id="authPassword"
+                type="password"
+                placeholder="Password"
+            >
+
+        </div>
+
+        <button
+            class="form-submit"
+            onclick="${login ? "loginUser()" : "registerUser()"}"
+        >
+            ${login
+                ? "Login"
+                : "Create Account"}
+        </button>
+
+        <div class="form-switch">
+
+            ${
+                login
+                ?
+                `
+                    Don't have an account?
+
+                    <button
+                        onclick="openAuth('register')"
+                    >
+                        Create one
+                    </button>
+                `
+                :
+                `
+                    Already have an account?
+
+                    <button
+                        onclick="openAuth('login')"
+                    >
+                        Login
+                    </button>
+                `
+            }
+
+        </div>
+
+    `;
+
+}
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function loginUser(){
+
+    const email =
+        document.getElementById(
+            "authEmail"
+        ).value.trim();
+
+    const password =
+        document.getElementById(
+            "authPassword"
+        ).value;
+
+    if(
+        !email ||
+        !password
+    ){
+
+        showToast(
+            "Enter your email and password"
+        );
 
         return;
 
     }
 
+    try{
 
-    const message =
-        `Hello NaijaDeals, I am interested in ${product.name}.`;
+        const response =
+            await fetch(
+                API +
+                "/api/login",
+                {
 
+                    method:"POST",
 
-    const url =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-            message
-        )}`;
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
 
+                    body:
+                        JSON.stringify({
 
-    window.open(
-        url,
-        "_blank"
-    );
+                            email,
+                            password
 
-}
+                        })
 
-
-/* =====================================================
-   SELL MODAL
-===================================================== */
-
-function openSellModal(){
-
-    openModal(
-        "sellModal"
-    );
-
-}
-
-
-/* =====================================================
-   CONTACT SELLER / OWNER
-===================================================== */
-
-function contactSeller(){
-
-    const message =
-        "Hello NaijaDeals, I want to list an item for sale.";
-
-
-    const url =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-            message
-        )}`;
-
-
-    window.open(
-        url,
-        "_blank"
-    );
-
-}
-
-
-/* =====================================================
-   MODAL FUNCTIONS
-===================================================== */
-
-function openModal(id){
-
-    const modal =
-        document.getElementById(
-            id
-        );
-
-
-    if(modal){
-
-        modal.classList.add(
-            "active"
-        );
-
-        document.body.style.overflow =
-            "hidden";
-
-    }
-
-}
-
-
-function closeModal(id){
-
-    const modal =
-        document.getElementById(
-            id
-        );
-
-
-    if(modal){
-
-        modal.classList.remove(
-            "active"
-        );
-
-        document.body.style.overflow =
-            "";
-
-    }
-
-}
-
-
-/* =====================================================
-   CLOSE MODAL WHEN CLICKING OUTSIDE
-===================================================== */
-
-document.addEventListener(
-    "click",
-    function(event){
-
-        if(
-            event.target.classList &&
-            event.target.classList.contains(
-                "modal"
-            )
-        ){
-
-            event.target.classList.remove(
-                "active"
+                }
             );
 
-            document.body.style.overflow =
-                "";
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Login failed"
+            );
 
         }
 
-    }
-);
+        state.currentUser =
+            data.user ||
+            data;
 
+        closeModal(
+            "authModal"
+        );
+
+        showToast(
+            "Welcome back 👋"
+        );
+
+    }
+    catch(error){
+
+        showToast(
+            error.message ||
+            "Login failed"
+        );
+
+    }
+
+}
 
 /* =====================================================
-   MOBILE MENU
+   REGISTER
+===================================================== */
+
+async function registerUser(){
+
+    const name =
+        document.getElementById(
+            "authName"
+        ).value.trim();
+
+    const email =
+        document.getElementById(
+            "authEmail"
+        ).value.trim();
+
+    const password =
+        document.getElementById(
+            "authPassword"
+        ).value;
+
+    if(
+        !name ||
+        !email ||
+        !password
+    ){
+
+        showToast(
+            "Please complete all fields"
+        );
+
+        return;
+
+    }
+
+    try{
+
+        const response =
+            await fetch(
+                API +
+                "/api/register",
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            name,
+                            email,
+                            password
+
+                        })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(!response.ok){
+
+            throw new Error(
+                data.message ||
+                "Registration failed"
+            );
+
+        }
+
+        state.currentUser =
+            data.user ||
+            data;
+
+        closeModal(
+            "authModal"
+        );
+
+        showToast(
+            "Account created successfully 🎉"
+        );
+
+    }
+    catch(error){
+
+        showToast(
+            error.message ||
+            "Could not create account"
+        );
+
+    }
+
+}
+/* =====================================================
+   MOBILE HAMBURGER MENU
 ===================================================== */
 
 function toggleMobileMenu(){
 
-    const menu =
+    const overlay =
         document.getElementById(
-            "mobileMenu"
+            "mobileMenuOverlay"
         );
 
-
-    if(
-        menu.style.display ===
-        "block"
-    ){
-
-        menu.style.display =
-            "none";
-
+    if(!overlay){
+        return;
     }
-    else{
 
-        menu.style.display =
-            "block";
+    overlay.classList.contains("active")
+        ? closeMobileMenu()
+        : openMobileMenu();
+
+}
+
+function openMobileMenu(){
+
+    const overlay =
+        document.getElementById(
+            "mobileMenuOverlay"
+        );
+
+    const button =
+        document.getElementById(
+            "mobileMenuButton"
+        );
+
+    if(!overlay){
+        return;
+    }
+
+    overlay.classList.add(
+        "active"
+    );
+
+    document.body.classList.add(
+        "mobile-menu-open"
+    );
+
+    if(button){
+
+        button.setAttribute(
+            "aria-expanded",
+            "true"
+        );
+
+        button.setAttribute(
+            "aria-label",
+            "Close menu"
+        );
+
+        button.textContent =
+            "✕";
 
     }
 
 }
-
 
 function closeMobileMenu(){
 
-    const menu =
+    const overlay =
         document.getElementById(
-            "mobileMenu"
+            "mobileMenuOverlay"
         );
 
+    const button =
+        document.getElementById(
+            "mobileMenuButton"
+        );
 
-    menu.style.display =
-        "none";
+    if(!overlay){
+        return;
+    }
+
+    overlay.classList.remove(
+        "active"
+    );
+
+    document.body.classList.remove(
+        "mobile-menu-open"
+    );
+
+    if(button){
+
+        button.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+        button.setAttribute(
+            "aria-label",
+            "Open menu"
+        );
+
+        button.textContent =
+            "☰";
+
+    }
 
 }
 
+function handleMobileMenuBackground(
+    event
+){
+
+    if(
+        event.target &&
+        event.target.id ===
+            "mobileMenuOverlay"
+    ){
+
+        closeMobileMenu();
+
+    }
+
+}
+
+/* =====================================================
+   NAVIGATION WITH CAR
+===================================================== */
+
+function navigateWithAnimation(
+    url,
+    text="🚗 NaijaDeals",
+    subtext="Taking you there..."
+){
+
+    const transition =
+        document.getElementById(
+            "pageTransition"
+        );
+
+    document.getElementById(
+        "transitionText"
+    ).textContent =
+        text;
+
+    document.getElementById(
+        "transitionSubtext"
+    ).textContent =
+        subtext;
+
+    transition.classList.add(
+        "active"
+    );
+
+    setTimeout(()=>{
+
+        window.location.href =
+            url;
+
+    },1550);
+
+}
+
+/* =====================================================
+   SELLER
+===================================================== */
+
+function goSeller(){
+
+    navigateWithAnimation(
+
+        "/seller.html",
+
+        "🚗 NaijaDeals Seller",
+
+        "Driving to your seller dashboard..."
+
+    );
+
+}
+
+/* =====================================================
+   ADMIN
+===================================================== */
+
+function goAdmin(){
+
+    navigateWithAnimation(
+
+        "/admin.html",
+
+        "🚗 NaijaDeals Admin",
+
+        "Driving to the admin panel..."
+
+    );
+
+}
+
+/* =====================================================
+   HOME
+===================================================== */
+
+function goHome(){
+
+    if(
+        window.location.pathname !== "/" &&
+        !window.location.pathname.endsWith(
+            "index.html"
+        )
+    ){
+
+        navigateWithAnimation(
+
+            "/",
+
+            "🚗 NaijaDeals",
+
+            "Driving back home..."
+
+        );
+
+        return;
+
+    }
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+/* =====================================================
+   SCROLL CATEGORY
+===================================================== */
+
+function scrollToCategories(){
+
+    document.getElementById(
+        "categories"
+    ).scrollIntoView({
+
+        behavior:"smooth"
+
+    });
+
+}
+
+/* =====================================================
+   MODALS
+===================================================== */
+
+function openModal(id){
+
+    document.getElementById(
+        id
+    ).classList.add(
+        "active"
+    );
+
+}
+
+function closeModal(id){
+
+    document.getElementById(
+        id
+    ).classList.remove(
+        "active"
+    );
+
+}
+
+/* Close modal when background is clicked */
+
+document
+    .querySelectorAll(".modal")
+    .forEach(modal=>{
+
+        modal.addEventListener(
+            "click",
+            event=>{
+
+                if(
+                    event.target ===
+                    modal
+                ){
+
+                    modal.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+    });
 
 /* =====================================================
    TOAST
@@ -5327,28 +5030,25 @@ function closeMobileMenu(){
 
 let toastTimer;
 
-
-function showToast(message){
+function showToast(
+    message
+){
 
     const toast =
         document.getElementById(
             "toast"
         );
 
-
     toast.textContent =
         message;
-
 
     toast.classList.add(
         "show"
     );
 
-
     clearTimeout(
         toastTimer
     );
-
 
     toastTimer =
         setTimeout(()=>{
@@ -5357,34 +5057,63 @@ function showToast(message){
                 "show"
             );
 
-        },2500);
+        },2800);
 
 }
-
 
 /* =====================================================
    FORMAT MONEY
 ===================================================== */
 
-function formatMoney(value){
+function formatMoney(
+    value
+){
 
-    const number =
-        Number(value || 0);
-
+    const amount =
+        Number(
+            value || 0
+        );
 
     return "₦" +
-        number.toLocaleString(
-            "en-NG"
+        amount.toLocaleString(
+            "en-NG",
+            {
+                maximumFractionDigits:0
+            }
         );
 
 }
 
+/* =====================================================
+   SLUG
+===================================================== */
+
+function slug(
+    text
+){
+
+    return String(
+        text
+    )
+    .toLowerCase()
+    .replace(
+        /[^a-z0-9]+/g,
+        "_"
+    )
+    .replace(
+        /^_+|_+$/g,
+        ""
+    );
+
+}
 
 /* =====================================================
    ESCAPE HTML
 ===================================================== */
 
-function escapeHtml(value){
+function escapeHtml(
+    value
+){
 
     return String(
         value ?? ""
@@ -5412,12 +5141,13 @@ function escapeHtml(value){
 
 }
 
-
 /* =====================================================
    ESCAPE ATTRIBUTE
 ===================================================== */
 
-function escapeAttr(value){
+function escapeAttr(
+    value
+){
 
     return escapeHtml(
         value
@@ -5425,14 +5155,21 @@ function escapeAttr(value){
 
 }
 
+/* =====================================================
+   LOAD SAVED CART
+===================================================== */
+
+loadCart();
+
+updateCartCount();
 
 /* =====================================================
-   CLOSE MODALS WITH ESC KEY
+   KEYBOARD SHORTCUT
 ===================================================== */
 
 document.addEventListener(
     "keydown",
-    function(event){
+    event=>{
 
         if(
             event.key ===
@@ -5443,71 +5180,44 @@ document.addEventListener(
                 .querySelectorAll(
                     ".modal.active"
                 )
-                .forEach(
-                    modal =>
-                        modal.classList.remove(
-                            "active"
-                        )
-                );
+                .forEach(modal=>{
 
-            document.body.style.overflow =
-                "";
+                    modal.classList.remove(
+                        "active"
+                    );
+
+                });
+
+            closeMobileMenu();
 
         }
 
     }
 );
-
 
 /* =====================================================
-   PREVENT PAST DATE FOR INSPECTION
+   ENTER KEY SEARCH
 ===================================================== */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
+document
+    .getElementById(
+        "searchInput"
+    )
+    .addEventListener(
+        "keydown",
+        event=>{
 
-        const dateInput =
-            document.getElementById(
-                "inspectionDate"
-            );
+            if(
+                event.key ===
+                "Enter"
+            ){
 
+                handleSearch();
 
-        if(dateInput){
-
-            const today =
-                new Date();
-
-
-            const year =
-                today.getFullYear();
-
-
-            const month =
-                String(
-                    today.getMonth() + 1
-                ).padStart(
-                    2,
-                    "0"
-                );
-
-
-            const day =
-                String(
-                    today.getDate()
-                ).padStart(
-                    2,
-                    "0"
-                );
-
-
-            dateInput.min =
-                `${year}-${month}-${day}`;
+            }
 
         }
-
-    }
-);
+    );
 
 </script>
 
