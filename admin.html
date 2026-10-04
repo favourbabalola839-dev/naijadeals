@@ -1,1329 +1,1436 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1.0"
->
-
-<title>
-    NaijaDeals Admin Dashboard
-</title>
-
-<style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f7f5;
-    color:#17201b;
-}
-
-button,
-input,
-select{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.admin-login{
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:
-        linear-gradient(
-            135deg,
-            #071c12,
-            #0d3b25
-        );
-}
-
-.login-card{
-    width:100%;
-    max-width:430px;
-    background:white;
-    border-radius:24px;
-    padding:32px;
-    box-shadow:
-        0 25px 70px
-        rgba(0,0,0,.25);
-}
-
-.logo{
-    width:60px;
-    height:60px;
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#0b7a42;
-    color:white;
-    font-size:23px;
-    font-weight:900;
-    margin-bottom:18px;
-}
-
-.login-card h1{
-    margin:0;
-    font-size:30px;
-}
-
-.login-card p{
-    color:#6b756f;
-    line-height:1.6;
-}
-
-.form-group{
-    margin-top:18px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:7px;
-    font-weight:700;
-}
-
-.form-group input{
-    width:100%;
-    padding:14px;
-    border:1px solid #d9e0dc;
-    border-radius:12px;
-    outline:none;
-}
-
-.form-group input:focus{
-    border-color:#0b7a42;
-}
-
-.login-btn{
-    width:100%;
-    margin-top:22px;
-    padding:15px;
-    border:0;
-    border-radius:12px;
-    background:#0b7a42;
-    color:white;
-    font-weight:800;
-}
-
-#adminMessage{
-    display:none;
-    margin-top:15px;
-    padding:12px;
-    border-radius:10px;
-}
-
-#adminDashboard{
-    display:none;
-}
-
-.topbar{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:#071c12;
-    color:white;
-    padding:14px 20px;
-}
-
-.topbar-inner{
-    max-width:1400px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:15px;
-}
-
-.brand{
-    font-size:23px;
-    font-weight:900;
-}
-
-.brand small{
-    display:block;
-    font-size:11px;
-    opacity:.7;
-    margin-top:2px;
-}
-
-.top-actions{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.top-actions button{
-    border:0;
-    padding:10px 14px;
-    border-radius:10px;
-    font-weight:700;
-}
-
-.home-btn{
-    background:white;
-    color:#07391f;
-}
-
-.logout-btn{
-    background:#dc2626;
-    color:white;
-}
-
-.admin-layout{
-    max-width:1400px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:240px 1fr;
-    min-height:calc(100vh - 72px);
-}
-
-.sidebar{
-    background:white;
-    border-right:1px solid #e4e9e6;
-    padding:20px 14px;
-}
-
-.admin-nav{
-    display:flex;
-    flex-direction:column;
-    gap:7px;
-}
-
-.admin-nav button{
-    text-align:left;
-    border:0;
-    background:white;
-    padding:13px;
-    border-radius:11px;
-    color:#53615a;
-    font-weight:700;
-}
-
-.admin-nav button:hover,
-.admin-nav button.active{
-    background:#e7f6ee;
-    color:#08783f;
-}
-
-.content{
-    padding:25px;
-    min-width:0;
-}
-
-.admin-section{
-    display:none;
-}
-
-.admin-section:first-child{
-    display:block;
-}
-
-.page-heading{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-    margin-bottom:20px;
-}
-
-.page-heading h1{
-    margin:0;
-    font-size:28px;
-}
-
-.page-heading p{
-    margin:6px 0 0;
-    color:#6c7771;
-}
-
-.refresh-btn{
-    border:0;
-    background:#0b7a42;
-    color:white;
-    padding:11px 15px;
-    border-radius:10px;
-    font-weight:700;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:
-        repeat(6,minmax(0,1fr));
-    gap:14px;
-}
-
-.stat{
-    background:white;
-    border-radius:16px;
-    padding:18px;
-    border:1px solid #e6ece8;
-}
-
-.stat-icon{
-    font-size:24px;
-}
-
-.stat-label{
-    margin-top:10px;
-    color:#68746d;
-    font-size:13px;
-}
-
-.stat-value{
-    margin-top:5px;
-    font-size:25px;
-    font-weight:900;
-}
-
-.panel{
-    background:white;
-    border-radius:17px;
-    border:1px solid #e3e9e5;
-    overflow:hidden;
-}
-
-.panel-heading{
-    padding:18px;
-    border-bottom:1px solid #e8edea;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:15px;
-}
-
-.panel-heading h2{
-    margin:0;
-    font-size:19px;
-}
-
-.search{
-    padding:11px 13px;
-    border:1px solid #dbe2de;
-    border-radius:10px;
-    min-width:230px;
-}
-
-.table-wrap{
-    width:100%;
-    overflow:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    min-width:850px;
-}
-
-th,
-td{
-    padding:13px;
-    border-bottom:1px solid #edf1ee;
-    text-align:left;
-    vertical-align:middle;
-    font-size:13px;
-}
-
-th{
-    background:#f8faf9;
-    color:#53615a;
-}
-
-td button{
-    border:0;
-    padding:8px 10px;
-    border-radius:8px;
-    background:#e8f5ee;
-    color:#08783f;
-    font-weight:700;
-    margin:2px;
-}
-
-td select{
-    padding:8px;
-    border:1px solid #dce3df;
-    border-radius:8px;
-}
-
-.status-badge{
-    display:inline-block;
-    padding:6px 9px;
-    border-radius:20px;
-    font-size:11px;
-    font-weight:800;
-    text-transform:capitalize;
-}
-
-.status-pending{
-    background:#fff7d6;
-    color:#8a6700;
-}
-
-.status-confirmed{
-    background:#dbeafe;
-    color:#1d4ed8;
-}
-
-.status-completed{
-    background:#dcfce7;
-    color:#166534;
-}
-
-.status-cancelled{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
-.empty{
-    padding:40px;
-    text-align:center;
-    color:#6b756f;
-}
-
-.notice{
-    background:#eaf7ef;
-    color:#166534;
-    padding:15px;
-    border-radius:13px;
-    margin-bottom:18px;
-}
-
-@media(max-width:1100px){
-
-    .stats{
-        grid-template-columns:
-            repeat(3,minmax(0,1fr));
-    }
-
-}
-
-@media(max-width:800px){
-
-    .admin-layout{
-        grid-template-columns:1fr;
-    }
-
-    .sidebar{
-        border-right:0;
-        border-bottom:1px solid #e4e9e6;
-        padding:10px;
-        position:sticky;
-        top:72px;
-        z-index:50;
-        overflow:auto;
-    }
-
-    .admin-nav{
-        flex-direction:row;
-        overflow:auto;
-    }
-
-    .admin-nav button{
-        white-space:nowrap;
-    }
-
-    .content{
-        padding:15px;
-    }
-
-    .stats{
-        grid-template-columns:
-            repeat(2,minmax(0,1fr));
-    }
-
-    .topbar-inner{
-        align-items:flex-start;
-    }
-
-    .brand{
-        font-size:18px;
-    }
-
-    .top-actions button{
-        padding:8px 10px;
-        font-size:12px;
-    }
-
-    .page-heading{
-        align-items:flex-start;
-        flex-direction:column;
-    }
-
-    .search{
-        min-width:0;
-        width:100%;
-    }
-
-}
-
-@media(max-width:450px){
-
-    .stats{
-        grid-template-columns:1fr 1fr;
-        gap:9px;
-    }
-
-    .stat{
-        padding:13px;
-    }
-
-    .stat-value{
-        font-size:20px;
-    }
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>NaijaDeals Admin</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+            background: #f3f4f6;
+            color: #111827;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* =========================
+           LOGIN PAGE
+        ========================= */
+
+        .admin-login {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #111827,
+                    #1d4ed8
+                );
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+            background: #ffffff;
+            border-radius: 22px;
+            padding: 35px 30px;
+            box-shadow:
+                0 25px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-logo {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 18px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #2563eb;
+            color: white;
+            font-size: 32px;
+            font-weight: 900;
+        }
+
+        .login-card h1 {
+            text-align: center;
+            margin: 0 0 10px;
+            font-size: 28px;
+        }
+
+        .login-card .subtitle {
+            text-align: center;
+            color: #6b7280;
+            line-height: 1.6;
+            margin: 0 0 28px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            padding: 13px 14px;
+            outline: none;
+            background: #ffffff;
+            color: #111827;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #2563eb;
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.12);
+        }
+
+        .login-btn {
+            width: 100%;
+            border: 0;
+            border-radius: 12px;
+            padding: 14px 18px;
+            background: #2563eb;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 16px;
+            transition: 0.2s;
+        }
+
+        .login-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .back-home:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        #adminMessage {
+            display: none;
+            margin: 15px 0;
+            padding: 13px 15px;
+            border-radius: 10px;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        /* =========================
+           DASHBOARD
+        ========================= */
+
+        #adminDashboard {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            min-height: 70px;
+            background: #111827;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 12px 24px;
+            box-shadow:
+                0 4px 15px rgba(0, 0, 0, 0.12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 20px;
+        }
+
+        .brand-text h2 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .brand-text small {
+            color: #cbd5e1;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .home-btn,
+        .logout-btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-weight: 700;
+        }
+
+        .home-btn {
+            background: #374151;
+            color: white;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 245px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 20px 14px;
+            flex-shrink: 0;
+        }
+
+        .admin-profile {
+            background: #eff6ff;
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 18px;
+        }
+
+        .admin-profile small {
+            display: block;
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
+
+        .admin-profile strong {
+            color: #1d4ed8;
+        }
+
+        .admin-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .admin-nav button {
+            width: 100%;
+            border: 0;
+            background: transparent;
+            color: #374151;
+            text-align: left;
+            padding: 12px 13px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        .admin-nav button:hover,
+        .admin-nav button.active {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main-content {
+            flex: 1;
+            min-width: 0;
+            padding: 25px;
+        }
+
+        .page-heading {
+            margin-bottom: 22px;
+        }
+
+        .page-heading h1 {
+            margin: 0 0 6px;
+            font-size: 30px;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #6b7280;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(6, minmax(130px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 18px;
+            border: 1px solid #e5e7eb;
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .stat-card .icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card small {
+            display: block;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+        .stat-card strong {
+            display: block;
+            font-size: 24px;
+            color: #111827;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================= */
+
+        .admin-section {
+            display: none;
+        }
+
+        #dashboardSection {
+            display: block;
+        }
+
+        .section-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .section-header h2 {
+            margin: 0;
+            font-size: 21px;
+        }
+
+        .refresh-btn,
+        .add-btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-weight: 700;
+            background: #2563eb;
+            color: white;
+        }
+
+        .refresh-btn:hover,
+        .add-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* =========================
+           TABLES
+        ========================= */
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 700px;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background: #f9fafb;
+            color: #374151;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        td {
+            color: #4b5563;
+            font-size: 14px;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 11px 13px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #2563eb;
+        }
+
+        /* =========================
+           PRODUCT FORM
+        ========================= */
+
+        .product-form {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 18px;
+            background: #f9fafb;
+            border-radius: 14px;
+        }
+
+        .product-form .full {
+            grid-column: 1 / -1;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .secondary-btn {
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 800px) {
+            .dashboard-layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: 0;
+                border-bottom: 1px solid #e5e7eb;
+                padding: 12px;
+            }
+
+            .admin-nav {
+                display: grid;
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .product-form {
+                grid-template-columns: 1fr;
+            }
+
+            .product-form .full {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .topbar {
+                padding: 10px 12px;
+            }
+
+            .brand-text h2 {
+                font-size: 16px;
+            }
+
+            .brand-text small {
+                display: none;
+            }
+
+            .home-btn {
+                display: none;
+            }
+
+            .logout-btn {
+                padding: 9px 11px;
+            }
+
+            .main-content {
+                padding: 12px;
+            }
+
+            .page-heading h1 {
+                font-size: 24px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 13px;
+            }
+
+            .stat-card strong {
+                font-size: 20px;
+            }
+
+            .admin-nav {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .admin-nav button {
+                font-size: 13px;
+                padding: 10px;
+            }
+
+            .login-card {
+                padding: 28px 20px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
+    <!-- =====================================================
+         ADMIN LOGIN
+    ====================================================== -->
 
-<!-- =====================================================
-     LOGIN
-===================================================== -->
+    <div
+        class="admin-login"
+        id="adminLogin"
+    >
+        <div class="login-card">
 
-<div
-    class="admin-login"
-    id="adminLogin"
->
+            <div class="login-logo">
+                N
+            </div>
 
-    <div class="login-card">
+            <h1>NaijaDeals Admin</h1>
 
-        <div class="logo">
-            ND
-        </div>
+            <p class="subtitle">
+                Sign in to manage products, users,
+                sellers, orders and inspection appointments.
+            </p>
 
-        <h1>
-            NaijaDeals Admin
-        </h1>
+            <div id="adminMessage"></div>
 
-        <p>
-            Sign in to manage products,
-            users, sellers, orders and
-            inspection appointments.
-        </p>
-
-
-        <div class="form-group">
-
-            <label>
-                Admin Email
-            </label>
-
-            <input
-                id="adminEmail"
-                type="email"
-                value="favourbabalola839@gmail.com"
-                placeholder="Admin email"
+            <form
+                id="adminLoginForm"
+                onsubmit="event.preventDefault(); loginAdmin();"
             >
 
-        </div>
+                <div class="form-group">
+                    <label for="adminEmail">
+                        Admin Email
+                    </label>
 
+                    <input
+                        id="adminEmail"
+                        name="email"
+                        type="email"
+                        value="favourbabalola839@gmail.com"
+                        placeholder="Admin email"
+                        autocomplete="username"
+                        required
+                    >
+                </div>
 
-        <div class="form-group">
+                <div class="form-group">
+                    <label for="adminPassword">
+                        Password
+                    </label>
 
-            <label>
-                Password
-            </label>
+                    <input
+                        id="adminPassword"
+                        name="password"
+                        type="password"
+                        placeholder="Admin password"
+                        autocomplete="current-password"
+                        required
+                    >
+                </div>
 
-            <input
-                id="adminPassword"
-                type="password"
-                placeholder="Admin password"
-                onkeydown="
-                    if(event.key === 'Enter'){
-                        loginAdmin();
-                    }
-                "
+                <!-- ONLY ONE LOGIN BUTTON -->
+                <button
+                    type="submit"
+                    class="login-btn"
+                >
+                    🔐 Login to Admin
+                </button>
+
+            </form>
+
+            <a
+                href="/"
+                class="back-home"
             >
+                ← Back to NaijaDeals
+            </a>
 
         </div>
-
-
-        <button
-            class="login-btn"
-            onclick="loginAdmin()"
-        >
-            🔐 Login to Admin
-        </button>
-
-
-        <div id="adminMessage"></div>
-
     </div>
 
-</div>
 
+    <!-- =====================================================
+         ADMIN DASHBOARD
+    ====================================================== -->
 
+    <div
+        id="adminDashboard"
+    >
 
-<!-- =====================================================
-     DASHBOARD
-===================================================== -->
+        <!-- TOP BAR -->
 
-<div
-    id="adminDashboard"
->
-
-
-    <header class="topbar">
-
-        <div class="topbar-inner">
+        <header class="topbar">
 
             <div class="brand">
 
-                NaijaDeals
+                <div class="brand-icon">
+                    N
+                </div>
 
-                <small>
-                    Administration Panel
-                </small>
+                <div class="brand-text">
+                    <h2>NaijaDeals Admin</h2>
+                    <small>
+                        Marketplace Management
+                    </small>
+                </div>
 
             </div>
 
-
             <div class="top-actions">
 
-                <span
-                    id="adminName"
-                >
-                    Admin
-                </span>
-
                 <button
+                    type="button"
                     class="home-btn"
-                    onclick="
-                        window.location.href='/'
-                    "
+                    onclick="window.location.href='/'"
                 >
                     🏠 Home
                 </button>
 
                 <button
+                    type="button"
                     class="logout-btn"
                     onclick="logoutAdmin()"
                 >
-                    Logout
+                    🚪 Logout
                 </button>
 
             </div>
 
+        </header>
+
+
+        <div class="dashboard-layout">
+
+            <!-- SIDEBAR -->
+
+            <aside class="sidebar">
+
+                <div class="admin-profile">
+
+                    <small>
+                        Logged in as
+                    </small>
+
+                    <strong id="adminName">
+                        Admin
+                    </strong>
+
+                </div>
+
+                <nav class="admin-nav">
+
+                    <button
+                        type="button"
+                        class="active"
+                        data-section="dashboardSection"
+                        onclick="showSection('dashboardSection')"
+                    >
+                        📊 Dashboard
+                    </button>
+
+                    <button
+                        type="button"
+                        data-section="usersSection"
+                        onclick="showSection('usersSection')"
+                    >
+                        👥 Users
+                        <span id="userCount">
+                            0
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        data-section="productsSection"
+                        onclick="showSection('productsSection')"
+                    >
+                        🛍️ Products
+                        <span id="productCount">
+                            0
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        data-section="ordersSection"
+                        onclick="showSection('ordersSection')"
+                    >
+                        📦 Orders
+                        <span id="orderCount">
+                            0
+                        </span>
+                    </button>
+
+                    <button
+                        type="button"
+                        data-section="inspectionsSection"
+                        onclick="showSection('inspectionsSection')"
+                    >
+                        🔎 Inspections
+                        <span id="inspectionCount">
+                            0
+                        </span>
+                    </button>
+
+                </nav>
+
+            </aside>
+
+
+            <!-- MAIN CONTENT -->
+
+            <main class="main-content">
+
+                <div
+                    id="adminMessage"
+                    style="display:none;"
+                ></div>
+
+
+                <!-- =================================================
+                     DASHBOARD SECTION
+                ================================================== -->
+
+                <section
+                    class="admin-section"
+                    id="dashboardSection"
+                >
+
+                    <div class="page-heading">
+
+                        <h1>
+                            Admin Dashboard
+                        </h1>
+
+                        <p>
+                            Manage your NaijaDeals marketplace
+                            from one place.
+                        </p>
+
+                    </div>
+
+
+                    <div class="stats-grid">
+
+                        <div class="stat-card">
+
+                            <div class="icon">
+                                👥
+                            </div>
+
+                            <small>
+                                Total Users
+                            </small>
+
+                            <strong id="statUsers">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="icon">
+                                🏪
+                            </div>
+
+                            <small>
+                                Sellers
+                            </small>
+
+                            <strong id="statSellers">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="icon">
+                                👤
+                            </div>
+
+                            <small>
+                                Customers
+                            </small>
+
+                            <strong id="statCustomers">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="icon">
+                                🛍️
+                            </div>
+
+                            <small>
+                                Products
+                            </small>
+
+                            <strong id="statProducts">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="icon">
+                                📦
+                            </div>
+
+                            <small>
+                                Orders
+                            </small>
+
+                            <strong id="statOrders">
+                                0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat-card">
+
+                            <div class="icon">
+                                💰
+                            </div>
+
+                            <small>
+                                Revenue
+                            </small>
+
+                            <strong id="statRevenue">
+                                ₦0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="section-card">
+
+                        <div class="section-header">
+
+                            <h2>
+                                Quick Overview
+                            </h2>
+
+                            <button
+                                type="button"
+                                class="refresh-btn"
+                                onclick="refreshAdmin()"
+                            >
+                                🔄 Refresh
+                            </button>
+
+                        </div>
+
+                        <p>
+                            Use the menu on the left to manage
+                            users, products, orders and inspection
+                            appointments.
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     USERS SECTION
+                ================================================== -->
+
+                <section
+                    class="admin-section"
+                    id="usersSection"
+                >
+
+                    <div class="section-card">
+
+                        <div class="section-header">
+
+                            <div>
+                                <h2>
+                                    👥 Users
+                                </h2>
+                            </div>
+
+                            <input
+                                type="search"
+                                class="search-box"
+                                placeholder="Search users..."
+                                oninput="searchUsers(this.value)"
+                            >
+
+                        </div>
+
+
+                        <div class="table-wrap">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Role</th>
+                                        <th>Joined</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody
+                                    id="usersTableBody"
+                                >
+
+                                    <tr>
+                                        <td colspan="5">
+                                            Loading users...
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     PRODUCTS SECTION
+                ================================================== -->
+
+                <section
+                    class="admin-section"
+                    id="productsSection"
+                >
+
+                    <div class="section-card">
+
+                        <div class="section-header">
+
+                            <h2>
+                                🛍️ Products
+                            </h2>
+
+                            <button
+                                type="button"
+                                class="refresh-btn"
+                                onclick="loadProducts()"
+                            >
+                                🔄 Refresh
+                            </button>
+
+                        </div>
+
+
+                        <div class="product-form">
+
+                            <div class="form-group">
+                                <label>
+                                    Product Name
+                                </label>
+
+                                <input
+                                    id="productName"
+                                    type="text"
+                                    placeholder="Product name"
+                                >
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>
+                                    Category
+                                </label>
+
+                                <select id="productCategory">
+
+                                    <option value="">
+                                        Select category
+                                    </option>
+
+                                    <option value="cars">
+                                        Cars
+                                    </option>
+
+                                    <option value="houses">
+                                        Houses
+                                    </option>
+
+                                    <option value="phones">
+                                        Phones
+                                    </option>
+
+                                    <option value="laptops">
+                                        Laptops
+                                    </option>
+
+                                    <option value="watches">
+                                        Watches
+                                    </option>
+
+                                    <option value="accessories">
+                                        Accessories
+                                    </option>
+
+                                </select>
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Price
+                                </label>
+
+                                <input
+                                    id="productPrice"
+                                    type="number"
+                                    min="0"
+                                    placeholder="Price"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label>
+                                    Image URL
+                                </label>
+
+                                <input
+                                    id="productImage"
+                                    type="url"
+                                    placeholder="https://..."
+                                >
+
+                            </div>
+
+
+                            <div class="form-group full">
+
+                                <label>
+                                    Description
+                                </label>
+
+                                <textarea
+                                    id="productDescription"
+                                    rows="4"
+                                    placeholder="Product description"
+                                ></textarea>
+
+                            </div>
+
+
+                            <div class="form-actions full">
+
+                                <button
+                                    type="button"
+                                    class="add-btn"
+                                    onclick="addProduct()"
+                                >
+                                    ➕ Add Product
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="secondary-btn"
+                                    onclick="if(typeof clearProductForm === 'function') clearProductForm();"
+                                >
+                                    Clear
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="table-wrap">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Seller</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody
+                                    id="productsTableBody"
+                                >
+
+                                    <tr>
+                                        <td colspan="7">
+                                            Loading products...
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     ORDERS SECTION
+                ================================================== -->
+
+                <section
+                    class="admin-section"
+                    id="ordersSection"
+                >
+
+                    <div class="section-card">
+
+                        <div class="section-header">
+
+                            <h2>
+                                📦 Orders
+                            </h2>
+
+                            <button
+                                type="button"
+                                class="refresh-btn"
+                                onclick="loadOrders()"
+                            >
+                                🔄 Refresh
+                            </button>
+
+                        </div>
+
+
+                        <div class="table-wrap">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Customer</th>
+                                        <th>Product</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody
+                                    id="ordersTableBody"
+                                >
+
+                                    <tr>
+                                        <td colspan="6">
+                                            Loading orders...
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =================================================
+                     INSPECTIONS SECTION
+                ================================================== -->
+
+                <section
+                    class="admin-section"
+                    id="inspectionsSection"
+                >
+
+                    <div class="section-card">
+
+                        <div class="section-header">
+
+                            <h2>
+                                🔎 Inspection Appointments
+                            </h2>
+
+                            <button
+                                type="button"
+                                class="refresh-btn"
+                                onclick="loadInspections()"
+                            >
+                                🔄 Refresh
+                            </button>
+
+                        </div>
+
+
+                        <div class="table-wrap">
+
+                            <table>
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Product</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Details</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody
+                                    id="inspectionsTableBody"
+                                >
+
+                                    <tr>
+                                        <td colspan="5">
+                                            Loading inspections...
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </main>
+
         </div>
-
-    </header>
-
-
-
-    <div class="admin-layout">
-
-
-        <!-- SIDEBAR -->
-
-        <aside class="sidebar">
-
-            <nav class="admin-nav">
-
-                <button
-                    class="active"
-                    data-section="dashboardSection"
-                    onclick="
-                        showSection(
-                            'dashboardSection'
-                        )
-                    "
-                >
-                    📊 Dashboard
-                </button>
-
-
-                <button
-                    data-section="usersSection"
-                    onclick="
-                        showSection(
-                            'usersSection'
-                        )
-                    "
-                >
-                    👥 Customers / Users
-                </button>
-
-
-                <button
-                    data-section="productsSection"
-                    onclick="
-                        showSection(
-                            'productsSection'
-                        )
-                    "
-                >
-                    📦 Products
-                </button>
-
-
-                <button
-                    data-section="ordersSection"
-                    onclick="
-                        showSection(
-                            'ordersSection'
-                        )
-                    "
-                >
-                    🛒 Orders
-                </button>
-
-
-                <button
-                    data-section="inspectionSection"
-                    onclick="
-                        showSection(
-                            'inspectionSection'
-                        )
-                    "
-                >
-                    📅 Inspections
-                    <span
-                        id="inspectionCount"
-                    >
-                        0
-                    </span>
-                </button>
-
-
-                <button
-                    onclick="
-                        window.location.href='/seller.html'
-                    "
-                >
-                    🏪 Seller Dashboard
-                </button>
-
-            </nav>
-
-        </aside>
-
-
-
-        <!-- CONTENT -->
-
-        <main class="content">
-
-
-            <!-- DASHBOARD -->
-
-            <section
-                class="admin-section"
-                id="dashboardSection"
-            >
-
-                <div class="page-heading">
-
-                    <div>
-
-                        <h1>
-                            Dashboard
-                        </h1>
-
-                        <p>
-                            Welcome to NaijaDeals
-                            administration.
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="refresh-btn"
-                        onclick="refreshAdmin()"
-                    >
-                        🔄 Refresh
-                    </button>
-
-                </div>
-
-
-                <div class="stats">
-
-
-                    <div class="stat">
-
-                        <div class="stat-icon">
-                            👥
-                        </div>
-
-                        <div class="stat-label">
-                            Total Users
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="statUsers"
-                        >
-                            0
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-icon">
-                            🏪
-                        </div>
-
-                        <div class="stat-label">
-                            Sellers
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="statSellers"
-                        >
-                            0
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-icon">
-                            👤
-                        </div>
-
-                        <div class="stat-label">
-                            Customers
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="statCustomers"
-                        >
-                            0
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-icon">
-                            📦
-                        </div>
-
-                        <div class="stat-label">
-                            Products
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="statProducts"
-                        >
-                            0
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-icon">
-                            🛒
-                        </div>
-
-                        <div class="stat-label">
-                            Orders
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="statOrders"
-                        >
-                            0
-                        </div>
-
-                    </div>
-
-
-                    <div class="stat">
-
-                        <div class="stat-icon">
-                            📅
-                        </div>
-
-                        <div class="stat-label">
-                            Inspections
-                        </div>
-
-                        <div
-                            class="stat-value"
-                            id="inspectionCount"
-                        >
-                            0
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-            </section>
-
-
-
-            <!-- USERS -->
-
-            <section
-                class="admin-section"
-                id="usersSection"
-            >
-
-                <div class="page-heading">
-
-                    <div>
-
-                        <h1>
-                            Customers & Users
-                        </h1>
-
-                        <p>
-                            View registered
-                            NaijaDeals accounts.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-heading">
-
-                        <h2>
-                            Users
-                        </h2>
-
-                        <input
-                            class="search"
-                            placeholder="Search users..."
-                            oninput="
-                                searchUsers(this.value)
-                            "
-                        >
-
-                    </div>
-
-
-                    <div class="table-wrap">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>
-                                        Name
-                                    </th>
-
-                                    <th>
-                                        Email
-                                    </th>
-
-                                    <th>
-                                        Phone
-                                    </th>
-
-                                    <th>
-                                        Role
-                                    </th>
-
-                                    <th>
-                                        Joined
-                                    </th>
-
-                                    <th>
-                                        ID
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-
-                            <tbody
-                                id="usersTableBody"
-                            >
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- PRODUCTS -->
-
-            <section
-                class="admin-section"
-                id="productsSection"
-            >
-
-                <div class="page-heading">
-
-                    <div>
-
-                        <h1>
-                            Products
-                        </h1>
-
-                        <p>
-                            Manage marketplace
-                            listings.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-heading">
-
-                        <h2>
-                            Marketplace Products
-                        </h2>
-
-                        <input
-                            class="search"
-                            placeholder="Search products..."
-                            oninput="
-                                searchProducts(
-                                    this.value
-                                )
-                            "
-                        >
-
-                    </div>
-
-
-                    <div class="table-wrap">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>
-                                        Image
-                                    </th>
-
-                                    <th>
-                                        Product
-                                    </th>
-
-                                    <th>
-                                        Category
-                                    </th>
-
-                                    <th>
-                                        Price
-                                    </th>
-
-                                    <th>
-                                        Stock
-                                    </th>
-
-                                    <th>
-                                        Location
-                                    </th>
-
-                                    <th>
-                                        Seller
-                                    </th>
-
-                                    <th>
-                                        Actions
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-
-                            <tbody
-                                id="productsTableBody"
-                            >
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- ORDERS -->
-
-            <section
-                class="admin-section"
-                id="ordersSection"
-            >
-
-                <div class="page-heading">
-
-                    <div>
-
-                        <h1>
-                            Orders
-                        </h1>
-
-                        <p>
-                            Manage customer orders
-                            and payment status.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-heading">
-
-                        <h2>
-                            Customer Orders
-                        </h2>
-
-                    </div>
-
-
-                    <div class="table-wrap">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>
-                                        Order
-                                    </th>
-
-                                    <th>
-                                        Customer
-                                    </th>
-
-                                    <th>
-                                        Phone
-                                    </th>
-
-                                    <th>
-                                        Total
-                                    </th>
-
-                                    <th>
-                                        Payment
-                                    </th>
-
-                                    <th>
-                                        Status
-                                    </th>
-
-                                    <th>
-                                        Date
-                                    </th>
-
-                                    <th>
-                                        Address
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-
-                            <tbody
-                                id="ordersTableBody"
-                            >
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-
-            <!-- INSPECTIONS -->
-
-            <section
-                class="admin-section"
-                id="inspectionSection"
-            >
-
-                <div class="page-heading">
-
-                    <div>
-
-                        <h1>
-                            📅 Inspection Requests
-                        </h1>
-
-                        <p>
-                            Manage car and property
-                            inspection appointments.
-                        </p>
-
-                    </div>
-
-                    <button
-                        class="refresh-btn"
-                        onclick="loadInspections()"
-                    >
-                        🔄 Refresh
-                    </button>
-
-                </div>
-
-
-                <div class="notice">
-
-                    Customers can request an
-                    inspection directly from a
-                    car or property listing.
-
-                </div>
-
-
-                <div class="panel">
-
-                    <div class="panel-heading">
-
-                        <h2>
-                            Inspection Requests
-                        </h2>
-
-                        <input
-                            class="search"
-                            placeholder="Search inspections..."
-                            oninput="
-                                searchInspections(
-                                    this.value
-                                )
-                            "
-                        >
-
-                    </div>
-
-
-                    <div class="table-wrap">
-
-                        <table>
-
-                            <thead>
-
-                                <tr>
-
-                                    <th>
-                                        Customer
-                                    </th>
-
-                                    <th>
-                                        Phone
-                                    </th>
-
-                                    <th>
-                                        Listing
-                                    </th>
-
-                                    <th>
-                                        Location
-                                    </th>
-
-                                    <th>
-                                        Date
-                                    </th>
-
-                                    <th>
-                                        Time
-                                    </th>
-
-                                    <th>
-                                        Status
-                                    </th>
-
-                                    <th>
-                                        Change Status
-                                    </th>
-
-                                    <th>
-                                        Details
-                                    </th>
-
-                                    <th>
-                                        Submitted
-                                    </th>
-
-                                </tr>
-
-                            </thead>
-
-
-                            <tbody
-                                id="inspectionTableBody"
-                            >
-
-                            </tbody>
-
-                        </table>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-
-        </main>
 
     </div>
 
-</div>
 
+    <!-- =====================================================
+         IMPORTANT:
+         LOAD ADMIN.JS ONLY ONCE
+    ====================================================== -->
 
+    <script src="/admin.js"></script>
 
-<script src="/admin.js"></script>
+    <script>
+        /*
+         * Start by checking whether an admin is already logged in.
+         * The main login/dashboard functions remain in admin.js.
+         */
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+            if (typeof checkAdminSession === "function") {
+                checkAdminSession();
+            }
+
+        });
+
+        /*
+         * Prevent Enter-key submission from doing anything
+         * other than the login function.
+         */
+
+        const loginForm =
+            document.getElementById("adminLoginForm");
+
+        if (loginForm) {
+
+            loginForm.addEventListener(
+                "submit",
+                function (event) {
+
+                    event.preventDefault();
+
+                    if (
+                        typeof loginAdmin === "function"
+                    ) {
+                        loginAdmin();
+                    }
+
+                }
+            );
+
+        }
+    </script>
 
 </body>
-
 </html>
+```
